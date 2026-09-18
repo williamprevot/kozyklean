@@ -654,3 +654,9 @@
   .reveal{opacity:0;transform:translateY(14px);animation:rise .7s ease forwards;}
   @keyframes rise{to{opacity:1;transform:translateY(0);}}
   @media (prefers-reduced-motion: reduce){ .reveal{animation:none;opacity:1;transform:none;} }
+
+@media print {
+header.nav, footer, .hero .ctas, #quoteForm, .service-groups, #approche, #produits, .formula-cards, .freq-row, .zones-wrap, .contact-grid, .hero-art, nav { display:none !important; }
+  #resumePanel{ display:block !important; border:none; }
+  body{ background:#fff; }
+}
