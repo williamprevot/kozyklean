@@ -1,3 +1,4 @@
+
 (function(){
   "use strict";
 
@@ -12,6 +13,10 @@
   document.getElementById('emailLink').setAttribute('href','mailto:'+CONTACT_EMAIL);
   document.getElementById('emailLink').textContent = CONTACT_EMAIL;
   document.getElementById('waLink').setAttribute('href','https://wa.me/'+CONTACT_WHATSAPP);
+
+  /* ---- année du copyright, toujours à jour ---- */
+  var copyYearEl = document.getElementById('copyYear');
+  if(copyYearEl){ copyYearEl.textContent = new Date().getFullYear(); }
 
   /* ---- mobile menu ---- */
   var menuBtn = document.getElementById('menuBtn');

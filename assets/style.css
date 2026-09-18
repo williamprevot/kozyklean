@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap');
 
   /* Kozy & Klean's identity is a deep pine green — this is the site's real
      look, not a conditional "dark mode": it renders this way by default,
@@ -640,7 +641,7 @@
   .contact-row p{margin-top:4px;color:var(--muted);font-size:14.5px;}
   .contact-row a{text-decoration:none;color:var(--ink);border-bottom:1px solid var(--gold);}
 
-  footer{background:var(--pine-deep);color:#D9E0D6;padding-block:48px;}
+  footer{background:var(--pine-deep);color:#D9E0D6;padding-block:48px 0;}
   .footer-inner{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;align-items:center;}
   .footer-inner .brand{color:#F7F3E8;}
   footer .fnote{font-size:13px;color:#9FAE9B;max-width:46ch;}
@@ -650,13 +651,17 @@
   .foot-fb{margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.12);text-align:center;}
   .foot-fb a{display:inline-flex;align-items:center;gap:9px;color:#EDE7D8;text-decoration:none;font-size:13.5px;letter-spacing:.02em;opacity:.9;transition:opacity .2s ease;}
   .foot-fb a:hover{opacity:1;color:var(--gold);}
+  .copyright-bar{margin-top:36px;padding:18px 24px;background:#050C08;color:#D9E0D6;text-align:center;font-family:'Work Sans',sans-serif;font-weight:400;font-size:13px;letter-spacing:.02em;}
 
   .reveal{opacity:0;transform:translateY(14px);animation:rise .7s ease forwards;}
   @keyframes rise{to{opacity:1;transform:translateY(0);}}
   @media (prefers-reduced-motion: reduce){ .reveal{animation:none;opacity:1;transform:none;} }
 
+
 @media print {
-header.nav, footer, .hero .ctas, #quoteForm, .service-groups, #approche, #produits, .formula-cards, .freq-row, .zones-wrap, .contact-grid, .hero-art, nav { display:none !important; }
+
+  header.nav, footer, .hero .ctas, #quoteForm, .service-groups, #approche, #produits, .formula-cards, .freq-row, .zones-wrap, .contact-grid, .hero-art, nav { display:none !important; }
   #resumePanel{ display:block !important; border:none; }
   body{ background:#fff; }
+
 }
