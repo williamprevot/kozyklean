@@ -40,7 +40,7 @@ kozy-klean-site/
 │   ├── style.css        → toute l'apparence (couleurs, mise en page, animations)
 │   └── script.js         → toute la logique (menu, simulateur, validations, effets dynamiques)
 ├── favicon.svg          → l'icône du site (onglet du navigateur)
-├── og-image.png         → l'image affichée quand le site est partagé sur Facebook/LinkedIn/etc.
+├── og-image.jpg         → l'image affichée quand le site est partagé sur Facebook/LinkedIn/etc.
 ├── robots.txt           → autorise les moteurs de recherche à indexer le site
 ├── sitemap.xml          → liste des pages du site, pour aider Google à les trouver
 └── README.md
@@ -93,7 +93,7 @@ Dans le dépôt sur GitHub : **Settings → Pages**, choisir la branche `main` e
 * Balises meta description, mots-clés et Open Graph/Twitter (aperçu soigné quand le lien est partagé)
 * Données structurées `LocalBusiness` (schema.org) pour aider Google à comprendre qu'il s'agit d'une entreprise locale à Sainte-Foy
 * `robots.txt` et `sitemap.xml` pour l'indexation
-* Image de partage social dédiée (`og-image.png`)
+* Image de partage social dédiée (`og-image.jpg`)
 
 **Important : remplacer le domaine partout avant la mise en ligne.** Le fichier utilise actuellement `https://www.kozyklean.ca/` comme adresse provisoire. Une fois le site en ligne (adresse Netlify du type `kozyklean.netlify.app`, ou un domaine personnalisé), remplacer cette adresse partout où elle apparaît :
 * `index.html` : balise `<link rel="canonical">`, toutes les balises `og:url`, `og:image`, `twitter:image`, et le bloc de données structurées à la fin du `<head>`
