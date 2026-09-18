@@ -1,83 +1,116 @@
-# Kozy & Klean — site web
+# 🏡 Kozy & Klean — Site Web
 
-Site vitrine de **Kozy & Klean Conciergerie Nomade** (Sainte-Foy, Québec).
+Ce projet est le site vitrine de **Kozy & Klean Conciergerie Nomade**, une entreprise de conciergerie et d'entretien résidentiel basée à Sainte-Foy, Québec. Le site présente les services, les formules tarifaires, la zone desservie et un simulateur de soumission interactif en plusieurs étapes, permettant à un visiteur d'obtenir une estimation personnalisée directement en ligne.
 
-## Structure du projet
+## 📦 Technologies utilisées
+
+* **HTML5 / CSS3** – Structure et mise en page, sans framework ni dépendance externe
+* **JavaScript (vanilla)** – Logique du site : navigation, simulateur de soumission, validations de formulaire, effets d'interface
+* **Google Fonts** (Fraunces, Work Sans) – Typographies, chargées via CDN
+* **Schema.org (JSON-LD)** – Données structurées `LocalBusiness` pour le référencement local
+* **Netlify / GitHub Pages** – Hébergement statique et déploiement continu
+* **Git / GitHub** – Gestion de version et intégration avec l'hébergeur
+
+## 🧠 Fonctionnement
+
+1. **Présentation** – Sections statiques présentant l'entreprise, les services, l'approche en quatre étapes et les formules tarifaires.
+2. **Zone desservie** – Une carte animée et une légende par secteur informent le visiteur des frais de déplacement applicables selon sa localisation.
+3. **Simulateur de soumission** – Un formulaire en six étapes (`#quoteForm` dans `index.html`) guide le visiteur : coordonnées, résidence, formule souhaitée, fréquence, options et confirmation.
+4. **Validation en temps réel** – Le courriel et le numéro de téléphone saisis sont vérifiés selon un format valide (`isValidEmail`, `isValidPhone` dans `assets/script.js`), avec un message d'erreur affiché directement sous le champ concerné si le format est incorrect.
+5. **Génération de la demande** – Une fois le formulaire complété, un courriel et un message WhatsApp pré-remplis sont générés avec le résumé de la demande, prêts à être envoyés à l'entreprise.
+
+Exemple de logique de validation :
+
+```js
+function isValidPhone(v){
+  var digits = v.replace(/\D/g, '');
+  if(digits.length === 11 && digits.charAt(0) === '1') digits = digits.slice(1);
+  if(digits.length !== 10) return false;
+  return /^[2-9]\d{2}[2-9]\d{6}$/.test(digits);
+}
+```
+
+## 📁 Structure
 
 ```
-index.html          → la page (structure HTML uniquement)
-assets/style.css     → toute l'apparence (couleurs, mise en page, animations)
-assets/script.js     → toute la logique (menu, formulaire, effets dynamiques)
-favicon.svg          → l'icône du site (onglet du navigateur)
-og-image.png         → l'image affichée quand le site est partagé sur Facebook/LinkedIn/etc.
-robots.txt           → autorise les moteurs de recherche à indexer le site
-sitemap.xml          → liste des pages du site, pour aider Google à les trouver
+kozy-klean-site/
+│
+├── index.html          → la page (structure HTML uniquement)
+├── assets/
+│   ├── style.css        → toute l'apparence (couleurs, mise en page, animations)
+│   └── script.js         → toute la logique (menu, simulateur, validations, effets dynamiques)
+├── favicon.svg          → l'icône du site (onglet du navigateur)
+├── og-image.png         → l'image affichée quand le site est partagé sur Facebook/LinkedIn/etc.
+├── robots.txt           → autorise les moteurs de recherche à indexer le site
+├── sitemap.xml          → liste des pages du site, pour aider Google à les trouver
+└── README.md
 ```
 
-Pas de build, pas de dépendances à installer : les polices viennent de Google Fonts (via internet) et toutes les images du contenu sont déjà intégrées. Vous pouvez ouvrir `index.html` en double-cliquant dessus pour un aperçu local, ou déposer tout le dossier sur n'importe quel hébergeur de site statique.
+## ⚙️ Installation / aperçu local
 
-## Référencement (SEO) déjà en place
+Aucune installation n'est requise : pas de build, pas de dépendances à gérer.
 
-- Balises meta description, mots-clés et Open Graph/Twitter (aperçu soigné quand le lien est partagé)
-- Données structurées `LocalBusiness` (schema.org) pour aider Google à comprendre qu'il s'agit d'une entreprise locale à Sainte-Foy
-- `robots.txt` et `sitemap.xml` pour l'indexation
-- Image de partage social dédiée (`og-image.png`)
+1. Cloner le dépôt :
 
-**Important : remplacez le domaine partout avant la mise en ligne.** Le fichier utilise actuellement `https://www.kozyklean.ca/` comme adresse provisoire. Une fois votre site en ligne (adresse Netlify du type `kozyklean.netlify.app`, ou un domaine personnalisé), remplacez cette adresse partout où elle apparaît :
-- `index.html` : balise `<link rel="canonical">`, toutes les balises `og:url`, `og:image`, `twitter:image`, et le bloc de données structurées à la fin du `<head>`
-- `robots.txt` : la ligne `Sitemap:`
-- `sitemap.xml` : la balise `<loc>`
+```bash
+git clone https://github.com/<votre-utilisateur>/kozyklean.git
+cd kozyklean
+```
 
-Une recherche/remplacement de `https://www.kozyklean.ca/` par votre vraie adresse (avec un éditeur de texte, ou la fonction "Rechercher dans les fichiers" de VS Code) suffit.
+2. Ouvrir `index.html` directement dans un navigateur pour un aperçu local (double-clic, ou glisser-déposer le fichier dans une fenêtre de navigateur).
 
-## Mettre le projet sur GitHub
+## 🚀 Déploiement
 
-Dans un terminal, à l'intérieur de ce dossier :
+**Mettre le projet sur GitHub :**
 
 ```bash
 git init
 git add .
 git commit -m "Premier envoi du site Kozy & Klean"
-```
-
-Ensuite, créez un dépôt vide sur GitHub (bouton **New repository** sur github.com — ne cochez pas "Add a README", puisque vous en avez déjà un), puis :
-
-```bash
 git branch -M main
-git remote add origin https://github.com/<votre-utilisateur>/<nom-du-depot>.git
+git remote add origin https://github.com/<votre-utilisateur>/kozyklean.git
 git push -u origin main
 ```
 
-Remplacez `<votre-utilisateur>` et `<nom-du-depot>` par les vôtres. GitHub vous demandera de vous authentifier avec un jeton d'accès personnel ("Personal Access Token") plutôt qu'un mot de passe ; GitHub vous guide au moment du push si besoin.
-
-## Héberger gratuitement sur Netlify
-
-Vous avez déjà un compte Netlify (utilisé pour le projet sosabeillesguyane) : Kozy & Klean sera un **site séparé et indépendant** sur ce même compte, avec son propre quota d'heures de build gratuit — le fait que sosabeillesguyane affiche "running on operational credits" n'affecte pas ce nouveau site.
-
-**Option la plus rapide (glisser-déposer, sans passer par GitHub) :**
-1. Allez sur [app.netlify.com/drop](https://app.netlify.com/drop)
-2. Glissez tout le dossier du projet (le dossier qui contient `index.html`, `assets/`, etc.) dans la zone de dépôt
+**Héberger gratuitement sur Netlify — option rapide (glisser-déposer) :**
+1. Aller sur [app.netlify.com/drop](https://app.netlify.com/drop)
+2. Glisser tout le dossier du projet dans la zone de dépôt
 3. Le site est en ligne en quelques secondes, avec une adresse du type `nom-au-hasard.netlify.app`
-4. Dans **Site settings → Change site name**, vous pouvez remplacer ce nom par quelque chose comme `kozyklean.netlify.app`
+4. Dans **Site settings → Change site name**, remplacer ce nom par quelque chose comme `kozyklean.netlify.app`
 
 **Option recommandée à long terme (connectée à GitHub, mises à jour automatiques) :**
-1. Poussez d'abord le projet sur GitHub (étapes ci-dessus)
+1. Pousser d'abord le projet sur GitHub (étapes ci-dessus)
 2. Sur Netlify : **Add new site → Import an existing project**
-3. Choisissez GitHub, puis le dépôt `kozyklean` (ou le nom que vous avez choisi)
-4. Laissez "Build command" vide et "Publish directory" sur `/` (aucune commande de build n'est nécessaire, le site est déjà prêt tel quel)
-5. Cliquez **Deploy** — à chaque `git push` par la suite, Netlify republiera automatiquement le site
+3. Choisir GitHub, puis le dépôt `kozyklean`
+4. Laisser "Build command" vide et "Publish directory" sur `/`
+5. Cliquer **Deploy** — à chaque `git push`, Netlify republiera automatiquement le site
 
-**Alternative : GitHub Pages (gratuit, directement depuis GitHub, sans Netlify)**
-Dans le dépôt sur GitHub : **Settings → Pages**, puis sous "Build and deployment", choisissez la branche `main` et le dossier `/ (root)`. Le site sera en ligne à une adresse du type `https://<votre-utilisateur>.github.io/<nom-du-depot>/`.
+**Alternative : GitHub Pages**
+Dans le dépôt sur GitHub : **Settings → Pages**, choisir la branche `main` et le dossier `/ (root)`. Le site sera en ligne à `https://<votre-utilisateur>.github.io/kozyklean/`.
 
-## Domaine personnalisé
+## 🔍 Référencement (SEO) déjà en place
 
-Une fois hébergé (Netlify ou GitHub Pages), vous pourrez brancher un nom de domaine personnalisé (par exemple `kozyetklean.ca`) directement depuis les paramètres de l'hébergeur, si vous en achetez un plus tard. N'oubliez pas de mettre à jour les adresses mentionnées dans la section SEO ci-dessus une fois ce domaine actif.
+* Balises meta description, mots-clés et Open Graph/Twitter (aperçu soigné quand le lien est partagé)
+* Données structurées `LocalBusiness` (schema.org) pour aider Google à comprendre qu'il s'agit d'une entreprise locale à Sainte-Foy
+* `robots.txt` et `sitemap.xml` pour l'indexation
+* Image de partage social dédiée (`og-image.png`)
 
-## À personnaliser avant la mise en ligne
+**Important : remplacer le domaine partout avant la mise en ligne.** Le fichier utilise actuellement `https://www.kozyklean.ca/` comme adresse provisoire. Une fois le site en ligne (adresse Netlify du type `kozyklean.netlify.app`, ou un domaine personnalisé), remplacer cette adresse partout où elle apparaît :
+* `index.html` : balise `<link rel="canonical">`, toutes les balises `og:url`, `og:image`, `twitter:image`, et le bloc de données structurées à la fin du `<head>`
+* `robots.txt` : la ligne `Sitemap:`
+* `sitemap.xml` : la balise `<loc>`
 
-Trois choses restent à compléter avant de publier officiellement :
+## 📝 À personnaliser avant la mise en ligne
 
-1. **Coordonnées de contact** — dans `assets/script.js`, cherchez `CONTACT_EMAIL =` près du début du fichier, et remplacez `CONTACT_EMAIL`, `CONTACT_PHONE_DISPLAY`, `CONTACT_PHONE_TEL` et `CONTACT_WHATSAPP` par vos vraies coordonnées. Le même numéro de téléphone provisoire (`+1-418-000-0000`) apparaît aussi dans le bloc de données structurées à la fin du `<head>` d'`index.html` — à mettre à jour également.
-2. **Lien Facebook** — cherchez `id="fbLink"` dans le pied de page d'`index.html`, et `sameAs` dans le bloc de données structurées, et remplacez l'adresse par le lien direct vers votre page Facebook.
-3. **Vérification finale** — une fois les vraies coordonnées en place, testez le formulaire de soumission (section "Demande de soumission") pour confirmer que le courriel et le message WhatsApp générés sont corrects.
+1. **Coordonnées de contact** — dans `assets/script.js`, chercher `CONTACT_EMAIL =` près du début du fichier, et remplacer `CONTACT_EMAIL`, `CONTACT_PHONE_DISPLAY`, `CONTACT_PHONE_TEL` et `CONTACT_WHATSAPP` par les vraies coordonnées. Le même numéro provisoire (`+1-418-000-0000`) apparaît aussi dans le bloc de données structurées à la fin du `<head>` d'`index.html`.
+2. **Lien Facebook** — chercher `id="fbLink"` dans le pied de page d'`index.html`, et `sameAs` dans le bloc de données structurées, et remplacer l'adresse par le lien direct vers la page Facebook.
+3. **Vérification finale** — une fois les vraies coordonnées en place, tester le simulateur de soumission pour confirmer que le courriel et le message WhatsApp générés sont corrects.
+
+## 🔗 Lien vers le site en ligne
+
+*(à compléter une fois le site déployé sur Netlify ou un domaine personnalisé)*
+
+## 👨‍💻 Auteur
+
+**William Prevot**
+📧 [prevotgw@gmail.com](mailto:prevotgw@gmail.com)
