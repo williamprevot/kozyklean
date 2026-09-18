@@ -79,7 +79,7 @@
   h1,h2,h3,h4{
     font-family:'Fraunces', Georgia, 'Times New Roman', serif;
     font-weight:500;
-    color:var(--gold);
+    color:var(--ink);
     margin:0;
     text-wrap:balance;
   }
@@ -391,6 +391,7 @@
   .methods-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;}
   @media (max-width:860px){ .methods-grid{grid-template-columns:1fr;gap:36px;} }
   .method-row{display:flex;gap:16px;padding-block:18px;border-top:1px solid var(--line);}
+  .method-row h4{color:var(--gold);}
   .method-row:last-child{border-bottom:1px solid var(--line);}
   .method-row svg{flex:none;color:var(--pine);margin-top:2px;}
   .method-row h4{font-size:16px;font-weight:600;font-family:'Work Sans',sans-serif;}
@@ -406,11 +407,11 @@
   .method-card p{color:#CDD8CD;margin-top:14px;font-size:15px;}
   .method-card .badge-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
   .method-card .badge{
-    border:1px solid rgba(244,239,227,.25);
+    border:1px solid rgba(217,184,114,.4);
     padding:6px 12px;
     font-size:12px;letter-spacing:.04em;
     border-radius:20px;
-    color:#EDE7D8;
+    color:var(--gold);
   }
 
   /* ---------- formulas / pricing ---------- */
@@ -580,7 +581,7 @@
     font-family:'Fraunces',serif;color:var(--gold);font-size:15px;border:1px solid var(--gold);
     width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;
   }
-  .form-section-title h4{font-size:15.5px;font-weight:600;font-family:'Work Sans',sans-serif;letter-spacing:.01em;}
+  .form-section-title h4{font-size:15.5px;font-weight:600;font-family:'Work Sans',sans-serif;letter-spacing:.01em;color:var(--gold);}
   .form-section-title:first-child{margin-top:0;}
 
   .zone-note{
@@ -650,7 +651,7 @@
   .contact-row{display:flex;gap:16px;padding-block:18px;border-top:1px solid var(--line);}
   .contact-row:last-child{border-bottom:1px solid var(--line);}
   .contact-row svg{flex:none;color:var(--pine);margin-top:2px;}
-  .contact-row h4{font-size:15px;font-weight:600;font-family:'Work Sans',sans-serif;}
+  .contact-row h4{font-size:15px;font-weight:600;font-family:'Work Sans',sans-serif;color:var(--gold);}
   .contact-row p{margin-top:4px;color:var(--muted);font-size:14.5px;}
   .contact-row a{text-decoration:none;color:var(--ink);border-bottom:1px solid var(--gold);}
 

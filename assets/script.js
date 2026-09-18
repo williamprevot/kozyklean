@@ -1,15 +1,18 @@
-
 (function(){
   "use strict";
 
   /* ---- placeholders à confirmer par la cliente ---- */
   var CONTACT_EMAIL = "info@kozyklean.ca";
-  var CONTACT_PHONE_DISPLAY = "418 000-0000";
-  var CONTACT_PHONE_TEL = "+14180000000";
+  var CONTACT_PHONE_DISPLAY = "418 573-1793";
+  var CONTACT_PHONE_TEL = "+14185731793";
+  var CONTACT_PHONE_DISPLAY_2 = "581 990-7378";
+  var CONTACT_PHONE_TEL_2 = "+15819907378";
   var CONTACT_WHATSAPP = "14180000000";
 
   document.getElementById('phoneLink').setAttribute('href','tel:'+CONTACT_PHONE_TEL);
   document.getElementById('phoneLink').textContent = CONTACT_PHONE_DISPLAY;
+  document.getElementById('phoneLink2').setAttribute('href','tel:'+CONTACT_PHONE_TEL_2);
+  document.getElementById('phoneLink2').textContent = CONTACT_PHONE_DISPLAY_2;
   document.getElementById('emailLink').setAttribute('href','mailto:'+CONTACT_EMAIL);
   document.getElementById('emailLink').textContent = CONTACT_EMAIL;
   document.getElementById('waLink').setAttribute('href','https://wa.me/'+CONTACT_WHATSAPP);
