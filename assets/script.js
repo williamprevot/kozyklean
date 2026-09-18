@@ -287,6 +287,17 @@
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
+  /* ---- bouton "Soumission gratuite" du menu : visible seulement quand le bouton du hero est hors écran ---- */
+  var heroCtaEl = document.getElementById('heroCta');
+  if(heroCtaEl && 'IntersectionObserver' in window){
+    var heroCtaObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        document.body.classList.toggle('show-nav-cta', !entry.isIntersecting);
+      });
+    }, {threshold:0});
+    heroCtaObserver.observe(heroCtaEl);
+  }
+
   /* ---- gentle auto-highlight: steps, formula cards, frequency tiles, one at a time.
      Hovering, clicking or focusing an item jumps the glow straight to it and pauses
      the cycle; it resumes once the pointer/focus leaves the whole group. ---- */

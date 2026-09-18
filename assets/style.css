@@ -152,7 +152,7 @@
   .btn-gold:hover{opacity:.9;}
   .btn-block{width:100%;}
   .nav-cta{display:none;}
-  @media (min-width:760px){ .nav-cta{display:inline-flex;} }
+  @media (min-width:760px){ body.show-nav-cta .nav-cta{display:inline-flex;} }
   nav.links{display:none;}
   @media (min-width:900px){ nav.links{display:flex;} }
 
@@ -232,7 +232,7 @@
     font-size:12.5px;
     letter-spacing:.06em;
     text-transform:uppercase;
-    color:var(--muted);
+    color:var(--gold);
     display:flex;align-items:center;gap:8px;
   }
   .trustbar span::before{content:"";width:5px;height:5px;background:var(--gold);border-radius:50%;display:inline-block;}
