@@ -387,7 +387,7 @@
       },
       {
         title:'Soutien &amp; accompagnement',
-        tag:'Déléguez ce qui vous prend du temps',
+        tag:'Déléguez ce qui consume votre temps',
         icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9.5-9C.5 8 2 4 6 4c2.2 0 3.5 1.3 4 2 .5-.7 1.8-2 4-2 4 0 5.5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>',
         bullets:['Coordination de tâches sur mesure','Commissions, courses, livraisons','Soutien familial à domicile']
       },
