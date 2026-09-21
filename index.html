@@ -73,7 +73,6 @@
       <a href="#apropos">À propos</a>
       <a href="#services">Services</a>
       <a href="#approche">Notre approche</a>
-      <a href="#formules">Formules &amp; tarifs</a>
       <a href="#contact">Contact</a>
     </nav>
     <div style="display:flex;gap:10px;align-items:center;">
@@ -87,7 +86,6 @@
     <a href="#apropos">À propos</a>
     <a href="#services">Services</a>
     <a href="#approche">Notre approche</a>
-    <a href="#formules">Formules &amp; tarifs</a>
     <a href="#contact">Contact</a>
     <a href="#simulateur" style="border-bottom:none;color:var(--gold);font-weight:600;">Demander une soumission →</a>
   </div>
@@ -137,7 +135,8 @@
         <h2 style="margin-top:12px;font-size:clamp(26px,3.4vw,36px);">Plus qu'un service de ménage, une expérience paisible.</h2>
       </div>
       <div class="body">
-        <p>Avec Kozy & Klean déléguez  tout ce qui vous incombe.<br>Pas seulement des heures de ménage, des services qui vous arrangent.</p>
+        <p>Déléguez ce qui vous pèse — ménage, organisation, courses — pas seulement des heures de nettoyage.</p>
+        <p>Horaires et services ajustés à votre budget. Pas de forfait figé, une formule qui vous ressemble.</p>
         <div class="signature-block">
           <div class="avatar-mark" aria-hidden="true">A</div>
           <div>L'équipe Kozy &amp; Klean<br><span style="color:var(--ink);">Fondatrices &amp; associées</span></div>
@@ -159,58 +158,31 @@
     <div class="wrap">
       <div class="sec-head">
         <div class="eyebrow">Nos services</div>
-        <h2>Ce que l'on fait, concrètement.</h2>
-        <p>Un service à la fois, ou tout en même temps : vous choisissez ce qui vous décharge.</p>
+        <h2>Un service à la fois, ou tout en même temps.</h2>
+        <p>Cette liste illustre l'étendue du possible — elle ne résume pas l'offre. Décrivez vos besoins à l'étape 3, on construit une formule sur mesure sous 24 heures.</p>
       </div>
 
-      <div class="service-groups">
-        <div class="service-cat">
-          <div class="cat-label">
-            <div class="cat-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="13" width="9" height="7" rx="2"/><circle cx="5.5" cy="20.5" r="1"/><circle cx="9.5" cy="20.5" r="1"/><path d="M12 15c5 0 7-3 7-8"/><path d="M19 7l2.2-1.3"/></svg>
-            </div>
-            <div>
-              <h3>Entretien résidentiel</h3>
-              <span>Le ménage de base, fait sérieusement</span>
-            </div>
-          </div>
-        </div>
+      <div class="offer-tabs" id="offerTabs" role="tablist" aria-label="Catégories de services"></div>
 
-        <div class="service-cat">
-          <div class="cat-label">
-            <div class="cat-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l1.8 6.2L20 11l-6.2 1.8L12 19l-1.8-6.2L4 11l6.2-1.8z"/></svg>
-            </div>
-            <div>
-              <h3>Soins spécialisés</h3>
-              <span>Tout ce que l'entretien régulier ne couvre pas</span>
-            </div>
-          </div>
-        </div>
+      <div class="offer-carousel">
+        <button type="button" class="car-arrow prev" id="offerPrev" aria-label="Catégorie précédente">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="car-track" id="offerTrack"></div>
+        <button type="button" class="car-arrow next" id="offerNext" aria-label="Catégorie suivante">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+      <div class="car-dots" id="offerDots"></div>
 
-        <div class="service-cat">
-          <div class="cat-label">
-            <div class="cat-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>
-            </div>
-            <div>
-              <h3>Organisation &amp; optimisation</h3>
-              <span>Votre espace repensé pour vous simplifier la vie</span>
-            </div>
-          </div>
-        </div>
+      <p class="fm-open">Autre besoin ? Dites-le-nous — on s'adapte, avec la même discrétion et la même exigence.</p>
 
-        <div class="service-cat">
-          <div class="cat-label">
-            <div class="cat-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9.5-9C.5 8 2 4 6 4c2.2 0 3.5 1.3 4 2 .5-.7 1.8-2 4-2 4 0 5.5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>
-            </div>
-            <div>
-              <h3>Soutien &amp; accompagnement</h3>
-              <span>Déléguez ce qui vous prend du temps</span>
-            </div>
-          </div>
-        </div>
+      <div class="freq-row" id="freqRow">
+        <div class="freq-tile" tabindex="0"><b>Ponctuel</b><span>Une visite</span></div>
+        <div class="freq-tile" tabindex="0"><b>Mensuel</b><span>Une fois par mois</span></div>
+        <div class="freq-tile is-active" tabindex="0"><b>Aux 2 semaines</b><span>Le plus demandé</span></div>
+        <div class="freq-tile" tabindex="0"><b>Hebdomadaire</b><span>Suivi rapproché</span></div>
+        <div class="freq-tile" tabindex="0"><b>Sur mesure</b><span>Autre rythme</span></div>
       </div>
 
       <div class="services-footnote">
@@ -255,73 +227,13 @@
     </div>
   </section>
 
-  <!-- ================= FORMULES & TARIFS ================= -->
-  <section id="formules" class="band-paper">
-    <div class="wrap">
-      <div class="sec-head">
-        <div class="eyebrow">Formules &amp; tarifs</div>
-        <h2>Une étendue de possibilités, pas des forfaits figés.</h2>
-        <p>Chaque foyer est différent — notre service aussi. Tout se combine et s'ajuste selon vos besoins ; décrivez-les à l'étape 3, on vous propose une formule sur mesure sous 24 heures.</p>
-      </div>
-
-      <div class="formula-menu">
-        <div class="fm-cat">
-          <h3>Entretien courant</h3>
-          <ul>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Ménage complet, cuisine et salle de bain</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Lessive, repassage et literie</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Vitres et surfaces du quotidien</li>
-          </ul>
-        </div>
-
-        <div class="fm-cat">
-          <h3>Coordination &amp; quotidien</h3>
-          <ul>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Coordination de tâches sur mesure</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Commissions, courses, livraisons</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Soutien familial à domicile</li>
-          </ul>
-        </div>
-
-        <div class="fm-cat">
-          <h3>Interventions spécialisées</h3>
-          <ul>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Nettoyage en profondeur, électroménagers</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Tapis et literies à la vapeur</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Grand ménage saisonnier ou événementiel</li>
-          </ul>
-        </div>
-
-        <div class="fm-cat">
-          <h3>Suivi en votre absence</h3>
-          <ul>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Vérifications et sécurité du domicile</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Résidence secondaire ou saisonnière</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Comptes rendus avec photos, à distance</li>
-          </ul>
-        </div>
-      </div>
-
-      <p class="fm-open">Autre besoin ? Dites-le-nous — on s'adapte, avec la même discrétion et la même exigence.</p>
-
-      <div class="freq-row" id="freqRow">
-        <div class="freq-tile" tabindex="0"><b>Ponctuel</b><span>Une visite</span></div>
-        <div class="freq-tile" tabindex="0"><b>Mensuel</b><span>Une fois par mois</span></div>
-        <div class="freq-tile is-active" tabindex="0"><b>Aux 2 semaines</b><span>Le plus demandé</span></div>
-        <div class="freq-tile" tabindex="0"><b>Hebdomadaire</b><span>Suivi rapproché</span></div>
-        <div class="freq-tile" tabindex="0"><b>Sur mesure</b><span>Autre rythme</span></div>
-      </div>
-
-    </div>
-  </section>
-
   <!-- ================= ZONE DESSERVIE ================= -->
   <section class="band-cream">
     <div class="wrap zones-wrap">
       <div>
         <div class="eyebrow">Zone desservie</div>
         <h2 style="margin-top:12px;font-size:clamp(24px,3vw,32px);">Basée à Sainte-Foy, on vient jusqu'à vous.</h2>
-        <p style="margin-top:14px;color:var(--muted);">À la maison, au chalet ou au bureau, partout au Québec.<br>Pour un minimum d'une heure facturée par visite, un léger supplément s'applique selon votre secteur.</p>
+        <p style="margin-top:14px;color:var(--muted);">À la maison comme au bureau, partout dans le Grand Québec. Minimum d'une heure facturée par visite; léger supplément selon votre secteur.</p>
 
         <div class="zone-checker">
           <label for="zoneCheckInput">Votre ville ou secteur</label>
@@ -485,8 +397,8 @@
     <div class="wrap contact-grid">
       <div>
         <div class="eyebrow">Contact</div>
-        <h2 style="margin-top:12px;font-size:clamp(26px,3.4vw,34px);">Parlons de votre projet.</h2>
-        <p style="margin-top:14px;color:var(--muted);max-width:44ch;">On répond à vos besoins particuliers.</p>
+        <h2 style="margin-top:12px;font-size:clamp(26px,3.4vw,34px);">Parlons de votre maison.</h2>
+        <p style="margin-top:14px;color:var(--muted);max-width:44ch;">Une question, une soumission, un besoin particulier : on vous répond vite et personnellement.</p>
 
         <div style="margin-top:28px;">
           <div class="contact-row">
@@ -507,8 +419,8 @@
       <div>
         <div class="atelier" style="border-color:var(--line);box-shadow:none;">
           <div class="eyebrow">Message rapide</div>
-          <h3 style="margin-top:10px;font-size:22px;">Une question avant la soumission ?</h3>
-          <p style="margin-top:12px;color:var(--muted);font-size:14.5px;">Écrivez-nous.</p>
+          <h3 style="margin-top:10px;font-size:22px;">Une question, avant la soumission ?</h3>
+          <p style="margin-top:12px;color:var(--muted);font-size:14.5px;">Écrivez-nous, on répond personnellement.</p>
           <div class="grid2" style="margin-top:22px;">
             <div class="field"><label for="qNom">Nom</label><input type="text" id="qNom" placeholder="Votre nom"></div>
             <div class="field"><label for="qTel">Téléphone ou courriel</label><input type="text" id="qTel" placeholder="Comment vous joindre"></div>

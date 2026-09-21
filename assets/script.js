@@ -343,6 +343,94 @@
     window.location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Message rapide de " + nom) + "&body=" + encodeURIComponent(body);
   });
 
+  /* ---- "Ce que l'on fait" : onglets + carrousel des catégories de services ---- */
+  (function(){
+    var CHECK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>';
+
+    var CATS = [
+      {
+        title:'Entretien résidentiel',
+        tag:"Le ménage de base, fait sérieusement",
+        icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="13" width="9" height="7" rx="2"/><circle cx="5.5" cy="20.5" r="1"/><circle cx="9.5" cy="20.5" r="1"/><path d="M12 15c5 0 7-3 7-8"/><path d="M19 7l2.2-1.3"/></svg>',
+        bullets:['Ménage complet, cuisine et salle de bain','Lessive, repassage et literie','Vitres et surfaces du quotidien']
+      },
+      {
+        title:'Soins spécialisés',
+        tag:"Tout ce que l'entretien régulier ne couvre pas",
+        icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l1.8 6.2L20 11l-6.2 1.8L12 19l-1.8-6.2L4 11l6.2-1.8z"/></svg>',
+        bullets:['Nettoyage en profondeur, électroménagers','Tapis et literies à la vapeur','Grand ménage saisonnier ou événementiel']
+      },
+      {
+        title:'Organisation &amp; optimisation',
+        tag:'Votre espace repensé pour vous simplifier la vie',
+        icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>',
+        desc:"Un regard neuf sur vos espaces de vie, pour qu'ils restent fonctionnels entre deux visites — à discuter selon vos besoins précis à l'étape 3."
+      },
+      {
+        title:'Soutien &amp; accompagnement',
+        tag:'Déléguez ce qui vous prend du temps',
+        icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9.5-9C.5 8 2 4 6 4c2.2 0 3.5 1.3 4 2 .5-.7 1.8-2 4-2 4 0 5.5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>',
+        bullets:['Coordination de tâches sur mesure','Commissions, courses, livraisons','Soutien familial à domicile']
+      },
+      {
+        title:'Suivi en votre absence',
+        tag:"Votre résidence surveillée, même à distance",
+        icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.6"/></svg>',
+        bullets:['Vérifications et sécurité du domicile','Résidence secondaire ou saisonnière','Comptes rendus avec photos, à distance']
+      }
+    ];
+
+    var tabsStrip = document.getElementById('offerTabs');
+    var track = document.getElementById('offerTrack');
+    var dotsEl = document.getElementById('offerDots');
+    if(!tabsStrip || !track || !dotsEl) return;
+
+    var current = 0;
+
+    function bulletsHtml(cat){
+      if(cat.bullets){
+        return '<ul>' + cat.bullets.map(function(b){ return '<li>'+CHECK+'<span>'+b+'</span></li>'; }).join('') + '</ul>';
+      }
+      return '<p class="desc-only">'+cat.desc+'</p>';
+    }
+
+    CATS.forEach(function(cat, i){
+      var tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'tab-btn' + (i===0 ? ' is-on' : '');
+      tab.setAttribute('role','tab');
+      tab.innerHTML = cat.icon + '<span>' + cat.title + '</span>';
+      tab.addEventListener('click', function(){ goTo(i); });
+      tabsStrip.appendChild(tab);
+
+      var slide = document.createElement('div');
+      slide.className = 'car-slide' + (i===0 ? ' is-on' : '');
+      slide.setAttribute('role','tabpanel');
+      slide.innerHTML =
+        '<div class="car-icon">'+cat.icon+'</div>' +
+        '<h3>'+cat.title+'</h3>' +
+        '<div class="car-tag">'+cat.tag+'</div>' +
+        bulletsHtml(cat);
+      track.appendChild(slide);
+
+      var dot = document.createElement('span');
+      dot.className = 'car-dot' + (i===0 ? ' is-on' : '');
+      dot.addEventListener('click', function(){ goTo(i); });
+      dotsEl.appendChild(dot);
+    });
+
+    function goTo(i){
+      current = (i + CATS.length) % CATS.length;
+      Array.prototype.forEach.call(tabsStrip.children, function(el, idx){ el.classList.toggle('is-on', idx===current); });
+      Array.prototype.forEach.call(track.children, function(el, idx){ el.classList.toggle('is-on', idx===current); });
+      Array.prototype.forEach.call(dotsEl.children, function(el, idx){ el.classList.toggle('is-on', idx===current); });
+    }
+    var prevBtn = document.getElementById('offerPrev');
+    var nextBtn = document.getElementById('offerNext');
+    if(prevBtn) prevBtn.addEventListener('click', function(){ goTo(current-1); });
+    if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(current+1); });
+  })();
+
   /* ---- reveal on scroll, staggered ---- */
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(en){
@@ -354,7 +442,7 @@
       }
     });
   }, {threshold:0.12});
-  ['.sec-head','.fm-cat','.pillar','.step','.service-cat','.sf-item','.freq-tile','.zone-row','.contact-row'].forEach(function(sel){
+  ['.sec-head','.offer-tabs','.offer-carousel','.pillar','.step','.sf-item','.freq-tile','.zone-row','.contact-row'].forEach(function(sel){
     Array.prototype.slice.call(document.querySelectorAll(sel)).forEach(function(el, i){
       el.dataset.revealDelay = Math.min(i * 60, 300);
       io.observe(el);

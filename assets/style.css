@@ -331,31 +331,6 @@
   }
 
   /* ---------- services ---------- */
-  .service-groups{
-    display:grid;grid-template-columns:1fr 1fr;gap:1px;
-    background:var(--line);border:1px solid var(--line);border-radius:16px;
-    overflow:hidden;
-  }
-  .service-cat{
-    display:block;
-    padding:30px 32px;
-    background:var(--paper);
-  }
-  @media (max-width:760px){ .service-groups{grid-template-columns:1fr;} }
-  .service-cat .cat-label{display:flex;gap:14px;align-items:flex-start;}
-  .cat-icon{
-    width:38px;height:38px;flex:none;
-    border:1px solid var(--gold);
-    border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    color:var(--gold);
-  }
-  .cat-label h3{font-size:18px;font-weight:500;color:var(--gold);}
-  .cat-label span{display:block;color:var(--muted);font-size:13px;margin-top:4px;}
-  .service-list{display:grid;grid-template-columns:1fr 1fr;gap:14px 32px;}
-  @media (max-width:560px){ .service-list{grid-template-columns:1fr;} }
-  .service-item{display:flex;gap:10px;font-size:15.5px;}
-  .service-item svg{flex:none;margin-top:3px;color:var(--pine);}
 
   /* ---------- approach ---------- */
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0 36px;position:relative;}
@@ -396,13 +371,50 @@
   .sf-item{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted);}
   .sf-item svg{flex:none;color:var(--gold);}
 
-  /* ---------- formulas / pricing: open menu, not fixed packages ---------- */
-  .formula-menu{display:grid;grid-template-columns:repeat(2,1fr);gap:40px 56px;}
-  @media (max-width:860px){ .formula-menu{grid-template-columns:1fr;gap:32px;} }
-  .fm-cat h3{font-size:17px;font-weight:500;color:var(--gold);font-family:'Fraunces',serif;padding-bottom:14px;border-bottom:1px solid var(--line);}
-  .fm-cat ul{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column;gap:13px;}
-  .fm-cat li{display:flex;gap:10px;font-size:14.5px;color:var(--muted);}
-  .fm-cat li svg{flex:none;color:var(--pine);margin-top:3px;}
+  /* ---------- nos services : onglets + carrousel des catégories ---------- */
+  .offer-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:32px;}
+  .tab-btn{
+    display:flex;align-items:center;gap:9px;padding:10px 16px;border-radius:999px;
+    border:1px solid var(--line);background:var(--paper);color:var(--muted);cursor:pointer;
+    font-family:'Work Sans',sans-serif;font-size:13px;font-weight:600;white-space:nowrap;
+    transition:border-color .25s ease,color .25s ease,background .25s ease;
+  }
+  .tab-btn svg{flex:none;}
+  .tab-btn.is-on{border-color:var(--gold);color:var(--gold);background:var(--pine-deep);}
+  .offer-carousel{
+    position:relative;margin-top:20px;background:var(--paper);border:1px solid var(--line);
+    border-radius:16px;min-height:280px;overflow:hidden;
+  }
+  .car-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:36px;height:36px;border-radius:50%;
+    border:1px solid var(--line);background:var(--cream);color:var(--gold);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:border-color .2s ease;
+  }
+  .car-arrow:hover{border-color:var(--gold);}
+  .car-arrow.prev{left:14px;}
+  .car-arrow.next{right:14px;}
+  .car-track{position:relative;min-height:280px;}
+  .car-slide{
+    padding:44px 68px;opacity:0;position:absolute;inset:0;transition:opacity .35s ease, transform .35s ease;
+    transform:translateX(14px);display:flex;flex-direction:column;align-items:center;text-align:center;
+    pointer-events:none;
+  }
+  .car-slide.is-on{position:relative;opacity:1;transform:translateX(0);pointer-events:auto;}
+  @media (max-width:640px){ .car-slide{padding:40px 48px;} }
+  .car-icon{
+    width:56px;height:56px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;flex:none;
+  }
+  .car-slide h3{font-size:19px;font-weight:500;color:var(--gold);font-family:'Fraunces',serif;}
+  .car-slide .car-tag{color:var(--muted);font-size:13.5px;margin-top:8px;}
+  .car-slide ul{list-style:none;margin:22px 0 0;padding:18px 0 0;border-top:1px solid var(--line);
+    display:flex;flex-direction:column;gap:11px;max-width:400px;}
+  .car-slide li{display:flex;gap:9px;font-size:14.5px;color:var(--muted);text-align:left;}
+  .car-slide li svg{flex:none;color:var(--pine);margin-top:2px;}
+  .car-slide .desc-only{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:14.5px;color:var(--muted);max-width:400px;}
+  .car-dots{display:flex;justify-content:center;gap:6px;margin-top:16px;}
+  .car-dot{width:6px;height:6px;border-radius:50%;background:var(--line);cursor:pointer;transition:background .2s ease;}
+  .car-dot.is-on{background:var(--gold);}
   .fm-open{margin-top:32px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:14.5px;font-style:italic;}
 
   .freq-row{
@@ -600,7 +612,7 @@
 
 @media print {
 
-  header.nav, footer, .hero .ctas, #quoteForm, .service-groups, #approche, .formula-menu, .freq-row, .zones-wrap, .contact-grid, .hero-art, nav { display:none !important; }
+  header.nav, footer, .hero .ctas, #quoteForm, .offer-tabs, .offer-carousel, .car-dots, #approche, .freq-row, .zones-wrap, .contact-grid, .hero-art, nav { display:none !important; }
   #resumePanel{ display:block !important; border:none; }
   body{ background:#fff; }
 
