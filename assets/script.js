@@ -395,7 +395,7 @@
         title:'Suivi en votre absence',
         tag:"Votre résidence surveillée, même à distance",
         icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.6"/></svg>',
-        bullets:['Vérifications et sécurité du domicile','Résidence secondaire ou saisonnière','Comptes rendus avec photos, à distance']
+        bullets:['Vérifications et entretien du domicile','Résidence secondaire ou saisonnière','Comptes rendus avec photos, à distance']
       }
     ];
 
