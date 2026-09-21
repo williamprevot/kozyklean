@@ -352,7 +352,7 @@
         title:'Entretien résidentiel',
         tag:"Le ménage de base, fait sérieusement",
         icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="13" width="9" height="7" rx="2"/><circle cx="5.5" cy="20.5" r="1"/><circle cx="9.5" cy="20.5" r="1"/><path d="M12 15c5 0 7-3 7-8"/><path d="M19 7l2.2-1.3"/></svg>',
-        bullets:['Ménage complet, cuisine et salle de bain','Lessive, repassage et literie','Vitres et surfaces du quotidien']
+        bullets:['Ménage complet, cuisine séjour et salle de bain','Lessive, repassage et literie','Vitres et surfaces du quotidien']
       },
       {
         title:'Soins spécialisés',
