@@ -350,9 +350,9 @@
     var CATS = [
       {
         title:'Entretien résidentiel',
-        tag:"Le ménage quotidien, fait sérieusement",
+        tag:"Le ménage de base, fait sérieusement",
         icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="13" width="9" height="7" rx="2"/><circle cx="5.5" cy="20.5" r="1"/><circle cx="9.5" cy="20.5" r="1"/><path d="M12 15c5 0 7-3 7-8"/><path d="M19 7l2.2-1.3"/></svg>',
-        bullets:['Ménage complet cuisine, séjour et salle de bain','Lessive, repassage et literie','Vitres et surfaces accessibles']
+        bullets:['Ménage complet, cuisine et salle de bain','Lessive, repassage et literie','Vitres et surfaces du quotidien']
       },
       {
         title:'Soins spécialisés',
@@ -364,11 +364,11 @@
         title:'Organisation &amp; optimisation',
         tag:'Votre espace repensé pour vous simplifier la vie',
         icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>',
-        desc:"Un regard neuf sur vos espaces de vie les rendront plus fonctionnels."
+        desc:"Un regard neuf sur vos espaces de vie, pour qu'ils restent fonctionnels entre deux visites — à discuter selon vos besoins précis à l'étape 3."
       },
       {
         title:'Soutien &amp; accompagnement',
-        tag:'Déléguez ce qui consume votre temps',
+        tag:'Déléguez ce qui vous prend du temps',
         icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9.5-9C.5 8 2 4 6 4c2.2 0 3.5 1.3 4 2 .5-.7 1.8-2 4-2 4 0 5.5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>',
         bullets:['Coordination de tâches sur mesure','Commissions, courses, livraisons','Soutien familial à domicile']
       },
@@ -407,9 +407,10 @@
       slide.className = 'car-slide' + (i===0 ? ' is-on' : '');
       slide.setAttribute('role','tabpanel');
       slide.innerHTML =
-        '<div class="car-icon">'+cat.icon+'</div>' +
-        '<h3>'+cat.title+'</h3>' +
-        '<div class="car-tag">'+cat.tag+'</div>' +
+        '<div class="car-head">' +
+          '<div class="car-icon">'+cat.icon+'</div>' +
+          '<div class="car-head-text"><h3>'+cat.title+'</h3><div class="car-tag">'+cat.tag+'</div></div>' +
+        '</div>' +
         bulletsHtml(cat);
       track.appendChild(slide);
 
@@ -425,12 +426,34 @@
       Array.prototype.forEach.call(track.children, function(el, idx){ el.classList.toggle('is-on', idx===current); });
       Array.prototype.forEach.call(dotsEl.children, function(el, idx){ el.classList.toggle('is-on', idx===current); });
       var activeTab = tabsStrip.children[current];
-      if(activeTab && activeTab.scrollIntoView) activeTab.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+      if(activeTab){
+        /* défilement horizontal du bandeau d'onglets seulement — jamais la page entière */
+        var targetLeft = activeTab.offsetLeft - (tabsStrip.clientWidth - activeTab.offsetWidth) / 2;
+        var maxLeft = tabsStrip.scrollWidth - tabsStrip.clientWidth;
+        targetLeft = Math.max(0, Math.min(targetLeft, maxLeft));
+        if(tabsStrip.scrollTo) tabsStrip.scrollTo({left:targetLeft, behavior:'smooth'});
+        else tabsStrip.scrollLeft = targetLeft;
+      }
     }
     var prevBtn = document.getElementById('offerPrev');
     var nextBtn = document.getElementById('offerNext');
     if(prevBtn) prevBtn.addEventListener('click', function(){ goTo(current-1); });
     if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(current+1); });
+
+    /* balayement automatique, à l'image de la récurrence */
+    var offerReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var offerTimer = null;
+    function offerStart(){ if(!offerReduce && !offerTimer) offerTimer = setInterval(function(){ goTo(current+1); }, 5500); }
+    function offerStop(){ clearInterval(offerTimer); offerTimer = null; }
+    if(!offerReduce) offerStart();
+    var offerCarouselEl = document.querySelector('#services .offer-carousel');
+    [tabsStrip, offerCarouselEl, dotsEl].forEach(function(el){
+      if(!el) return;
+      el.addEventListener('mouseenter', offerStop);
+      el.addEventListener('mouseleave', offerStart);
+      el.addEventListener('focusin', offerStop);
+      el.addEventListener('focusout', function(e){ if(!el.contains(e.relatedTarget)) offerStart(); });
+    });
 
     /* fondu au bord droit uniquement si les onglets débordent réellement */
     function updateTabsOverflow(){
