@@ -1,5 +1,4 @@
-
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap');
 
   /* Kozy & Klean's identity is a deep pine green — this is the site's real
      look, not a conditional "dark mode": it renders this way by default,
@@ -466,30 +465,11 @@
   .freq-tile b{font-family:'Work Sans',sans-serif;font-size:13px;font-weight:600;color:var(--ink);}
   .freq-tile span{font-size:11.5px;color:var(--gold);letter-spacing:.02em;}
 
-  /* ---------- zones diagram ---------- */
-  .zones-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
-  @media (max-width:840px){ .zones-grid{grid-template-columns:1fr;gap:36px;} }
-  .zone-legend{display:flex;flex-direction:column;gap:14px;margin-top:0;}
-  .zone-row{display:flex;gap:14px;align-items:center;padding-block:14px;border-top:1px solid var(--line);transition:padding-left .2s ease;}
-  .zone-row:hover{padding-left:6px;}
-  .zone-row:last-child{border-bottom:1px solid var(--line);}
-  .zone-dot{width:12px;height:12px;border-radius:50%;flex:none;border:1.5px solid var(--gold);box-sizing:border-box;}
-  .zone-row-body{flex:1;min-width:0;}
-  .zone-row h4{font-size:14.5px;font-weight:600;font-family:'Work Sans',sans-serif;color:var(--gold);}
-  .zone-row p{font-size:13px;color:var(--muted);margin-top:3px;}
-  .zone-price{flex:none;font-family:'Work Sans',sans-serif;font-weight:600;font-size:13px;color:var(--ink);white-space:nowrap;padding-left:14px;}
-  @media (max-width:640px){
-    .zone-row{flex-wrap:wrap;}
-    .zone-price{padding-left:26px;width:100%;color:var(--gold);}
-  }
-  .zone-row{transition:background-color .5s ease, padding-left .3s ease;border-radius:8px;}
-  .zone-row.is-active{background:rgba(217,184,114,.08);padding-left:10px;}
-  .zone-row.is-active .zone-dot{background:var(--gold) !important;box-shadow:0 0 0 5px rgba(217,184,114,.22);}
+  /* ---------- zone desservie ---------- */
+  .zones-wrap{max-width:720px;margin-inline:auto;}
 
-  .zone-fine-print{margin-top:22px;font-size:13px;color:var(--muted);max-width:74ch;}
-
-  .zone-checker{margin-top:26px;}
-  .zone-checker label{display:block;font-size:12.5px;font-weight:600;letter-spacing:.03em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+  .zone-checker{max-width:520px;margin-inline:auto;}
+  .zone-checker label{display:block;font-size:12.5px;font-weight:600;letter-spacing:.03em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;text-align:center;}
   .zone-checker-row{display:flex;gap:10px;}
   .zone-checker-row input{
     font:inherit;flex:1;min-width:0;
@@ -499,7 +479,7 @@
   .zone-checker-row input:focus{outline:2px solid var(--pine);outline-offset:1px;}
   .zone-checker-row .btn{padding:11px 18px;white-space:nowrap;}
   @media (max-width:480px){ .zone-checker-row{flex-direction:column;} }
-  .zone-checker-result{margin-top:12px;font-size:13.5px;color:var(--muted);min-height:1.4em;}
+  .zone-checker-result{margin-top:12px;font-size:13.5px;color:var(--muted);min-height:1.4em;text-align:center;}
   .zone-checker-result.is-found{color:var(--ink);}
   .zone-checker-result b{color:var(--gold);}
 
@@ -559,14 +539,6 @@
   .form-section-title h4{font-size:15.5px;font-weight:600;font-family:'Work Sans',sans-serif;letter-spacing:.01em;color:var(--gold);}
   .form-section-title:first-child{margin-top:0;}
 
-  .zone-note{
-    margin-top:14px;padding:14px 16px;
-    font-size:13.5px;
-    border:1px solid var(--gold);
-    border-radius:var(--radius-sm);
-    background:var(--pine-deep);
-    color:var(--ink);
-  }
 
   .choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
   .choice-grid.freq{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));}
@@ -649,7 +621,7 @@
 
 @media print {
 
-  header.nav, footer, .hero .ctas, #quoteForm, .offer-tabs, .offer-carousel, .car-dots, #approche, .freq-row, .zones-grid, .contact-grid, .hero-art, nav { display:none !important; }
+  header.nav, footer, .hero .ctas, #quoteForm, .offer-tabs, .offer-carousel, .car-dots, #approche, .freq-row, .zones-wrap, .contact-grid, .hero-art, nav { display:none !important; }
   #resumePanel{ display:block !important; border:none; }
   body{ background:#fff; }
 

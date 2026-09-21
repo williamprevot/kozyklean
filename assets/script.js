@@ -107,34 +107,52 @@
     indicatifSelectEl.appendChild(ogAll);
   }
 
-  /* ---- zones data ---- */
-  var ZONE_NOTES = {
-    1: "Zone 1 : aucun frais de déplacement. Minimum de facturation : 1 heure.",
-    2: "Zone 2 : léger supplément de déplacement applicable. Minimum de facturation : 1 heure.",
-    3: "Zone 3 : supplément de déplacement applicable selon la distance. Minimum de facturation : 1 heure.",
-    4: "Déplacement exceptionnel : frais calculés selon la distance et convenus avec vous. Minimum de facturation : 1 heure."
-  };
+  /* ---- zones data (secteurs desservis, du centre vers la périphérie) ---- */
+  var ZONES = [
+    {
+      id: '1', title: 'Zone 1 · Secteur central', price: 'Aucun supplément',
+      note: "Zone 1 : aucun frais de déplacement. Minimum de facturation : 1 heure.",
+      cities: ['Sainte-Foy', 'Sillery', 'Cap-Rouge', 'Québec (centre-ville)', "L'Ancienne-Lorette", 'Loretteville']
+    },
+    {
+      id: '2', title: 'Zone 2 · Grande région de Québec', price: 'Léger supplément',
+      note: "Zone 2 : léger supplément de déplacement applicable. Minimum de facturation : 1 heure.",
+      cities: ['Charlesbourg', 'Beauport', 'Val-Bélair', 'Saint-Augustin-de-Desmaures', 'Lévis (secteurs proches)']
+    },
+    {
+      id: '3', title: 'Zone 3 · Périphérie élargie', price: 'Supplément selon la distance',
+      note: "Zone 3 : supplément de déplacement applicable selon la distance. Minimum de facturation : 1 heure.",
+      cities: ['Lévis (secteurs éloignés)', 'Donnacona', 'Pont-Rouge', 'Shannon', 'Neuville']
+    },
+    {
+      id: '4', title: 'Déplacement exceptionnel', price: 'Sur devis',
+      note: "Déplacement exceptionnel : frais calculés selon la distance et convenus avec vous. Minimum de facturation : 1 heure.",
+      cities: ['Portneuf', 'Charlevoix', 'Côte-de-Beaupré']
+    }
+  ];
+  var ZONE_NOTES = {};
+  ZONES.forEach(function(z){ ZONE_NOTES[z.id] = z.note; });
 
-  /* ---- ville -> zone (déduit silencieusement, sans le demander dans le formulaire) ---- */
+  /* ---- ville -> zone (déduit silencieusement pour le formulaire, et pour le vérificateur) ---- */
   function kkNormalizeCity(s){
     return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/^st(e)?[\s-]/,'saint$1 ').trim();
   }
   var kkCityMap = [];
-  document.querySelectorAll('#zoneLegend .zone-row').forEach(function(r){
-    var zone = r.getAttribute('data-zone');
-    var p = r.querySelector('.zone-row-body p');
-    if(!p) return;
-    p.textContent.split(',').forEach(function(part){
-      var name = part.replace(/\(.*?\)/g,'').replace(/\.$/,'').trim();
-      if(name) kkCityMap.push({ norm: kkNormalizeCity(name), label: name, zone: zone });
+  ZONES.forEach(function(z){
+    z.cities.forEach(function(c){
+      var name = c.replace(/\(.*?\)/g, '').trim();
+      if(name) kkCityMap.push({ norm: kkNormalizeCity(name), label: name, zone: z });
     });
   });
-  function kkZoneForCity(raw){
+  function kkFindCity(raw){
     if(!raw) return null;
     var q = kkNormalizeCity(raw);
-    var found = kkCityMap.find(function(c){ return c.norm === q; })
+    return kkCityMap.find(function(c){ return c.norm === q; })
       || kkCityMap.find(function(c){ return c.norm.indexOf(q) !== -1 || q.indexOf(c.norm) !== -1; });
-    return found ? found.zone : null;
+  }
+  function kkZoneForCity(raw){
+    var found = kkFindCity(raw);
+    return found ? found.zone.id : null;
   }
   var villeInput = document.getElementById('ville');
   var villeListEl = document.getElementById('villeList');
@@ -478,7 +496,7 @@
       }
     });
   }, {threshold:0.12});
-  ['.sec-head','.offer-tabs','.offer-carousel','.pillar','.step','.sf-item','.freq-tile','.zone-row','.contact-row'].forEach(function(sel){
+  ['.sec-head','.offer-tabs','.offer-carousel','.pillar','.step','.sf-item','.freq-tile','.contact-row'].forEach(function(sel){
     Array.prototype.slice.call(document.querySelectorAll(sel)).forEach(function(el, i){
       el.dataset.revealDelay = Math.min(i * 60, 300);
       io.observe(el);
@@ -539,75 +557,35 @@
   }
   autoCycle('#approchSteps', '.step', 3200);
   autoCycle('#freqRow', '.freq-tile', 3600);
-  /* ---- légende des zones : la ligne survolée se met en évidence ---- */
-  (function(){
-    var rows = Array.prototype.slice.call(document.querySelectorAll('#zoneLegend .zone-row'));
-    if(!rows.length) return;
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var zones = rows.map(function(r){ return r.getAttribute('data-zone'); });
-    var idx = 0;
-    var timer;
-    function applyZone(n){
-      rows.forEach(function(r){ r.classList.toggle('is-active', r.getAttribute('data-zone') === n); });
-    }
-    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
-    function start(){ if(!reduceMotion && !timer){ timer = setInterval(function(){ idx = (idx + 1) % zones.length; applyZone(zones[idx]); }, 3600); } }
-    rows.forEach(function(r, i){
-      ['mouseenter','focus','click'].forEach(function(ev){
-        r.addEventListener(ev, function(){ stop(); idx = i; applyZone(zones[i]); });
-      });
-    });
-    applyZone(zones[0]);
-    start();
 
-    /* ---- vérificateur de secteur ---- */
+  /* ---- vérificateur de secteur ---- */
+  (function(){
     var checkInput = document.getElementById('zoneCheckInput');
     var checkBtn = document.getElementById('zoneCheckBtn');
     var checkResult = document.getElementById('zoneCheckResult');
-    if(checkInput && checkBtn && checkResult){
-      function normalize(s){
-        return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/^st(e)?[\s-]/,'saint$1 ').trim();
+    if(!checkInput || !checkBtn || !checkResult) return;
+
+    function runCheck(opts){
+      var raw = checkInput.value.trim();
+      var live = opts && opts.live;
+      if(!raw){ checkResult.textContent = ''; checkResult.classList.remove('is-found'); return; }
+      if(live && raw.length < 2){ checkResult.textContent = ''; checkResult.classList.remove('is-found'); return; }
+      var found = kkFindCity(raw);
+      if(found){
+        checkResult.innerHTML = found.label + ' se trouve en <b>' + found.zone.title + '</b> — ' + found.zone.price + '.';
+        checkResult.classList.add('is-found');
+      } else {
+        checkResult.innerHTML = 'Secteur non reconnu — laissez-nous vos coordonnées dans le <a href="#simulateur" style="color:var(--ink);border-bottom:1px solid var(--gold);text-decoration:none;">simulateur</a>, on confirmera votre zone.';
+        checkResult.classList.remove('is-found');
       }
-      var cityMap = [];
-      rows.forEach(function(r){
-        var zone = r.getAttribute('data-zone');
-        var p = r.querySelector('.zone-row-body p');
-        if(!p) return;
-        p.textContent.split(',').forEach(function(part){
-          var name = part.replace(/\(.*?\)/g,'').replace(/\.$/,'').trim();
-          if(name) cityMap.push({ norm: normalize(name), label: name, zone: zone });
-        });
-      });
-      function runCheck(opts){
-        var raw = checkInput.value.trim();
-        var live = opts && opts.live;
-        if(!raw){ checkResult.textContent = ''; checkResult.classList.remove('is-found'); return; }
-        if(live && raw.length < 2){ checkResult.textContent = ''; checkResult.classList.remove('is-found'); return; }
-        var q = normalize(raw);
-        var found = cityMap.find(function(c){ return c.norm === q; })
-          || cityMap.find(function(c){ return c.norm.indexOf(q) !== -1 || q.indexOf(c.norm) !== -1; });
-        if(found){
-          stop();
-          idx = zones.indexOf(found.zone);
-          applyZone(found.zone);
-          var row = rows[idx];
-          var title = row.querySelector('h4').textContent;
-          var price = row.querySelector('.zone-price').textContent;
-          checkResult.innerHTML = found.label + ' se trouve en <b>' + title + '</b> — ' + price + '.';
-          checkResult.classList.add('is-found');
-        } else {
-          checkResult.innerHTML = 'Secteur non reconnu — laissez-nous vos coordonnées dans le <a href="#simulateur" style="color:var(--ink);border-bottom:1px solid var(--gold);text-decoration:none;">simulateur</a>, on confirmera votre zone.';
-          checkResult.classList.remove('is-found');
-        }
-      }
-      checkBtn.addEventListener('click', function(){ runCheck(); });
-      checkInput.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); runCheck(); } });
-      var liveTimer;
-      checkInput.addEventListener('input', function(){
-        clearTimeout(liveTimer);
-        liveTimer = setTimeout(function(){ runCheck({live:true}); }, 350);
-      });
     }
+    checkBtn.addEventListener('click', function(){ runCheck(); });
+    checkInput.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); runCheck(); } });
+    var liveTimer;
+    checkInput.addEventListener('input', function(){
+      clearTimeout(liveTimer);
+      liveTimer = setTimeout(function(){ runCheck({live:true}); }, 350);
+    });
   })();
 
 })();
