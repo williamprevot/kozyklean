@@ -545,6 +545,7 @@
   .choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
   .choice-grid.freq{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));}
   .choice-grid.services{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
+  .choice-grid.type{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}
   .choice{
     position:relative;
     border:1px solid var(--line);
@@ -557,7 +558,6 @@
   }
   .choice:hover{border-color:var(--gold);transform:translateY(-2px);}
   .choice input{position:absolute;left:14px;top:16px;accent-color:var(--gold);}
-  .choice-icon{display:block;color:var(--gold);margin-bottom:9px;}
   .choice b{display:block;font-size:14.5px;}
   .choice span{display:block;color:var(--muted);font-size:12.5px;margin-top:3px;}
   .choice:has(input:checked){
@@ -565,6 +565,26 @@
     background:var(--pine-deep);
     box-shadow:0 0 0 1px var(--gold), 0 0 32px 6px rgba(217,184,114,.35);
   }
+
+  /* ---------- service-category cards (soumission, étape "Vos besoins") ---------- */
+  .choice-grid.services .choice{
+    padding:19px 44px 18px 20px;
+    border-radius:var(--radius);
+  }
+  .choice-grid.services .choice input{left:auto;right:16px;top:18px;}
+  .choice .choice-head{display:flex;align-items:center;gap:9px;margin:0;color:var(--gold);}
+  .choice-head svg{flex:none;opacity:.9;}
+  .choice-grid.services .choice b{color:var(--gold);font-size:14.5px;letter-spacing:.005em;}
+  .choice-grid.services .choice > span:last-child{display:block;margin-top:7px;line-height:1.5;}
+
+  /* ---------- compact single-digit pills (chambres, salles de bain) ---------- */
+  .choice-grid.compact{grid-template-columns:repeat(auto-fit,minmax(60px,1fr));gap:8px;}
+  .choice-grid.compact .choice{
+    padding:13px 8px 11px;
+    text-align:center;
+  }
+  .choice-grid.compact .choice input{position:static;display:block;margin:0 auto 7px;}
+  .choice-grid.compact .choice b{font-size:15px;}
 
   .consent{display:flex;gap:12px;align-items:flex-start;margin-top:28px;font-size:13.5px;color:var(--muted);}
   .consent input{margin-top:3px;accent-color:var(--gold);}
