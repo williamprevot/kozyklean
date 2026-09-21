@@ -174,7 +174,7 @@
   });
 
   /* ---- wizard ---- */
-  var STEP_LABELS = ["Vos coordonnées","Votre résidence","Vos attentes","Fréquence souhaitée","Derniers détails"];
+  var STEP_LABELS = ["Vos coordonnées","Vos besoins","Votre résidence","Le rythme qui vous convient","Derniers détails"];
   var totalSteps = STEP_LABELS.length;
   var currentStep = 1;
   var steps = Array.prototype.slice.call(document.querySelectorAll('.wizard-step'));
@@ -292,7 +292,7 @@
     var frequenceTxt = frequenceEl.value === 'Sur mesure' && freqAutreTexte.value.trim()
       ? "Sur mesure (" + freqAutreTexte.value.trim() + ")"
       : frequenceEl.value;
-    var addons = Array.prototype.slice.call(form.querySelectorAll('input[name="addon"]:checked')).map(function(el){ return el.value; });
+    var interets = Array.prototype.slice.call(form.querySelectorAll('input[name="interet"]:checked')).map(function(el){ return el.value; });
     var dateDebut = document.getElementById('dateDebut').value;
     var notes = document.getElementById('notes').value.trim();
     var consent = document.getElementById('consent').checked;
@@ -320,16 +320,17 @@
     if(tel) lines.push("Téléphone : " + (indicatif ? indicatif + " " : "") + tel);
     if(courriel) lines.push("Courriel : " + courriel);
     lines.push("");
+    if(interets.length) lines.push("Services qui l'intéressent : " + interets.join(", "));
+    lines.push("Précisions exprimées : " + (attentes || "Non précisées — à discuter ensemble."));
+    lines.push("");
     if(adresse) lines.push("Adresse : " + adresse + (appartement ? ", " + appartement : ""));
     if(ville) lines.push("Ville : " + ville + (codePostal ? " (" + codePostal + ")" : ""));
     lines.push(zoneTxt);
     lines.push("Type de résidence : " + typeResidence + " · " + chambres + " ch. · " + sdb + " sdb.");
     lines.push("");
-    lines.push("Attentes exprimées : " + (attentes || "Non précisées — à discuter ensemble."));
     lines.push("Fréquence souhaitée : " + frequenceTxt);
-    if(addons.length) lines.push("Services complémentaires : " + addons.join(", "));
     if(dateDebut) lines.push("Date de début souhaitée : " + dateDebut);
-    if(notes) lines.push("Précisions : " + notes);
+    if(notes) lines.push("Précisions additionnelles : " + notes);
     lines.push("");
     lines.push("La cliente autorise Kozy & Klean à la contacter pour finaliser la soumission et le contrat de service.");
 
@@ -368,7 +369,7 @@
     var CATS = [
       {
         title:'Entretien résidentiel',
-        tag:"Le ménage de base, fait sérieusement",
+        tag:"Le ménage, fait sérieusement",
         icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="13" width="9" height="7" rx="2"/><circle cx="5.5" cy="20.5" r="1"/><circle cx="9.5" cy="20.5" r="1"/><path d="M12 15c5 0 7-3 7-8"/><path d="M19 7l2.2-1.3"/></svg>',
         bullets:['Ménage complet, cuisine séjour et salle de bain','Lessive, repassage et literie','Vitres et surfaces du quotidien']
       },

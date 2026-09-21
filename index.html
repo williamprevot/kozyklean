@@ -167,7 +167,7 @@
       <div class="sec-head">
         <div class="eyebrow">Nos services</div>
         <h2>Un service à la fois, ou tout en même temps.</h2>
-        <p>De nombreuses prestations cumulables.</p>
+        <p>De nombreuses prestations s'offrent à vous.</p>
       </div>
 
       <div class="offer-tabs" id="offerTabs" role="tablist" aria-label="Catégories de services"></div>
@@ -241,7 +241,7 @@
       <div class="sec-head center">
         <div class="eyebrow">Zone desservie</div>
         <h2>Basée à Sainte-Foy, on vient jusqu'à vous.</h2>
-        <p>À la maison comme au bureau, partout dans le Grand Québec. Pour un minimum d'une heure facturée, une légère indemnité selon votre secteur.</p>
+        <p>À la maison comme au bureau, partout dans le Grand Québec. Minimum d'une heure facturée par visite; léger supplément selon votre secteur.</p>
       </div>
 
       <div class="zone-checker">
@@ -261,7 +261,7 @@
       <div class="sec-head center">
         <div class="eyebrow">Demande de soumission</div>
         <h2>Votre soumission en 5 courtes étapes.</h2>
-        <p>Simplicité et efficacé, on vous répond avec une soumission personnalisée, prête à devenir votre contrat.</p>
+        <p>Simple et rapide : on prépare une soumission façonnée autour de vous, prête à devenir votre contrat.</p>
       </div>
 
       <div class="atelier">
@@ -275,6 +275,7 @@
         <form id="quoteForm" novalidate>
           <div class="wizard-step" data-step="1">
             <div class="form-section-title"><span class="n">1</span><h4>Vos coordonnées</h4></div>
+            <p class="step-intro">Pour vous recontacter avec une soumission qui vous ressemble.</p>
             <div class="grid3">
               <div class="field"><label for="nom">Nom complet</label><input type="text" id="nom" autocomplete="name" placeholder="Ex. Marie Tremblay"></div>
               <div class="field" id="telField"><label for="tel">Téléphone</label>
@@ -289,7 +290,49 @@
           </div>
 
           <div class="wizard-step" data-step="2" hidden>
-            <div class="form-section-title"><span class="n">2</span><h4>Votre résidence</h4></div>
+            <div class="form-section-title"><span class="n">2</span><h4>Quels services vous feraient du bien ?</h4></div>
+            <p class="step-intro">Cochez une ou plusieurs catégories — on assemble une formule à partir de tout ce qu'on offre.</p>
+            <div class="choice-grid services">
+              <label class="choice">
+                <input type="checkbox" name="interet" value="Entretien résidentiel">
+                <span class="choice-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="13" width="9" height="7" rx="2"/><circle cx="5.5" cy="20.5" r="1"/><circle cx="9.5" cy="20.5" r="1"/><path d="M12 15c5 0 7-3 7-8"/><path d="M19 7l2.2-1.3"/></svg></span>
+                <b>Entretien résidentiel</b>
+                <span>Le ménage fait sérieusement</span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="interet" value="Soins spécialisés">
+                <span class="choice-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l1.8 6.2L20 11l-6.2 1.8L12 19l-1.8-6.2L4 11l6.2-1.8z"/></svg></span>
+                <b>Soins spécialisés</b>
+                <span>Tout ce que l'entretien régulier ne couvre pas</span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="interet" value="Organisation et optimisation">
+                <span class="choice-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg></span>
+                <b>Organisation &amp; optimisation</b>
+                <span>Votre espace repensé pour vous simplifier la vie</span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="interet" value="Soutien et accompagnement">
+                <span class="choice-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9.5-9C.5 8 2 4 6 4c2.2 0 3.5 1.3 4 2 .5-.7 1.8-2 4-2 4 0 5.5 4 3.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg></span>
+                <b>Soutien &amp; accompagnement</b>
+                <span>Déléguez ce qui vous prend du temps</span>
+              </label>
+              <label class="choice">
+                <input type="checkbox" name="interet" value="Suivi en votre absence">
+                <span class="choice-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.6"/></svg></span>
+                <b>Suivi en votre absence</b>
+                <span>Votre résidence surveillée, même à distance</span>
+              </label>
+            </div>
+            <div class="field" style="margin-top:22px;">
+              <label for="attentes">Une précision à ajouter ? <span class="opt">(optionnel)</span></label>
+              <textarea id="attentes" rows="4" placeholder="Décrivez librement ce que vous aimeriez déléguer, vos priorités ou toute demande particulière — aussi précise ou inhabituelle soit-elle. Nous nous adaptons à la demande."></textarea>
+            </div>
+          </div>
+
+          <div class="wizard-step" data-step="3" hidden>
+            <div class="form-section-title"><span class="n">3</span><h4>Votre résidence</h4></div>
+            <p class="step-intro">Pour bien évaluer l'ampleur du travail et vous proposer un tarif juste.</p>
             <div class="grid3">
               <div class="field"><label for="adresse">Adresse (rue et numéro)</label><input type="text" id="adresse" autocomplete="address-line1" placeholder="Ex. 1234 rue des Érables"></div>
               <div class="field"><label for="appartement">Appartement / unité <span class="opt">(optionnel)</span></label><input type="text" id="appartement" autocomplete="address-line2" placeholder="Ex. app. 3"></div>
@@ -323,29 +366,9 @@
             </div>
           </div>
 
-          <div class="wizard-step" data-step="3" hidden>
-            <div class="form-section-title"><span class="n">3</span><h4>Vos attentes</h4></div>
-            <div class="field">
-              <label for="attentes">Qu'attendez-vous de notre service ? <span class="opt">(optionnel)</span></label>
-              <textarea id="attentes" rows="5" placeholder="Décrivez librement ce que vous aimeriez déléguer, vos priorités ou toute demande particulière — aussi précise ou inhabituelle soit-elle. Nous nous adaptons à la demande."></textarea>
-            </div>
-            <div class="field" style="margin-top:22px;">
-              <label>Des besoins ponctuels à ajouter ? <span class="opt">(optionnel — cochez ce qui s'applique)</span></label>
-              <div class="addon-grid" style="margin-top:10px;">
-                <label class="addon"><input type="checkbox" name="addon" value="Nettoyage à la vapeur">Nettoyage à la vapeur</label>
-                <label class="addon"><input type="checkbox" name="addon" value="Nettoyage et entretien des tapis">Nettoyage et entretien des tapis</label>
-                <label class="addon"><input type="checkbox" name="addon" value="Lavage à pression">Lavage à pression</label>
-                <label class="addon"><input type="checkbox" name="addon" value="Désinfection ciblée">Désinfection ciblée</label>
-                <label class="addon"><input type="checkbox" name="addon" value="Organisation d'un espace précis">Organisation d'un espace précis</label>
-                <label class="addon"><input type="checkbox" name="addon" value="Courses et commissions">Courses et commissions</label>
-                <label class="addon"><input type="checkbox" name="addon" value="Suivi de résidence en votre absence">Suivi de résidence en votre absence</label>
-              </div>
-            </div>
-          </div>
-
           <div class="wizard-step" data-step="4" hidden>
-            <div class="form-section-title"><span class="n">4</span><h4>Fréquence souhaitée</h4></div>
-            <p style="color:var(--muted);font-size:14px;margin-bottom:16px;">À titre indicatif — tout est ajustable une fois votre soumission personnalisée en main.</p>
+            <div class="form-section-title"><span class="n">4</span><h4>Le rythme qui vous convient</h4></div>
+            <p class="step-intro">À titre indicatif — tout est ajustable une fois votre soumission personnalisée en main.</p>
             <div class="choice-grid freq">
               <label class="choice"><input type="radio" name="frequence" value="Ponctuel" checked><b>Ponctuel</b><span>Une seule intervention</span></label>
               <label class="choice"><input type="radio" name="frequence" value="Mensuel"><b>Mensuel</b><span>Une fois par mois</span></label>
@@ -361,7 +384,7 @@
 
           <div class="wizard-step" data-step="5" hidden>
             <div class="form-section-title"><span class="n">5</span><h4>Derniers détails</h4></div>
-            <p style="color:var(--muted);font-size:14px;margin-bottom:16px;">Presque terminé — ces quelques précisions nous aident à préparer une soumission qui tombe juste dès le premier envoi.</p>
+            <p class="step-intro">Presque terminé — ces quelques précisions nous aident à préparer une soumission qui tombe juste dès le premier envoi.</p>
             <div class="grid2">
               <div class="field"><label for="dateDebut">Date souhaitée pour débuter <span class="opt">(optionnel)</span></label><input type="date" id="dateDebut"></div>
               <div class="field"><label for="notes">Précisions <span class="opt">(optionnel)</span></label><input type="text" id="notes" placeholder="Animaux, accès, contraintes particulières..."></div>
