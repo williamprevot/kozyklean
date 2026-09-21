@@ -493,7 +493,7 @@
   }
   @media (max-width:640px){ .atelier{padding:24px;} }
   .field{display:flex;flex-direction:column;gap:7px;}
-  .field label{font-size:13px;font-weight:600;letter-spacing:.02em;}
+  .field label{font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--gold);}
   .field label .opt{color:var(--muted);font-weight:400;}
   .field-hint{color:var(--muted);font-weight:400;font-size:12.5px;margin-top:-2px;}
   .field input[type="text"],
@@ -565,6 +565,7 @@
     background:var(--pine-deep);
     box-shadow:0 0 0 1px var(--gold), 0 0 32px 6px rgba(217,184,114,.35);
   }
+  .choice:has(input:checked) b{color:var(--gold);}
 
   /* ---------- service-category cards (soumission, étape "Vos besoins") ---------- */
   .choice-grid.services .choice{
@@ -609,6 +610,50 @@
   #resumePanel h3{font-size:20px;}
   #resumeBody{margin-top:16px;font-size:14.5px;background:var(--cream);border:1px solid var(--line);padding:20px;white-space:pre-wrap;font-family:'Work Sans',sans-serif;line-height:1.7;}
   .resume-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;}
+
+  /* ---------- chargement : nuage d'étincelles (poussière qui scintille) qui tourne,
+     affiché le temps de préparer la soumission avant de révéler le résumé ---------- */
+  .loading-overlay{
+    position:fixed;
+    inset:0;
+    z-index:80;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap:22px;
+    background:rgba(10,19,15,.86);
+    backdrop-filter:blur(3px);
+    animation:overlay-fade-in .25s ease both;
+  }
+  .loading-overlay[hidden]{display:none;}
+  .loading-overlay p{
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+    font-size:13.5px;
+    letter-spacing:.03em;
+  }
+  @keyframes overlay-fade-in{from{opacity:0;}to{opacity:1;}}
+  .dust-loader{
+    width:64px;height:64px;
+    fill:var(--gold);
+    animation:dust-spin 2.4s cubic-bezier(.45,0,.55,1) infinite;
+    filter:drop-shadow(0 0 10px rgba(217,184,114,.45));
+  }
+  @keyframes dust-spin{
+    0%{transform:rotate(0deg) scale(.9);}
+    50%{transform:rotate(180deg) scale(1.08);}
+    100%{transform:rotate(360deg) scale(.9);}
+  }
+  /* chaque étincelle scintille l'une après l'autre pendant que tout le nuage tourne,
+     comme les grains de poussière qui accrochent la lumière */
+  .dust-spark{animation:twinkle 1.2s ease-in-out infinite;transform-origin:center;}
+  @media (prefers-reduced-motion: reduce){
+    .loading-overlay{animation:none;}
+    .dust-loader{animation:none;filter:none;}
+    .dust-spark{animation:none;opacity:.75;}
+  }
 
   /* ---------- contact ---------- */
   .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;}

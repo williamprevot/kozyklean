@@ -173,6 +173,16 @@
     });
   });
 
+  /* ---- type de résidence : révèle un champ libre pour "Autre" ---- */
+  var typeResidenceSelect = document.getElementById('typeResidence');
+  var typeResidenceAutreField = document.getElementById('typeResidenceAutreField');
+  var typeResidenceAutreTexte = document.getElementById('typeResidenceAutreTexte');
+  if(typeResidenceSelect){
+    typeResidenceSelect.addEventListener('change', function(){
+      if(typeResidenceAutreField) typeResidenceAutreField.hidden = (typeResidenceSelect.value !== 'Autre');
+    });
+  }
+
   /* ---- wizard ---- */
   var STEP_LABELS = ["Vos coordonnées","Vos besoins","Votre résidence","Le rythme qui vous convient","Derniers détails"];
   var totalSteps = STEP_LABELS.length;
@@ -285,6 +295,9 @@
     var ville = document.getElementById('ville').value.trim();
     var codePostal = document.getElementById('codePostal').value.trim();
     var typeResidence = document.getElementById('typeResidence').value;
+    var typeResidenceTxt = typeResidence === 'Autre' && typeResidenceAutreTexte && typeResidenceAutreTexte.value.trim()
+      ? "Autre (" + typeResidenceAutreTexte.value.trim() + ")"
+      : typeResidence;
     var chambres = document.getElementById('chambres').value;
     var sdb = document.getElementById('sdb').value;
     var attentes = document.getElementById('attentes').value.trim();
@@ -326,7 +339,7 @@
     if(adresse) lines.push("Adresse : " + adresse + (appartement ? ", " + appartement : ""));
     if(ville) lines.push("Ville : " + ville + (codePostal ? " (" + codePostal + ")" : ""));
     lines.push(zoneTxt);
-    lines.push("Type de résidence : " + typeResidence + " · " + chambres + " ch. · " + sdb + " sdb.");
+    lines.push("Type de résidence : " + typeResidenceTxt + " · " + chambres + " ch. · " + sdb + " sdb.");
     lines.push("");
     lines.push("Fréquence souhaitée : " + frequenceTxt);
     if(dateDebut) lines.push("Date de début souhaitée : " + dateDebut);
@@ -335,14 +348,30 @@
     lines.push("La cliente autorise Kozy & Klean à la contacter pour finaliser la soumission et le contrat de service.");
 
     var body = lines.join("\n");
-    resumeBody.textContent = body;
-    resumePanel.style.display = 'block';
-
     var mailSubject = "Demande de soumission de " + nom;
-    document.getElementById('mailBtn').setAttribute('href',
-      "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(mailSubject) + "&body=" + encodeURIComponent(body));
 
-    resumePanel.scrollIntoView({behavior:'smooth', block:'start'});
+    /* ---- petit chargement (étincelles qui tournent) le temps de "préparer"
+       la soumission, pour adoucir la transition avant d'afficher le résumé ---- */
+    wizSubmit.disabled = true;
+    var loadingOverlay = document.getElementById('loadingOverlay');
+    if(loadingOverlay) loadingOverlay.hidden = false;
+
+    window.setTimeout(function(){
+      resumeBody.textContent = body;
+      document.getElementById('mailBtn').setAttribute('href',
+        "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(mailSubject) + "&body=" + encodeURIComponent(body));
+
+      if(loadingOverlay) loadingOverlay.hidden = true;
+      wizSubmit.disabled = false;
+
+      resumePanel.style.display = 'block';
+      resumePanel.classList.remove('reveal');
+      /* force le redémarrage de l'animation même si "reveal" était déjà passé une fois */
+      void resumePanel.offsetWidth;
+      resumePanel.classList.add('reveal');
+
+      resumePanel.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 950);
   });
 
   document.getElementById('printBtn').addEventListener('click', function(){

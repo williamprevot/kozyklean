@@ -240,7 +240,7 @@
       <div class="sec-head center">
         <div class="eyebrow">Zone desservie</div>
         <h2>Basée à Sainte-Foy, on vient jusqu'à vous.</h2>
-        <p>À la maison comme au bureau, partout dans le Grand Québec. Minimum d'une heure facturée par visite; léger supplément selon votre secteur.</p>
+        <p>À la maison comme au bureau, partout dans le Grand Québec. Pour un minimum d'une heure facturée par visite, une légère indemnité s'applique.</p>
       </div>
 
       <div class="zone-checker">
@@ -259,8 +259,8 @@
     <div class="wrap">
       <div class="sec-head center">
         <div class="eyebrow">Demande de soumission</div>
-        <h2>Votre soumission en 5 courtes étapes.</h2>
-        <p>Simple et rapide : on prépare une soumission façonnée autour de vous, prête à devenir votre contrat.</p>
+        <h2>Votre soumission en 5 étapes.</h2>
+        <p>Simplicité et efficacité : une soumission façonnée par vous, prête à devenir votre contrat.</p>
       </div>
 
       <div class="atelier">
@@ -360,6 +360,7 @@
                   <option>Maison unifamiliale</option>
                   <option>Duplex / Plex</option>
                   <option>Grande propriété</option>
+                  <option value="Autre">Autre</option>
                 </select>
               </div>
               <div class="field">
@@ -372,6 +373,10 @@
                 <label for="sdb">Salles de bain</label>
                 <select id="sdb"><option>1</option><option>2</option><option>3</option><option>4 et plus</option></select>
               </div>
+            </div>
+            <div class="field" id="typeResidenceAutreField" hidden style="margin-top:18px;">
+              <label for="typeResidenceAutreTexte">Précisez le type de résidence</label>
+              <input type="text" id="typeResidenceAutreTexte" placeholder="Ex. chalet, loft, résidence secondaire...">
             </div>
           </div>
 
@@ -400,7 +405,7 @@
             </div>
             <label class="consent">
               <input type="checkbox" id="consent">
-              J'autorise Kozy &amp; Klean Conciergerie Nomade à me contacter afin de finaliser cette soumission et, le cas échéant, le contrat de service.
+              J'autorise Kozy &amp; Klean Conciergerie Nomade à me contacter afin de finaliser cette soumission et le cas échéant, le contrat de service.
             </label>
           </div>
 
@@ -410,6 +415,18 @@
             <button type="submit" id="wizSubmit" class="btn btn-primary" hidden>Recevoir ma soumission</button>
           </div>
         </form>
+
+        <div class="loading-overlay" id="loadingOverlay" hidden aria-live="polite" aria-label="Préparation de votre soumission">
+          <svg class="dust-loader" viewBox="0 0 120 120" aria-hidden="true">
+            <path class="dust-spark" style="animation-delay:0s" d="M60 14 l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>
+            <path class="dust-spark" style="animation-delay:.2s" d="M100 36 l2.6 6.8 6.8 2.6-6.8 2.6-2.6 6.8-2.6-6.8-6.8-2.6 6.8-2.6z"/>
+            <path class="dust-spark" style="animation-delay:.4s" d="M100 84 l2.6 6.8 6.8 2.6-6.8 2.6-2.6 6.8-2.6-6.8-6.8-2.6 6.8-2.6z"/>
+            <path class="dust-spark" style="animation-delay:.6s" d="M60 106 l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>
+            <path class="dust-spark" style="animation-delay:.8s" d="M20 84 l2.6 6.8 6.8 2.6-6.8 2.6-2.6 6.8-2.6-6.8-6.8-2.6 6.8-2.6z"/>
+            <path class="dust-spark" style="animation-delay:1s" d="M20 36 l2.6 6.8 6.8 2.6-6.8 2.6-2.6 6.8-2.6-6.8-6.8-2.6 6.8-2.6z"/>
+          </svg>
+          <p>Préparation de votre soumission...</p>
+        </div>
 
         <div id="resumePanel">
           <div class="eyebrow">Votre demande</div>
