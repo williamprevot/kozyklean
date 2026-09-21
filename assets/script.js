@@ -364,7 +364,7 @@
         title:'Organisation &amp; optimisation',
         tag:'Votre espace repensé pour vous simplifier la vie',
         icon:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>',
-        desc:"Un regard neuf sur vos espaces de vie, pour qu'ils restent fonctionnels entre deux visites — à discuter selon vos besoins précis à l'étape 3."
+        desc:"Un regard neuf sur vos espaces de vie, les rendront plus fonctionnels."
       },
       {
         title:'Soutien &amp; accompagnement',
