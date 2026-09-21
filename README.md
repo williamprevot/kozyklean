@@ -15,9 +15,9 @@ Ce projet est le site vitrine de **Kozy & Klean Conciergerie Nomade**, une entre
 
 1. **Présentation** – Sections statiques présentant l'entreprise, les services, l'approche en quatre étapes et les formules tarifaires.
 2. **Zone desservie** – Une carte animée et une légende par secteur informent le visiteur des frais de déplacement applicables selon sa localisation.
-3. **Simulateur de soumission** – Un formulaire en six étapes (`#quoteForm` dans `index.html`) guide le visiteur : coordonnées, résidence, formule souhaitée, fréquence, options et confirmation.
-4. **Validation en temps réel** – Le courriel et le numéro de téléphone saisis sont vérifiés selon un format valide (`isValidEmail`, `isValidPhone` dans `assets/script.js`), avec un message d'erreur affiché directement sous le champ concerné si le format est incorrect.
-5. **Génération de la demande** – Une fois le formulaire complété, un courriel et un message WhatsApp pré-remplis sont générés avec le résumé de la demande, prêts à être envoyés à l'entreprise.
+3. **Simulateur de soumission** – Un formulaire en cinq étapes (`#quoteForm` dans `index.html`) guide le visiteur : coordonnées, résidence, attentes et besoins ponctuels, fréquence souhaitée, derniers détails et confirmation.
+4. **Validation en temps réel** – Le courriel et le numéro de téléphone saisis (avec indicatif international) sont vérifiés selon un format valide (`isValidEmail`, `isValidPhone` dans `assets/script.js`), avec un message d'erreur affiché directement sous le champ concerné si le format est incorrect.
+5. **Génération de la demande** – Une fois le formulaire complété, un résumé est affiché à l'écran et un courriel pré-rempli est généré avec le détail de la demande, prêt à être envoyé à l'entreprise.
 
 Exemple de logique de validation :
 
@@ -102,9 +102,8 @@ Dans le dépôt sur GitHub : **Settings → Pages**, choisir la branche `main` e
 
 ## 📝 À personnaliser avant la mise en ligne
 
-1. **Coordonnées de contact** — dans `assets/script.js`, chercher `CONTACT_EMAIL =` près du début du fichier, et remplacer `CONTACT_EMAIL`, `CONTACT_PHONE_DISPLAY`, `CONTACT_PHONE_TEL` et `CONTACT_WHATSAPP` par les vraies coordonnées. Le même numéro provisoire (`+1-418-000-0000`) apparaît aussi dans le bloc de données structurées à la fin du `<head>` d'`index.html`.
-2. **Lien Facebook** — chercher `id="fbLink"` dans le pied de page d'`index.html`, et `sameAs` dans le bloc de données structurées, et remplacer l'adresse par le lien direct vers la page Facebook.
-3. **Vérification finale** — une fois les vraies coordonnées en place, tester le simulateur de soumission pour confirmer que le courriel et le message WhatsApp générés sont corrects.
+1. **Coordonnées de contact** — dans `assets/script.js`, chercher `CONTACT_EMAIL =` près du début du fichier, et confirmer que `CONTACT_EMAIL`, `CONTACT_PHONE_DISPLAY`, `CONTACT_PHONE_TEL`, `CONTACT_PHONE_DISPLAY_2` et `CONTACT_PHONE_TEL_2` correspondent bien aux coordonnées actives de l'entreprise.
+2. **Vérification finale** — tester le simulateur de soumission de bout en bout pour confirmer que le résumé affiché et le courriel généré sont corrects.
 
 ## 🔗 Lien vers le site en ligne
 

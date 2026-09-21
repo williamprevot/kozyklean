@@ -7,162 +7,159 @@
   var CONTACT_PHONE_TEL = "+14185731793";
   var CONTACT_PHONE_DISPLAY_2 = "581 990-7378";
   var CONTACT_PHONE_TEL_2 = "+15819907378";
-  var CONTACT_WHATSAPP = "14180000000";
 
   document.getElementById('phoneLink').setAttribute('href','tel:'+CONTACT_PHONE_TEL);
   document.getElementById('phoneLink').textContent = CONTACT_PHONE_DISPLAY;
-
   document.getElementById('phoneLink2').setAttribute('href','tel:'+CONTACT_PHONE_TEL_2);
   document.getElementById('phoneLink2').textContent = CONTACT_PHONE_DISPLAY_2;
-
   document.getElementById('emailLink').setAttribute('href','mailto:'+CONTACT_EMAIL);
   document.getElementById('emailLink').textContent = CONTACT_EMAIL;
 
-  document.getElementById('waLink').setAttribute(
-    'href',
-    'https://wa.me/'+CONTACT_WHATSAPP
-  );
-
   /* ---- année du copyright, toujours à jour ---- */
   var copyYearEl = document.getElementById('copyYear');
-
-  if(copyYearEl){
-    copyYearEl.textContent = new Date().getFullYear();
-  }
+  if(copyYearEl){ copyYearEl.textContent = new Date().getFullYear(); }
 
   /* ---- mobile menu ---- */
   var menuBtn = document.getElementById('menuBtn');
   var mobileNav = document.getElementById('mobileNav');
-
   menuBtn.addEventListener('click', function(){
     var open = mobileNav.classList.toggle('open');
-
-    menuBtn.setAttribute(
-      'aria-expanded',
-      open ? 'true' : 'false'
-    );
+    menuBtn.setAttribute('aria-expanded', open ? 'true':'false');
   });
-
   mobileNav.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', function(){
-      mobileNav.classList.remove('open');
-    });
+    a.addEventListener('click', function(){ mobileNav.classList.remove('open'); });
   });
 
-  /* ---- zones data ---- */
-  var ZONES = [
-    {
-      zone:1,
-      label:"Zone 1 : secteur central (aucun frais de déplacement)",
-      places:[
-        "Sainte-Foy",
-        "Sillery",
-        "Cap-Rouge",
-        "Québec – Centre-ville / Vieux-Québec",
-        "Saint-Sacrement / Montcalm",
-        "L'Ancienne-Lorette",
-        "Loretteville"
-      ]
-    },
-    {
-      zone:2,
-      label:"Zone 2 : grande région de Québec (supplément modéré)",
-      places:[
-        "Charlesbourg",
-        "Beauport",
-        "Val-Bélair",
-        "Neufchâtel",
-        "Saint-Augustin-de-Desmaures",
-        "Lévis – Charny / Saint-Romuald"
-      ]
-    },
-    {
-      zone:3,
-      label:"Zone 3 : périphérie élargie (supplément selon distance)",
-      places:[
-        "Lévis – secteurs éloignés",
-        "Boischâtel / L'Ange-Gardien",
-        "Shannon / Saint-Gabriel-de-Valcartier",
-        "Donnacona / Pont-Rouge",
-        "Neuville"
-      ]
-    },
-    {
-      zone:4,
-      label:"Déplacement exceptionnel (sur demande)",
-      places:[
-        "Portneuf",
-        "Charlevoix (Baie-Saint-Paul et environs)",
-        "Côte-de-Beaupré – secteurs éloignés",
-        "Montmagny / Lotbinière",
-        "Autre secteur, à préciser"
-      ]
-    }
-  ];
+  /* ---- indicatifs téléphoniques : tous les pays, avec autocomplétion ---- */
+  var COUNTRY_CODES = [
+    ["Afghanistan","+93"],["Afrique du Sud","+27"],["Albanie","+355"],["Algérie","+213"],
+    ["Allemagne","+49"],["Andorre","+376"],["Angola","+244"],["Antigua-et-Barbuda","+1268"],
+    ["Arabie saoudite","+966"],["Argentine","+54"],["Arménie","+374"],["Australie","+61"],
+    ["Autriche","+43"],["Azerbaïdjan","+994"],["Bahamas","+1242"],["Bahreïn","+973"],
+    ["Bangladesh","+880"],["Barbade","+1246"],["Belgique","+32"],["Belize","+501"],
+    ["Bénin","+229"],["Bhoutan","+975"],["Biélorussie","+375"],["Birmanie (Myanmar)","+95"],
+    ["Bolivie","+591"],["Bosnie-Herzégovine","+387"],["Botswana","+267"],["Brésil","+55"],
+    ["Brunei","+673"],["Bulgarie","+359"],["Burkina Faso","+226"],["Burundi","+257"],
+    ["Cambodge","+855"],["Cameroun","+237"],["Canada","+1"],["Cap-Vert","+238"],
+    ["Chili","+56"],["Chine","+86"],["Chypre","+357"],["Colombie","+57"],
+    ["Comores","+269"],["Congo-Brazzaville","+242"],["Congo (RDC)","+243"],["Corée du Nord","+850"],
+    ["Corée du Sud","+82"],["Costa Rica","+506"],["Côte d'Ivoire","+225"],["Croatie","+385"],
+    ["Cuba","+53"],["Danemark","+45"],["Djibouti","+253"],["Dominique","+1767"],
+    ["Égypte","+20"],["Émirats arabes unis","+971"],["Équateur","+593"],["Érythrée","+291"],
+    ["Espagne","+34"],["Estonie","+372"],["Eswatini","+268"],["États-Unis","+1"],
+    ["USA","+1"],["Éthiopie","+251"],["Fidji","+679"],["Finlande","+358"],
+    ["France","+33"],["Gabon","+241"],["Gambie","+220"],["Géorgie","+995"],
+    ["Ghana","+233"],["Grèce","+30"],["Grenade","+1473"],["Guatemala","+502"],
+    ["Guinée","+224"],["Guinée-Bissau","+245"],["Guinée équatoriale","+240"],["Guyana","+592"],
+    ["Haïti","+509"],["Honduras","+504"],["Hong Kong","+852"],["Hongrie","+36"],
+    ["Îles Marshall","+692"],["Îles Salomon","+677"],["Inde","+91"],["Indonésie","+62"],
+    ["Irak","+964"],["Iran","+98"],["Irlande","+353"],["Islande","+354"],
+    ["Israël","+972"],["Italie","+39"],["Jamaïque","+1876"],["Japon","+81"],
+    ["Jordanie","+962"],["Kazakhstan","+7"],["Kenya","+254"],["Kirghizistan","+996"],
+    ["Kiribati","+686"],["Koweït","+965"],["Laos","+856"],["Lesotho","+266"],
+    ["Lettonie","+371"],["Liban","+961"],["Liberia","+231"],["Libye","+218"],
+    ["Liechtenstein","+423"],["Lituanie","+370"],["Luxembourg","+352"],["Macao","+853"],
+    ["Macédoine du Nord","+389"],["Madagascar","+261"],["Malaisie","+60"],["Malawi","+265"],
+    ["Maldives","+960"],["Mali","+223"],["Malte","+356"],["Maroc","+212"],
+    ["Maurice","+230"],["Mauritanie","+222"],["Mexique","+52"],["Micronésie","+691"],
+    ["Moldavie","+373"],["Monaco","+377"],["Mongolie","+976"],["Monténégro","+382"],
+    ["Mozambique","+258"],["Namibie","+264"],["Nauru","+674"],["Népal","+977"],
+    ["Nicaragua","+505"],["Niger","+227"],["Nigeria","+234"],["Norvège","+47"],
+    ["Nouvelle-Zélande","+64"],["Oman","+968"],["Ouganda","+256"],["Ouzbékistan","+998"],
+    ["Pakistan","+92"],["Palaos","+680"],["Palestine","+970"],["Panama","+507"],
+    ["Papouasie-Nouvelle-Guinée","+675"],["Paraguay","+595"],["Pays-Bas","+31"],["Pérou","+51"],
+    ["Philippines","+63"],["Pologne","+48"],["Portugal","+351"],["Qatar","+974"],
+    ["République centrafricaine","+236"],["République dominicaine","+1809"],["République tchèque","+420"],["Roumanie","+40"],
+    ["Royaume-Uni","+44"],["Russie","+7"],["Rwanda","+250"],["Saint-Christophe-et-Niévès","+1869"],
+    ["Saint-Marin","+378"],["Saint-Vincent-et-les-Grenadines","+1784"],["Sainte-Lucie","+1758"],["Salvador","+503"],
+    ["Samoa","+685"],["São Tomé-et-Principe","+239"],["Sénégal","+221"],["Serbie","+381"],
+    ["Seychelles","+248"],["Sierra Leone","+232"],["Singapour","+65"],["Slovaquie","+421"],
+    ["Slovénie","+386"],["Somalie","+252"],["Soudan","+249"],["Soudan du Sud","+211"],
+    ["Sri Lanka","+94"],["Suède","+46"],["Suisse","+41"],["Suriname","+597"],
+    ["Syrie","+963"],["Taïwan","+886"],["Tadjikistan","+992"],["Tanzanie","+255"],
+    ["Tchad","+235"],["Thaïlande","+66"],["Timor oriental","+670"],["Togo","+228"],
+    ["Tonga","+676"],["Trinité-et-Tobago","+1868"],["Tunisie","+216"],["Turkménistan","+993"],
+    ["Turquie","+90"],["Tuvalu","+688"],["Ukraine","+380"],["Uruguay","+598"],
+    ["Vanuatu","+678"],["Vatican","+379"],["Venezuela","+58"],["Vietnam","+84"],
+    ["Yémen","+967"],["Zambie","+260"],["Zimbabwe","+263"]
+  ].sort(function(a,b){ return a[0].localeCompare(b[0], 'fr'); });
 
-  var ZONE_NOTES = {
-    1:"Zone 1 : aucun frais de déplacement. Minimum de facturation : 1 heure.",
-    2:"Zone 2 : léger supplément de déplacement applicable. Minimum de facturation : 1 heure.",
-    3:"Zone 3 : supplément de déplacement applicable selon la distance. Minimum de facturation : 1 heure.",
-    4:"Déplacement exceptionnel : frais calculés selon la distance et convenus avec vous. Minimum de facturation : 1 heure."
-  };
-
-  var secteurSelect = document.getElementById('secteur');
-  var placeToZone = {};
-
-  ZONES.forEach(function(z){
-    var og = document.createElement('optgroup');
-    og.label = z.label;
-
-    z.places.forEach(function(p){
+  var indicatifSelectEl = document.getElementById('indicatif');
+  if(indicatifSelectEl){
+    var ogFreq = document.createElement('optgroup');
+    ogFreq.label = 'Fréquents';
+    [["Canada","+1"],["États-Unis","+1"]].forEach(function(c){
       var opt = document.createElement('option');
-
-      opt.value = p;
-      opt.textContent = p;
-
-      og.appendChild(opt);
-      placeToZone[p] = z.zone;
+      opt.value = c[1];
+      opt.textContent = c[0] + ' (' + c[1] + ')';
+      if(c[0] === 'Canada') opt.selected = true;
+      ogFreq.appendChild(opt);
     });
-
-    secteurSelect.appendChild(og);
-  });
-
-  var zoneNote = document.getElementById('zoneNote');
-
-  function updateZoneNote(){
-    var z = placeToZone[secteurSelect.value] || 1;
-
-    zoneNote.textContent = ZONE_NOTES[z];
-
-    zoneNote.className =
-      'zone-note' +
-      (z >= 3 ? ' warn' : '');
+    indicatifSelectEl.appendChild(ogFreq);
+    var ogAll = document.createElement('optgroup');
+    ogAll.label = 'Tous les pays';
+    COUNTRY_CODES.forEach(function(c){
+      var opt = document.createElement('option');
+      opt.value = c[1];
+      opt.textContent = c[0] + ' (' + c[1] + ')';
+      ogAll.appendChild(opt);
+    });
+    indicatifSelectEl.appendChild(ogAll);
   }
 
-  secteurSelect.addEventListener(
-    'change',
-    updateZoneNote
-  );
+  /* ---- zones data ---- */
+  var ZONE_NOTES = {
+    1: "Zone 1 : aucun frais de déplacement. Minimum de facturation : 1 heure.",
+    2: "Zone 2 : léger supplément de déplacement applicable. Minimum de facturation : 1 heure.",
+    3: "Zone 3 : supplément de déplacement applicable selon la distance. Minimum de facturation : 1 heure.",
+    4: "Déplacement exceptionnel : frais calculés selon la distance et convenus avec vous. Minimum de facturation : 1 heure."
+  };
 
-  updateZoneNote();
+  /* ---- ville -> zone (déduit silencieusement, sans le demander dans le formulaire) ---- */
+  function kkNormalizeCity(s){
+    return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/^st(e)?[\s-]/,'saint$1 ').trim();
+  }
+  var kkCityMap = [];
+  document.querySelectorAll('#zoneLegend .zone-row').forEach(function(r){
+    var zone = r.getAttribute('data-zone');
+    var p = r.querySelector('.zone-row-body p');
+    if(!p) return;
+    p.textContent.split(',').forEach(function(part){
+      var name = part.replace(/\(.*?\)/g,'').replace(/\.$/,'').trim();
+      if(name) kkCityMap.push({ norm: kkNormalizeCity(name), label: name, zone: zone });
+    });
+  });
+  function kkZoneForCity(raw){
+    if(!raw) return null;
+    var q = kkNormalizeCity(raw);
+    var found = kkCityMap.find(function(c){ return c.norm === q; })
+      || kkCityMap.find(function(c){ return c.norm.indexOf(q) !== -1 || q.indexOf(c.norm) !== -1; });
+    return found ? found.zone : null;
+  }
+  var villeInput = document.getElementById('ville');
+  var villeListEl = document.getElementById('villeList');
+  if(villeListEl){
+    kkCityMap.forEach(function(c){
+      var opt = document.createElement('option');
+      opt.value = c.label;
+      villeListEl.appendChild(opt);
+    });
+  }
+
+  /* ---- fréquence : révèle un champ libre pour "Sur mesure" ---- */
+  var freqAutreField = document.getElementById('freqAutreField');
+  var freqAutreTexte = document.getElementById('freqAutreTexte');
+  document.querySelectorAll('input[name="frequence"]').forEach(function(r){
+    r.addEventListener('change', function(){
+      if(freqAutreField) freqAutreField.hidden = (r.value !== 'Sur mesure');
+    });
+  });
 
   /* ---- wizard ---- */
-  var STEP_LABELS = [
-    "Vos coordonnées",
-    "Votre résidence",
-    "Votre formule",
-    "Fréquence souhaitée",
-    "Services complémentaires",
-    "Derniers détails"
-  ];
-
+  var STEP_LABELS = ["Vos coordonnées","Votre résidence","Vos attentes","Fréquence souhaitée","Derniers détails"];
   var totalSteps = STEP_LABELS.length;
   var currentStep = 1;
-
-  var steps = Array.prototype.slice.call(
-    document.querySelectorAll('.wizard-step')
-  );
-
+  var steps = Array.prototype.slice.call(document.querySelectorAll('.wizard-step'));
   var wpFill = document.getElementById('wpFill');
   var wpLabel = document.getElementById('wpLabel');
   var wizBack = document.getElementById('wizBack');
@@ -171,913 +168,322 @@
   var formError = document.getElementById('formError');
 
   function showStep(n){
-    steps.forEach(function(s){
-      s.hidden =
-        (parseInt(s.dataset.step,10) !== n);
-    });
-
-    wpFill.style.width =
-      Math.round((n / totalSteps) * 100) + '%';
-
-    wpLabel.textContent =
-      "Étape " +
-      n +
-      " sur " +
-      totalSteps +
-      " : " +
-      STEP_LABELS[n - 1];
-
+    steps.forEach(function(s){ s.hidden = (parseInt(s.dataset.step,10) !== n); });
+    wpFill.style.width = Math.round((n/totalSteps)*100) + '%';
+    wpLabel.textContent = "Étape " + n + " sur " + totalSteps + " : " + STEP_LABELS[n-1];
     wizBack.disabled = (n === 1);
-
-    wizNext.hidden =
-      (n === totalSteps);
-
-    wizSubmit.hidden =
-      (n !== totalSteps);
-
+    wizNext.hidden = (n === totalSteps);
+    wizSubmit.hidden = (n !== totalSteps);
     formError.style.display = 'none';
   }
 
   /* ---- coordonnées: phone / email format checks ---- */
-
   function isValidEmail(v){
+    /* format complet: partie locale + @ + domaine avec au moins un point, pas de points doubles/en bordure */
     return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/.test(v)
       && v.indexOf('..') === -1;
   }
-
-  function isValidPhone(v){
+  function isValidPhone(v, code){
     var digits = v.replace(/\D/g, '');
-
-    if(
-      digits.length === 11 &&
-      digits.charAt(0) === '1'
-    ){
-      digits = digits.slice(1);
+    if(code === '+1' || !code){
+      if(digits.length === 11 && digits.charAt(0) === '1') digits = digits.slice(1);
+      if(digits.length !== 10) return false;
+      /* format nord-américain réel : indicatif régional et code d'échange ne commencent pas par 0 ou 1 */
+      return /^[2-9]\d{2}[2-9]\d{6}$/.test(digits);
     }
-
-    if(digits.length !== 10){
-      return false;
-    }
-
-    return /^[2-9]\d{2}[2-9]\d{6}$/.test(digits);
+    /* indicatifs internationaux : la disposition des chiffres varie selon le pays,
+       on accepte une plage large plutôt que d'imposer le format nord-américain */
+    return digits.length >= 6 && digits.length <= 15;
   }
-
   function setFieldError(fieldId, hasError){
     var field = document.getElementById(fieldId);
-
-    if(field){
-      field.classList.toggle(
-        'has-error',
-        hasError
-      );
-    }
+    if(field) field.classList.toggle('has-error', hasError);
   }
-
   function validateCoordonnees(){
-    var nom =
-      document.getElementById('nom').value.trim();
-
-    var tel =
-      document.getElementById('tel').value.trim();
-
-    var courriel =
-      document.getElementById('courriel').value.trim();
-
-    var telOk =
-      !tel || isValidPhone(tel);
-
-    var courrielOk =
-      !courriel || isValidEmail(courriel);
-
-    setFieldError(
-      'telField',
-      !!tel && !telOk
-    );
-
-    setFieldError(
-      'courrielField',
-      !!courriel && !courrielOk
-    );
-
-    var hasContact =
-      (!!tel && telOk) ||
-      (!!courriel && courrielOk);
-
-    return {
-      ok:
-        !!nom &&
-        telOk &&
-        courrielOk &&
-        hasContact,
-
-      telOk:telOk,
-      courrielOk:courrielOk
-    };
+    var nom = document.getElementById('nom').value.trim();
+    var tel = document.getElementById('tel').value.trim();
+    var indicatif = document.getElementById('indicatif').value;
+    var courriel = document.getElementById('courriel').value.trim();
+    var telOk = !tel || isValidPhone(tel, indicatif);
+    var courrielOk = !courriel || isValidEmail(courriel);
+    setFieldError('telField', !!tel && !telOk);
+    setFieldError('courrielField', !!courriel && !courrielOk);
+    var hasContact = (!!tel && telOk) || (!!courriel && courrielOk);
+    return { ok: !!nom && telOk && courrielOk && hasContact, telOk: telOk, courrielOk: courrielOk };
   }
-
-  var telInput =
-    document.getElementById('tel');
-
-  var courrielInput =
-    document.getElementById('courriel');
-
-  if(telInput){
-    telInput.addEventListener(
-      'blur',
-      function(){
-        var v = this.value.trim();
-
-        setFieldError(
-          'telField',
-          !!v && !isValidPhone(v)
-        );
-      }
-    );
-  }
-
-  if(courrielInput){
-    courrielInput.addEventListener(
-      'blur',
-      function(){
-        var v = this.value.trim();
-
-        setFieldError(
-          'courrielField',
-          !!v && !isValidEmail(v)
-        );
-      }
-    );
-  }
+  var telInput = document.getElementById('tel');
+  var indicatifSelect = document.getElementById('indicatif');
+  var courrielInput = document.getElementById('courriel');
+  if(telInput) telInput.addEventListener('blur', function(){
+    var v = this.value.trim();
+    setFieldError('telField', !!v && !isValidPhone(v, indicatifSelect.value));
+  });
+  if(courrielInput) courrielInput.addEventListener('blur', function(){
+    var v = this.value.trim();
+    setFieldError('courrielField', !!v && !isValidEmail(v));
+  });
 
   function stepOk(n){
-
     if(n === 1){
       return validateCoordonnees().ok;
     }
-
-    if(n === 3){
-      return !!document.querySelector(
-        'input[name="formule"]:checked'
-      );
-    }
-
     return true;
   }
 
-  wizNext.addEventListener(
-    'click',
-    function(){
-
-      if(currentStep === 1){
-
-        var v1 =
-          validateCoordonnees();
-
-        if(!v1.ok){
-
-          formError.textContent =
-            !v1.telOk
-              ? "Le numéro de téléphone saisi semble invalide (10 chiffres attendus)."
-              : !v1.courrielOk
-              ? "L'adresse courriel saisie semble invalide."
-              : "Merci d'indiquer votre nom et un moyen de vous joindre (téléphone ou courriel).";
-
-          formError.style.display =
-            'block';
-
-          return;
-        }
-
-      }else if(!stepOk(currentStep)){
-
-        formError.textContent =
-          "Merci de choisir une formule pour continuer.";
-
-        formError.style.display =
-          'block';
-
+  wizNext.addEventListener('click', function(){
+    if(currentStep === 1){
+      var v1 = validateCoordonnees();
+      if(!v1.ok){
+        formError.textContent = !v1.telOk
+          ? "Le numéro de téléphone saisi semble invalide."
+          : !v1.courrielOk
+          ? "L'adresse courriel saisie semble invalide."
+          : "Merci d'indiquer votre nom et un moyen de vous joindre (téléphone ou courriel).";
+        formError.style.display = 'block';
         return;
       }
-
-      if(currentStep < totalSteps){
-        currentStep++;
-        showStep(currentStep);
-      }
     }
-  );
-
-  wizBack.addEventListener(
-    'click',
-    function(){
-
-      if(currentStep > 1){
-        currentStep--;
-        showStep(currentStep);
-      }
-    }
-  );
-
+    if(currentStep < totalSteps){ currentStep++; showStep(currentStep); }
+  });
+  wizBack.addEventListener('click', function(){
+    if(currentStep > 1){ currentStep--; showStep(currentStep); }
+  });
   showStep(currentStep);
 
   /* ---- form submit ---- */
+  var form = document.getElementById('quoteForm');
+  var resumePanel = document.getElementById('resumePanel');
+  var resumeBody = document.getElementById('resumeBody');
 
-  var form =
-    document.getElementById('quoteForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
 
-  var resumePanel =
-    document.getElementById('resumePanel');
+    var nom = document.getElementById('nom').value.trim();
+    var tel = document.getElementById('tel').value.trim();
+    var indicatif = document.getElementById('indicatif').value;
+    var courriel = document.getElementById('courriel').value.trim();
+    var adresse = document.getElementById('adresse').value.trim();
+    var appartement = document.getElementById('appartement').value.trim();
+    var ville = document.getElementById('ville').value.trim();
+    var codePostal = document.getElementById('codePostal').value.trim();
+    var typeResidence = document.getElementById('typeResidence').value;
+    var chambres = document.getElementById('chambres').value;
+    var sdb = document.getElementById('sdb').value;
+    var attentes = document.getElementById('attentes').value.trim();
+    var frequenceEl = form.querySelector('input[name="frequence"]:checked');
+    var frequenceTxt = frequenceEl.value === 'Sur mesure' && freqAutreTexte.value.trim()
+      ? "Sur mesure (" + freqAutreTexte.value.trim() + ")"
+      : frequenceEl.value;
+    var addons = Array.prototype.slice.call(form.querySelectorAll('input[name="addon"]:checked')).map(function(el){ return el.value; });
+    var dateDebut = document.getElementById('dateDebut').value;
+    var notes = document.getElementById('notes').value.trim();
+    var consent = document.getElementById('consent').checked;
 
-  var resumeBody =
-    document.getElementById('resumeBody');
-
-  form.addEventListener(
-    'submit',
-    function(e){
-
-      e.preventDefault();
-
-      var nom =
-        document.getElementById('nom').value.trim();
-
-      var tel =
-        document.getElementById('tel').value.trim();
-
-      var courriel =
-        document.getElementById('courriel').value.trim();
-
-      var secteur =
-        secteurSelect.value;
-
-      var adresse =
-        document.getElementById('adresse').value.trim();
-
-      var typeResidence =
-        document.getElementById('typeResidence').value;
-
-      var chambres =
-        document.getElementById('chambres').value;
-
-      var sdb =
-        document.getElementById('sdb').value;
-
-      var formuleEl =
-        form.querySelector(
-          'input[name="formule"]:checked'
-        );
-
-      var frequenceEl =
-        form.querySelector(
-          'input[name="frequence"]:checked'
-        );
-
-      var addons =
-        Array.prototype.slice.call(
-          form.querySelectorAll(
-            'input[name="addon"]:checked'
-          )
-        ).map(function(el){
-          return el.value;
-        });
-
-      var dateDebut =
-        document.getElementById('dateDebut').value;
-
-      var notes =
-        document.getElementById('notes').value.trim();
-
-      var consent =
-        document.getElementById('consent').checked;
-
-      if(!nom || (!tel && !courriel)){
-
-        currentStep = 1;
-        showStep(1);
-
-        formError.textContent =
-          "Merci d'indiquer votre nom et un moyen de vous joindre (téléphone ou courriel).";
-
-        formError.style.display =
-          'block';
-
-        return;
-      }
-
-      if(!formuleEl){
-
-        currentStep = 3;
-        showStep(3);
-
-        formError.textContent =
-          "Merci de choisir une formule pour continuer.";
-
-        formError.style.display =
-          'block';
-
-        return;
-      }
-
-      if(!consent){
-
-        formError.textContent =
-          "Merci de cocher la case d'autorisation pour finaliser votre demande.";
-
-        formError.style.display =
-          'block';
-
-        return;
-      }
-
-      formError.style.display =
-        'none';
-
-      var zoneTxt =
-        ZONE_NOTES[
-          placeToZone[secteur] || 1
-        ];
-
-      var lines = [];
-
-      lines.push(
-        "Kozy & Klean : nouvelle demande de soumission"
-      );
-
-      lines.push("");
-
-      lines.push(
-        "Nom : " + nom
-      );
-
-      if(tel){
-        lines.push(
-          "Téléphone : " + tel
-        );
-      }
-
-      if(courriel){
-        lines.push(
-          "Courriel : " + courriel
-        );
-      }
-
-      lines.push("");
-
-      lines.push(
-        "Secteur : " + secteur
-      );
-
-      if(adresse){
-        lines.push(
-          "Adresse : " + adresse
-        );
-      }
-
-      lines.push(zoneTxt);
-
-      lines.push(
-        "Type de résidence : " +
-        typeResidence +
-        " · " +
-        chambres +
-        " ch. · " +
-        sdb +
-        " sdb."
-      );
-
-      lines.push("");
-
-      lines.push(
-        "Formule souhaitée : " +
-        formuleEl.value
-      );
-
-      lines.push(
-        "Fréquence souhaitée : " +
-        frequenceEl.value
-      );
-
-      if(addons.length){
-        lines.push(
-          "Services complémentaires : " +
-          addons.join(", ")
-        );
-      }
-
-      if(dateDebut){
-        lines.push(
-          "Date de début souhaitée : " +
-          dateDebut
-        );
-      }
-
-      if(notes){
-        lines.push(
-          "Précisions : " +
-          notes
-        );
-      }
-
-      lines.push("");
-
-      lines.push(
-        "La cliente autorise Kozy & Klean à la contacter pour finaliser la soumission et le contrat de service."
-      );
-
-      var body =
-        lines.join("\n");
-
-      resumeBody.textContent =
-        body;
-
-      resumePanel.style.display =
-        'block';
-
-      var mailSubject =
-        "Demande de soumission de " + nom;
-
-      document
-        .getElementById('mailBtn')
-        .setAttribute(
-          'href',
-          "mailto:" +
-          CONTACT_EMAIL +
-          "?subject=" +
-          encodeURIComponent(mailSubject) +
-          "&body=" +
-          encodeURIComponent(body)
-        );
-
-      document
-        .getElementById('waBtn')
-        .setAttribute(
-          'href',
-          "https://wa.me/" +
-          CONTACT_WHATSAPP +
-          "?text=" +
-          encodeURIComponent(body)
-        );
-
-      resumePanel.scrollIntoView({
-        behavior:'smooth',
-        block:'start'
-      });
+    if(!nom || (!tel && !courriel)){
+      currentStep = 1; showStep(1);
+      formError.textContent = "Merci d'indiquer votre nom et un moyen de vous joindre (téléphone ou courriel).";
+      formError.style.display = 'block';
+      return;
     }
-  );
+    if(!consent){
+      formError.textContent = "Merci de cocher la case d'autorisation pour finaliser votre demande.";
+      formError.style.display = 'block';
+      return;
+    }
+    formError.style.display = 'none';
 
-  document
-    .getElementById('printBtn')
-    .addEventListener(
-      'click',
-      function(){
-        window.print();
-      }
-    );
+    var zoneNum = kkZoneForCity(ville) || 1;
+    var zoneTxt = ZONE_NOTES[zoneNum];
+
+    var lines = [];
+    lines.push("Kozy & Klean : nouvelle demande de soumission");
+    lines.push("");
+    lines.push("Nom : " + nom);
+    if(tel) lines.push("Téléphone : " + (indicatif ? indicatif + " " : "") + tel);
+    if(courriel) lines.push("Courriel : " + courriel);
+    lines.push("");
+    if(adresse) lines.push("Adresse : " + adresse + (appartement ? ", " + appartement : ""));
+    if(ville) lines.push("Ville : " + ville + (codePostal ? " (" + codePostal + ")" : ""));
+    lines.push(zoneTxt);
+    lines.push("Type de résidence : " + typeResidence + " · " + chambres + " ch. · " + sdb + " sdb.");
+    lines.push("");
+    lines.push("Attentes exprimées : " + (attentes || "Non précisées — à discuter ensemble."));
+    lines.push("Fréquence souhaitée : " + frequenceTxt);
+    if(addons.length) lines.push("Services complémentaires : " + addons.join(", "));
+    if(dateDebut) lines.push("Date de début souhaitée : " + dateDebut);
+    if(notes) lines.push("Précisions : " + notes);
+    lines.push("");
+    lines.push("La cliente autorise Kozy & Klean à la contacter pour finaliser la soumission et le contrat de service.");
+
+    var body = lines.join("\n");
+    resumeBody.textContent = body;
+    resumePanel.style.display = 'block';
+
+    var mailSubject = "Demande de soumission de " + nom;
+    document.getElementById('mailBtn').setAttribute('href',
+      "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(mailSubject) + "&body=" + encodeURIComponent(body));
+
+    resumePanel.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  document.getElementById('printBtn').addEventListener('click', function(){
+    window.print();
+  });
 
   /* ---- quick message box ---- */
-
-  document
-    .getElementById('qSend')
-    .addEventListener(
-      'click',
-      function(){
-
-        var nom =
-          document.getElementById('qNom').value.trim();
-
-        var contact =
-          document.getElementById('qTel').value.trim();
-
-        var msg =
-          document.getElementById('qMsg').value.trim();
-
-        if(!nom || !contact || !msg){
-
-          alert(
-            "Merci d'indiquer votre nom, un moyen de vous joindre et votre message."
-          );
-
-          return;
-        }
-
-        var body =
-          "Message rapide du site Kozy & Klean\n\n" +
-          "Nom : " +
-          nom +
-          "\nCoordonnées : " +
-          contact +
-          "\n\nMessage :\n" +
-          msg;
-
-        window.location.href =
-          "mailto:" +
-          CONTACT_EMAIL +
-          "?subject=" +
-          encodeURIComponent(
-            "Message rapide de " + nom
-          ) +
-          "&body=" +
-          encodeURIComponent(body);
-      }
-    );
+  document.getElementById('qSend').addEventListener('click', function(){
+    var nom = document.getElementById('qNom').value.trim();
+    var contact = document.getElementById('qTel').value.trim();
+    var msg = document.getElementById('qMsg').value.trim();
+    if(!nom || !contact || !msg){
+      alert("Merci d'indiquer votre nom, un moyen de vous joindre et votre message.");
+      return;
+    }
+    var body = "Message rapide du site Kozy & Klean\n\nNom : " + nom + "\nCoordonnées : " + contact + "\n\nMessage :\n" + msg;
+    window.location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Message rapide de " + nom) + "&body=" + encodeURIComponent(body);
+  });
 
   /* ---- reveal on scroll, staggered ---- */
-
-  var io =
-    new IntersectionObserver(
-      function(entries){
-
-        entries.forEach(function(en){
-
-          if(en.isIntersecting){
-
-            var d =
-              en.target.dataset.revealDelay || 0;
-
-            en.target.style.animationDelay =
-              d + 'ms';
-
-            en.target.classList.add(
-              'reveal'
-            );
-
-            io.unobserve(
-              en.target
-            );
-          }
-        });
-
-      },
-      {
-        threshold:0.12
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        var d = en.target.dataset.revealDelay || 0;
+        en.target.style.animationDelay = d + 'ms';
+        en.target.classList.add('reveal');
+        io.unobserve(en.target);
       }
-    );
-
-  [
-    '.sec-head',
-    '.fcard',
-    '.pillar',
-    '.step',
-    '.service-cat',
-    '.method-row',
-    '.freq-tile',
-    '.zone-row',
-    '.contact-row'
-  ].forEach(function(sel){
-
-    Array.prototype.slice.call(
-      document.querySelectorAll(sel)
-    ).forEach(function(el,i){
-
-      el.dataset.revealDelay =
-        Math.min(i * 60,300);
-
+    });
+  }, {threshold:0.12});
+  ['.sec-head','.fm-cat','.pillar','.step','.service-cat','.sf-item','.freq-tile','.zone-row','.contact-row'].forEach(function(sel){
+    Array.prototype.slice.call(document.querySelectorAll(sel)).forEach(function(el, i){
+      el.dataset.revealDelay = Math.min(i * 60, 300);
       io.observe(el);
     });
   });
 
   /* ---- sticky nav shadow on scroll ---- */
-
-  var navEl =
-    document.querySelector(
-      'header.nav'
-    );
-
+  var navEl = document.querySelector('header.nav');
   function onScroll(){
-
-    if(window.scrollY > 8){
-
-      navEl.style.boxShadow =
-        '0 8px 24px -18px rgba(43,37,33,0.4)';
-
-    }else{
-
-      navEl.style.boxShadow =
-        'none';
-    }
+    if(window.scrollY > 8){ navEl.style.boxShadow = '0 8px 24px -18px rgba(43,37,33,0.4)'; }
+    else { navEl.style.boxShadow = 'none'; }
   }
-
-  window.addEventListener(
-    'scroll',
-    onScroll,
-    {
-      passive:true
-    }
-  );
-
+  window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
-  /* ---- bouton "Soumission gratuite" du menu ---- */
-
-  var heroCtaEl =
-    document.getElementById(
-      'heroCta'
-    );
-
-  if(
-    heroCtaEl &&
-    'IntersectionObserver' in window
-  ){
-
-    var heroCtaObserver =
-      new IntersectionObserver(
-        function(entries){
-
-          entries.forEach(function(entry){
-
-            document.body.classList.toggle(
-              'show-nav-cta',
-              !entry.isIntersecting
-            );
-
-          });
-
-        },
-        {
-          threshold:0
-        }
-      );
-
-    heroCtaObserver.observe(
-      heroCtaEl
-    );
-  }
-
-  /* =========================================================
-     AUTO-HIGHLIGHT + AUTO-SCROLL
-     =========================================================
-
-     - Les éléments continuent de s'illuminer automatiquement.
-     - Les étapes et fréquences ne provoquent aucun déplacement
-       horizontal de la page.
-     - Le carrousel des formules défile automatiquement sur mobile
-       en même temps que le flash/ombre.
-     - Le glissement manuel reste disponible.
-     - Pendant un geste tactile/manipulation du carrousel,
-       le cycle est temporairement arrêté.
-  */
-
-  function autoCycle(
-    containerSel,
-    itemSel,
-    ms
-  ){
-
-    var container =
-      document.querySelector(
-        containerSel
-      );
-
-    if(!container){
-      return;
-    }
-
-    var items =
-      Array.prototype.slice.call(
-        container.querySelectorAll(
-          itemSel
-        )
-      );
-
-    if(items.length < 2){
-      return;
-    }
-
-    var reduceMotion =
-      window.matchMedia &&
-      window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-      ).matches;
-
-    var idx =
-      items.findIndex(function(el){
-        return el.classList.contains(
-          'is-active'
-        );
+  /* ---- bouton "Soumission gratuite" du menu : visible seulement quand le bouton du hero est hors écran ---- */
+  var heroCtaEl = document.getElementById('heroCta');
+  if(heroCtaEl && 'IntersectionObserver' in window){
+    var heroCtaObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        document.body.classList.toggle('show-nav-cta', !entry.isIntersecting);
       });
-
-    if(idx < 0){
-      idx = 0;
-    }
-
-    var timer = null;
-
-    /*
-      Active un élément.
-
-      Pour #formulaCards uniquement :
-      sur mobile, on fait défiler la carte active
-      au centre de l'écran au même moment que
-      le changement de flash/ombre.
-    */
-    function setActive(newIdx){
-
-      if(newIdx === idx){
-        return;
-      }
-
-      items[idx].classList.remove(
-        'is-active'
-      );
-
-      idx = newIdx;
-
-      items[idx].classList.add(
-        'is-active'
-      );
-
-      /*
-        AUTO-SCROLL DU CARROUSEL FORMULES
-        ---------------------------------
-        Uniquement sur mobile et uniquement
-        pour les cartes de formules.
-      */
-      if(
-        container.id === 'formulaCards' &&
-        window.matchMedia(
-          '(max-width:700px)'
-        ).matches
-      ){
-
-        items[idx].scrollIntoView({
-          behavior:'smooth',
-          block:'nearest',
-          inline:'center'
-        });
-      }
-    }
-
-    function advance(){
-      setActive(
-        (idx + 1) % items.length
-      );
-    }
-
-    function start(){
-
-      if(
-        !reduceMotion &&
-        !timer
-      ){
-        timer = setInterval(
-          advance,
-          ms
-        );
-      }
-    }
-
-    function stop(){
-
-      clearInterval(timer);
-      timer = null;
-    }
-
-    /*
-      Cycle automatique initial.
-    */
-    if(!reduceMotion){
-      start();
-    }
-
-    /*
-      Desktop :
-      survol = pause + mise en avant.
-    */
-    container.addEventListener(
-      'mouseleave',
-      start
-    );
-
-    container.addEventListener(
-      'focusout',
-      function(e){
-
-        if(
-          !container.contains(
-            e.relatedTarget
-          )
-        ){
-          start();
-        }
-      }
-    );
-
-    /*
-      Interaction individuelle :
-      hover / focus / clic
-      = arrêt du cycle + activation.
-    */
-    items.forEach(function(item,i){
-
-      item.addEventListener(
-        'mouseenter',
-        function(){
-
-          stop();
-          setActive(i);
-        }
-      );
-
-      item.addEventListener(
-        'focus',
-        function(){
-
-          stop();
-          setActive(i);
-        }
-      );
-
-      item.addEventListener(
-        'click',
-        function(){
-
-          stop();
-          setActive(i);
-        }
-      );
-    });
-
-    /*
-      MOBILE :
-      quand l'utilisateur commence à faire glisser
-      le carrousel avec le doigt/souris, on arrête
-      temporairement le cycle automatique.
-    */
-    if(container.id === 'formulaCards'){
-
-      container.addEventListener(
-        'pointerdown',
-        function(){
-          stop();
-        },
-        {
-          passive:true
-        }
-      );
-
-      container.addEventListener(
-        'pointerup',
-        function(){
-
-          /*
-            Petite temporisation pour laisser le
-            déplacement manuel se terminer avant
-            de relancer le cycle.
-          */
-          setTimeout(function(){
-            start();
-          },800);
-
-        },
-        {
-          passive:true
-        }
-      );
-
-      container.addEventListener(
-        'pointercancel',
-        function(){
-
-          setTimeout(function(){
-            start();
-          },800);
-
-        },
-        {
-          passive:true
-        }
-      );
-    }
+    }, {threshold:0});
+    heroCtaObserver.observe(heroCtaEl);
   }
 
-  /*
-    Étapes :
-    flash automatique uniquement.
-  */
-  autoCycle(
-    '#approchSteps',
-    '.step',
-    3200
-  );
+  /* ---- gentle auto-highlight: steps, formula cards, frequency tiles, one at a time.
+     Hovering, clicking or focusing an item jumps the glow straight to it and pauses
+     the cycle; it resumes once the pointer/focus leaves the whole group. ---- */
+  function autoCycle(containerSel, itemSel, ms){
+    var container = document.querySelector(containerSel);
+    if(!container) return;
+    var items = Array.prototype.slice.call(container.querySelectorAll(itemSel));
+    if(items.length < 2) return;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var idx = items.findIndex(function(el){ return el.classList.contains('is-active'); });
+    if(idx < 0) idx = 0;
+    var timer = null;
+    function setActive(newIdx){
+      if(newIdx === idx) return;
+      items[idx].classList.remove('is-active');
+      idx = newIdx;
+      items[idx].classList.add('is-active');
+    }
+    function advance(){ setActive((idx + 1) % items.length); }
+    function start(){ if(!reduceMotion && !timer) timer = setInterval(advance, ms); }
+    function stop(){ clearInterval(timer); timer = null; }
+    if(!reduceMotion) start();
+    container.addEventListener('mouseleave', start);
+    container.addEventListener('focusout', function(e){
+      if(!container.contains(e.relatedTarget)) start();
+    });
+    items.forEach(function(item, i){
+      item.addEventListener('mouseenter', function(){ stop(); setActive(i); });
+      item.addEventListener('focus', function(){ stop(); setActive(i); });
+      item.addEventListener('click', function(){ stop(); setActive(i); });
+    });
+  }
+  autoCycle('#approchSteps', '.step', 3200);
+  autoCycle('#freqRow', '.freq-tile', 3600);
+  /* ---- légende des zones : la ligne survolée se met en évidence ---- */
+  (function(){
+    var rows = Array.prototype.slice.call(document.querySelectorAll('#zoneLegend .zone-row'));
+    if(!rows.length) return;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var zones = rows.map(function(r){ return r.getAttribute('data-zone'); });
+    var idx = 0;
+    var timer;
+    function applyZone(n){
+      rows.forEach(function(r){ r.classList.toggle('is-active', r.getAttribute('data-zone') === n); });
+    }
+    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+    function start(){ if(!reduceMotion && !timer){ timer = setInterval(function(){ idx = (idx + 1) % zones.length; applyZone(zones[idx]); }, 3600); } }
+    rows.forEach(function(r, i){
+      ['mouseenter','focus','click'].forEach(function(ev){
+        r.addEventListener(ev, function(){ stop(); idx = i; applyZone(zones[i]); });
+      });
+    });
+    applyZone(zones[0]);
+    start();
 
-  /*
-    FORMULES :
-    flash + ombre + défilement automatique
-    sur mobile.
-  */
-  autoCycle(
-    '#formulaCards',
-    '.fcard',
-    4000
-  );
-
-  /*
-    FRÉQUENCES :
-    flash automatique uniquement.
-    La grille 2 × 2 reste fixe.
-  */
-  autoCycle(
-    '#freqRow',
-    '.freq-tile',
-    3600
-  );
+    /* ---- vérificateur de secteur ---- */
+    var checkInput = document.getElementById('zoneCheckInput');
+    var checkBtn = document.getElementById('zoneCheckBtn');
+    var checkResult = document.getElementById('zoneCheckResult');
+    if(checkInput && checkBtn && checkResult){
+      function normalize(s){
+        return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/^st(e)?[\s-]/,'saint$1 ').trim();
+      }
+      var cityMap = [];
+      rows.forEach(function(r){
+        var zone = r.getAttribute('data-zone');
+        var p = r.querySelector('.zone-row-body p');
+        if(!p) return;
+        p.textContent.split(',').forEach(function(part){
+          var name = part.replace(/\(.*?\)/g,'').replace(/\.$/,'').trim();
+          if(name) cityMap.push({ norm: normalize(name), label: name, zone: zone });
+        });
+      });
+      function runCheck(opts){
+        var raw = checkInput.value.trim();
+        var live = opts && opts.live;
+        if(!raw){ checkResult.textContent = ''; checkResult.classList.remove('is-found'); return; }
+        if(live && raw.length < 2){ checkResult.textContent = ''; checkResult.classList.remove('is-found'); return; }
+        var q = normalize(raw);
+        var found = cityMap.find(function(c){ return c.norm === q; })
+          || cityMap.find(function(c){ return c.norm.indexOf(q) !== -1 || q.indexOf(c.norm) !== -1; });
+        if(found){
+          stop();
+          idx = zones.indexOf(found.zone);
+          applyZone(found.zone);
+          var row = rows[idx];
+          var title = row.querySelector('h4').textContent;
+          var price = row.querySelector('.zone-price').textContent;
+          checkResult.innerHTML = found.label + ' se trouve en <b>' + title + '</b> — ' + price + '.';
+          checkResult.classList.add('is-found');
+        } else {
+          checkResult.innerHTML = 'Secteur non reconnu — laissez-nous vos coordonnées dans le <a href="#simulateur" style="color:var(--ink);border-bottom:1px solid var(--gold);text-decoration:none;">simulateur</a>, on confirmera votre zone.';
+          checkResult.classList.remove('is-found');
+        }
+      }
+      checkBtn.addEventListener('click', function(){ runCheck(); });
+      checkInput.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); runCheck(); } });
+      var liveTimer;
+      checkInput.addEventListener('input', function(){
+        clearTimeout(liveTimer);
+        liveTimer = setTimeout(function(){ runCheck({live:true}); }, 350);
+      });
+    }
+  })();
 
 })();
