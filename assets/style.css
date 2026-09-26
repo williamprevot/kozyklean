@@ -631,8 +631,17 @@
 
   #resumePanel{display:none;margin-top:36px;border-top:2px solid var(--gold);padding-top:28px;}
   #resumePanel h3{font-size:20px;}
-  #resumeBody{margin-top:16px;font-size:14.5px;background:var(--cream);border:1px solid var(--line);padding:20px;white-space:pre-wrap;font-family:'Work Sans',sans-serif;line-height:1.7;}
-  .resume-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;}
+  .resume-hint{margin-top:8px;font-size:13px;color:var(--muted);}
+  #resumeBody{margin-top:16px;font-size:14.5px;background:var(--cream);border:1px solid var(--line);padding:20px;white-space:pre-wrap;font-family:'Work Sans',sans-serif;line-height:1.7;cursor:text;border-radius:var(--radius-sm);}
+  #resumeBody:focus{outline:2px solid var(--pine);outline-offset:2px;}
+  .resume-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:20px;}
+  .send-status{margin-top:12px;font-size:14.5px;line-height:1.6;}
+  .send-status.is-ok{color:var(--gold);}
+  .send-status.is-error{color:#E4A0A0;}
+  :root[data-theme="light"] .send-status.is-error{color:#8B3A3A;}
+  .mail-fallback-link{display:inline-block;margin-top:10px;font-size:13px;color:var(--muted);text-decoration:underline;}
+  .mail-fallback-link:hover{color:var(--ink);}
+  #sendQuoteBtn:disabled{opacity:.65;cursor:default;pointer-events:none;}
 
   /* ---------- chargement : nuage d'étincelles (poussière qui scintille) qui tourne,
      affiché le temps de préparer la soumission avant de révéler le résumé ---------- */
@@ -698,6 +707,57 @@
   .reveal{opacity:0;transform:translateY(14px);animation:rise .7s ease forwards;}
   @keyframes rise{to{opacity:1;transform:translateY(0);}}
   @media (prefers-reduced-motion: reduce){ .reveal{animation:none;opacity:1;transform:none;} }
+
+  /* ---------- pop-up de confirmation (fusée) au succès de l'envoi ---------- */
+  .modal-backdrop{
+    position:fixed;inset:0;
+    background:rgba(5,10,7,0.6);
+    backdrop-filter:blur(7px);
+    -webkit-backdrop-filter:blur(7px);
+    z-index:80;
+  }
+  .modal-backdrop[hidden]{display:none;}
+  .success-modal{
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:min(440px,92vw);
+    background:rgba(15,30,23,0.92);
+    backdrop-filter:blur(18px) saturate(150%);
+    -webkit-backdrop-filter:blur(18px) saturate(150%);
+    border:1px solid rgba(217,184,114,0.3);
+    border-radius:var(--radius-lg);
+    box-shadow:0 24px 70px rgba(0,0,0,0.5), inset 0 1px 0 rgba(242,233,216,0.06);
+    padding:48px 36px 40px;
+    text-align:center;
+    z-index:81;
+    animation:modal-pop-in .22s ease both;
+  }
+  .success-modal[hidden]{display:none;}
+  @keyframes modal-pop-in{from{opacity:0;}to{opacity:1;}}
+  .modal-close{
+    position:absolute;top:14px;right:16px;width:34px;height:34px;border-radius:50%;
+    border:none;background:rgba(242,233,216,0.12);color:var(--ink);
+    font-size:1.4rem;line-height:1;cursor:pointer;
+  }
+  .modal-close:hover{background:var(--gold);color:#231a09;}
+  .success-icon{
+    font-size:3rem;line-height:1;margin-bottom:16px;
+    animation:rocket-launch .6s cubic-bezier(.22,.85,.32,1.2) both;
+  }
+  @keyframes rocket-launch{
+    0%{transform:translateY(16px) scale(.6);opacity:0;}
+    65%{transform:translateY(-3px) scale(1.06);opacity:1;}
+    100%{transform:translateY(0) scale(1);opacity:1;}
+  }
+  .success-modal h3{color:var(--gold);font-size:1.5rem;margin-bottom:10px;font-family:'Fraunces',serif;}
+  .success-modal p{color:var(--muted);font-size:15px;line-height:1.6;max-width:34ch;margin:0 auto;}
+  body.modal-open{overflow:hidden;}
+  @media (prefers-reduced-motion: reduce){
+    .success-modal{animation:none;}
+    .success-icon{animation:none;}
+  }
+  @media (max-width:480px){
+    .success-modal{padding:40px 24px 32px;}
+  }
 
 
 @media print {

@@ -8,6 +8,20 @@
   var CONTACT_PHONE_DISPLAY_2 = "581 990-7378";
   var CONTACT_PHONE_TEL_2 = "+15819907378";
 
+  /* ---- EmailJS : envoi automatique des formulaires (voir EMAILJS_README.md) ----
+     Tant que ces 4 valeurs commencent par "COLLEZ_", le site retombe sur
+     l'ancien comportement (lien mailto:) pour ne jamais bloquer un visiteur. */
+  var EMAILJS_PUBLIC_KEY = "COLLEZ_VOTRE_PUBLIC_KEY";
+  var EMAILJS_SERVICE_ID = "COLLEZ_VOTRE_SERVICE_ID";
+  var EMAILJS_TEMPLATE_NOTIF = "COLLEZ_ID_TEMPLATE_NOTIFICATION";     /* envoyé à Kozy & Klean */
+  var EMAILJS_TEMPLATE_AUTOREPLY = "COLLEZ_ID_TEMPLATE_CONFIRMATION"; /* copie envoyée au client */
+
+  var emailjsReady = false;
+  if(window.emailjs && EMAILJS_PUBLIC_KEY.indexOf('COLLEZ_') !== 0){
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    emailjsReady = true;
+  }
+
   document.getElementById('phoneLink').setAttribute('href','tel:'+CONTACT_PHONE_TEL);
   document.getElementById('phoneLink').textContent = CONTACT_PHONE_DISPLAY;
   document.getElementById('phoneLink2').setAttribute('href','tel:'+CONTACT_PHONE_TEL_2);
@@ -350,19 +364,26 @@
     var body = lines.join("\n");
     var mailSubject = "Demande de soumission de " + nom;
 
-    /* ---- petit chargement (étincelles qui tournent) le temps de "préparer"
-       la soumission, pour adoucir la transition avant d'afficher le résumé ---- */
+    /* on mémorise ce qu'il faut pour l'envoi réel, déclenché plus tard par le
+       bouton "Envoyer ma soumission" — la cliente peut d'abord
+       relire et corriger le résumé affiché. */
+    lastSubmission = { nom: nom, tel: tel, indicatif: indicatif, courriel: courriel, subject: mailSubject };
+
     wizSubmit.disabled = true;
     var loadingOverlay = document.getElementById('loadingOverlay');
     if(loadingOverlay) loadingOverlay.hidden = false;
 
+    /* petit temps de "préparation" (étincelles) avant de révéler le résumé éditable */
     window.setTimeout(function(){
       resumeBody.textContent = body;
-      document.getElementById('mailBtn').setAttribute('href',
-        "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(mailSubject) + "&body=" + encodeURIComponent(body));
+      resetSendState();
 
       if(loadingOverlay) loadingOverlay.hidden = true;
-      wizSubmit.disabled = false;
+
+      /* "Recevoir ma soumission" a fait son travail : on le masque pour ne
+         pas laisser un bouton qui ne fait plus rien de nouveau. "Précédent"
+         reste visible pour permettre de retourner corriger une étape. */
+      wizSubmit.hidden = true;
 
       resumePanel.style.display = 'block';
       resumePanel.classList.remove('reveal');
@@ -374,8 +395,110 @@
     }, 950);
   });
 
-  document.getElementById('printBtn').addEventListener('click', function(){
-    window.print();
+  /* ---- envoi réel de la soumission (bouton dédié, déclenché manuellement) ----
+     Le texte envoyé est celui affiché dans #resumeBody au moment du clic, donc
+     toute correction faite par la cliente avant l'envoi est bien prise en compte. */
+  var sendQuoteBtn = document.getElementById('sendQuoteBtn');
+  var sendStatus = document.getElementById('sendStatus');
+  var mailFallbackLink = document.getElementById('mailFallbackLink');
+  var lastSubmission = null;
+  var quoteSent = false;
+
+  /* ---- pop-up de confirmation (fusée) ---- */
+  var successBackdrop = document.getElementById('successBackdrop');
+  var successModal = document.getElementById('successModal');
+  var successModalClose = document.getElementById('successModalClose');
+  var successModalText = document.getElementById('successModalText');
+
+  function openSuccessModal(message){
+    successModalText.textContent = message;
+    successBackdrop.hidden = false;
+    successModal.hidden = false;
+    document.body.classList.add('modal-open');
+  }
+  function closeSuccessModal(){
+    successBackdrop.hidden = true;
+    successModal.hidden = true;
+    document.body.classList.remove('modal-open');
+  }
+  successModalClose.addEventListener('click', closeSuccessModal);
+  successBackdrop.addEventListener('click', closeSuccessModal);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && !successModal.hidden) closeSuccessModal();
+  });
+
+  function resetSendState(){
+    quoteSent = false;
+    sendQuoteBtn.disabled = false;
+    sendQuoteBtn.textContent = 'Envoyer ma soumission';
+    sendStatus.className = 'send-status';
+    sendStatus.innerHTML = '';
+    mailFallbackLink.hidden = true;
+    closeSuccessModal();
+  }
+
+  /* si la cliente modifie le résumé après un envoi réussi, on réautorise l'envoi
+     (pour qu'elle puisse renvoyer la version corrigée) */
+  resumeBody.addEventListener('input', function(){
+    if(quoteSent) resetSendState();
+  });
+
+  sendQuoteBtn.addEventListener('click', function(){
+    if(!lastSubmission || sendQuoteBtn.disabled) return;
+
+    var finalBody = resumeBody.innerText.trim();
+    var courriel = lastSubmission.courriel;
+    var tel = lastSubmission.tel;
+    var indicatif = lastSubmission.indicatif;
+    var subject = lastSubmission.subject;
+
+    function offerMailFallback(){
+      mailFallbackLink.hidden = false;
+      mailFallbackLink.setAttribute('href',
+        "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(finalBody));
+    }
+
+    sendQuoteBtn.disabled = true;
+    sendQuoteBtn.textContent = 'Envoi en cours...';
+    sendStatus.className = 'send-status';
+    sendStatus.innerHTML = '';
+    mailFallbackLink.hidden = true;
+
+    if(!emailjsReady){
+      /* EmailJS pas encore configuré (voir EMAILJS_README.md) : on retombe sur le mailto */
+      offerMailFallback();
+      sendStatus.className = 'send-status is-error';
+      sendStatus.innerHTML = "L'envoi automatique n'est pas encore branché sur ce site. Utilisez le lien ci-dessous pour l'instant.";
+      sendQuoteBtn.disabled = false;
+      sendQuoteBtn.textContent = 'Envoyer ma soumission';
+      return;
+    }
+
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_NOTIF, {
+      subject: subject,
+      message: finalBody
+    }).then(function(){
+      if(courriel){
+        return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_AUTOREPLY, {
+          email: courriel,
+          to_name: lastSubmission.nom,
+          message: finalBody
+        });
+      }
+    }).then(function(){
+      quoteSent = true;
+      sendQuoteBtn.textContent = '✓ Soumission envoyée';
+      var okMsg = courriel
+        ? "Une copie vous a été transmise à " + courriel + "."
+        : "Nous vous recontacterons au " + (indicatif ? indicatif + " " : "") + tel + ".";
+      openSuccessModal(okMsg);
+    }).catch(function(){
+      sendQuoteBtn.disabled = false;
+      sendQuoteBtn.textContent = "Réessayer l'envoi";
+      sendStatus.className = 'send-status is-error';
+      sendStatus.innerHTML = "L'envoi automatique n'a pas fonctionné. Vous pouvez réessayer, ou utiliser le lien ci-dessous.";
+      offerMailFallback();
+    });
   });
 
   /* ---- quick message box ---- */
@@ -388,7 +511,27 @@
       return;
     }
     var body = "Message rapide du site Kozy & Klean\n\nNom : " + nom + "\nCoordonnées : " + contact + "\n\nMessage :\n" + msg;
-    window.location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Message rapide de " + nom) + "&body=" + encodeURIComponent(body);
+    var subject = "Message rapide de " + nom;
+    var qBtn = document.getElementById('qSend');
+
+    if(!emailjsReady){
+      window.location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+      return;
+    }
+
+    qBtn.disabled = true;
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_NOTIF, { subject: subject, message: body })
+      .then(function(){
+        qBtn.disabled = false;
+        alert("Message envoyé, merci ! On vous recontacte bientôt.");
+        document.getElementById('qNom').value = '';
+        document.getElementById('qTel').value = '';
+        document.getElementById('qMsg').value = '';
+      })
+      .catch(function(){
+        qBtn.disabled = false;
+        window.location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+      });
   });
 
   /* ---- "Ce que l'on fait" : onglets + carrousel des catégories de services ---- */

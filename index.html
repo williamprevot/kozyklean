@@ -200,7 +200,7 @@
       <div class="sec-head">
         <div class="eyebrow">Notre approche</div>
         <h2>Clé en main.</h2>
-        <p>Pas de forfait imposé, une formule qui vous ressemble.</p>
+        <p>Pas de forfait imposé, on construit la formule qui vous ressemble.</p>
       </div>
       <div class="steps" id="approchSteps">
         <a href="#simulateur" class="step is-active" tabindex="0">
@@ -211,12 +211,12 @@
         <div class="step" tabindex="0">
           <div class="step-num">02</div>
           <h4>On vous rappelle</h4>
-          <p>Pour préciser vos besoins et finaliser votre formule.</p>
+          <p>Pour préciser vos besoins et construire votre formule.</p>
         </div>
         <div class="step" tabindex="0">
           <div class="step-num">03</div>
           <h4>On intervient</h4>
-          <p>Que vous soyez présent ou non.</p>
+          <p>La même équipe à chaque fois.</p>
         </div>
         <div class="step" tabindex="0">
           <div class="step-num">04</div>
@@ -233,7 +233,7 @@
       <div class="sec-head center">
         <div class="eyebrow">Zone desservie</div>
         <h2>Basée à Sainte-Foy, on vient jusqu'à vous.</h2>
-        <p>À la maison comme au bureau, partout dans le Grand Québec. Pour un minimum d'une heure facturée par visite, une légère indemnité peut s'appliquer.</p>
+        <p>À la maison comme au bureau, partout dans le Grand Québec. Pour un minimum d'une heure facturée par visite, une légère indemnité s'applique.</p>
       </div>
 
       <div class="zone-checker">
@@ -253,7 +253,7 @@
       <div class="sec-head center">
         <div class="eyebrow">Demande de soumission</div>
         <h2>Votre soumission en 5 étapes.</h2>
-        <p>Simplicité et efficacité , tenez-vous prêt à recevoir votre contrat !</p>
+        <p>Simplicité et efficacité : une soumission façonnée par vous, prête à devenir votre contrat.</p>
       </div>
 
       <div class="atelier">
@@ -424,11 +424,13 @@
         <div id="resumePanel">
           <div class="eyebrow">Votre demande</div>
           <h3>Voici le résumé de votre demande</h3>
-          <div id="resumeBody"></div>
+          <p class="resume-hint">Vous pouvez corriger un détail directement dans le texte ci-dessous avant l'envoi.</p>
+          <div id="resumeBody" contenteditable="true" spellcheck="false"></div>
           <div class="resume-actions">
-            <a id="mailBtn" href="#" class="btn btn-primary">Envoyer par courriel</a>
-            <button type="button" id="printBtn" class="btn btn-ghost">Imprimer / enregistrer</button>
+            <button type="button" id="sendQuoteBtn" class="btn btn-primary">Envoyer ma soumission</button>
           </div>
+          <div id="sendStatus" class="send-status" aria-live="polite"></div>
+          <a id="mailFallbackLink" href="#" class="mail-fallback-link" hidden>Envoyer par courriel classique à la place</a>
         </div>
       </div>
     </div>
@@ -486,7 +488,17 @@
   <div class="copyright-bar">&copy; Kozy &amp; Klean <span id="copyYear">2026</span></div>
 </footer>
 
+<div class="modal-backdrop" id="successBackdrop" hidden></div>
+<div class="success-modal" id="successModal" hidden role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+  <button type="button" class="modal-close" id="successModalClose" aria-label="Fermer">&times;</button>
+  <div class="success-screen">
+    <div class="success-icon">🚀</div>
+    <h3 id="successModalTitle">Soumission envoyée !</h3>
+    <p id="successModalText"></p>
+  </div>
+</div>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="assets/script.js"></script>
 </body>
 </html>
