@@ -2,7 +2,7 @@
   "use strict";
 
   /* ---- placeholders à confirmer par la cliente ---- */
-  var CONTACT_EMAIL = "info@kozyklean.ca";
+  var CONTACT_EMAIL = "kozyklean.info@gmail.com";
   var CONTACT_PHONE_DISPLAY = "418 573-1793";
   var CONTACT_PHONE_TEL = "+14185731793";
   var CONTACT_PHONE_DISPLAY_2 = "581 990-7378";
@@ -11,15 +11,39 @@
   /* ---- EmailJS : envoi automatique des formulaires (voir EMAILJS_README.md) ----
      Tant que ces 4 valeurs commencent par "COLLEZ_", le site retombe sur
      l'ancien comportement (lien mailto:) pour ne jamais bloquer un visiteur. */
-  var EMAILJS_PUBLIC_KEY = "COLLEZ_VOTRE_PUBLIC_KEY";
-  var EMAILJS_SERVICE_ID = "COLLEZ_VOTRE_SERVICE_ID";
-  var EMAILJS_TEMPLATE_NOTIF = "COLLEZ_ID_TEMPLATE_NOTIFICATION";     /* envoyé à Kozy & Klean */
-  var EMAILJS_TEMPLATE_AUTOREPLY = "COLLEZ_ID_TEMPLATE_CONFIRMATION"; /* copie envoyée au client */
+  var EMAILJS_PUBLIC_KEY = "CLPYUUArp93rNVqgy";
+  var EMAILJS_SERVICE_ID = "service_rwamaur";
+  var EMAILJS_TEMPLATE_NOTIF = "template_w8n3cbr";     /* envoyé à Kozy & Klean */
+  var EMAILJS_TEMPLATE_AUTOREPLY = "template_4fe9y4g"; /* copie envoyée au client */
 
   var emailjsReady = false;
   if(window.emailjs && EMAILJS_PUBLIC_KEY.indexOf('COLLEZ_') !== 0){
     emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
     emailjsReady = true;
+  }
+
+  /* ---- numéro de référence ----
+     Généré côté client (pas de serveur/BD), visible dès l'ouverture du courriel
+     par la conciergerie : format KK-SAAMMJJ-NNNN ou KK-MAAMMJJ-NNNN (lettre de
+     type + date + 4 chiffres aléatoires), lisible et pratique à noter/retrouver
+     dans les échanges avec la cliente. Le "S" marque une vraie soumission
+     (assistant en 5 étapes), le "M" un message rapide (formulaire de contact). */
+  function pad2(n){ return (n < 10 ? '0' : '') + n; }
+  function generateQuoteId(type){
+    var d = new Date();
+    var datePart = String(d.getFullYear()).slice(-2) + pad2(d.getMonth() + 1) + pad2(d.getDate());
+    var randPart = Math.floor(1000 + Math.random() * 9000);
+    return 'KK-' + type + datePart + '-' + randPart;
+  }
+
+  /* ---- horodatage lisible de la demande, en français ----
+     Affiché sur la première ligne des deux courriels, pour dater la demande
+     au moment précis de l'envoi (pas seulement la date incluse dans le n° de
+     soumission, qui n'a pas l'heure). */
+  var MOIS_FR = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  function formatQuoteTimestamp(){
+    var d = new Date();
+    return d.getDate() + ' ' + MOIS_FR[d.getMonth()] + ' ' + d.getFullYear() + ' à ' + pad2(d.getHours()) + ' h ' + pad2(d.getMinutes());
   }
 
   document.getElementById('phoneLink').setAttribute('href','tel:'+CONTACT_PHONE_TEL);
@@ -241,6 +265,46 @@
     var field = document.getElementById(fieldId);
     if(field) field.classList.toggle('has-error', hasError);
   }
+
+  /* ---- suggestion de correction sur les domaines de courriel courants ----
+     N'empêche jamais l'envoi — avertit seulement des fautes de frappe fréquentes
+     (gnail.com, gmial.com, hotmial.com...) avant qu'elles ne causent un rebond
+     comme "adresse introuvable" une fois le courriel parti. */
+  var COMMON_EMAIL_DOMAINS = [
+    'gmail.com','hotmail.com','outlook.com','yahoo.com','icloud.com',
+    'live.com','msn.com','aol.com','videotron.ca','bell.net','sympatico.ca'
+  ];
+  function levenshtein(a, b){
+    var m = a.length, n = b.length;
+    var d = [];
+    for(var i = 0; i <= m; i++) d[i] = [i];
+    for(var j = 0; j <= n; j++) d[0][j] = j;
+    for(i = 1; i <= m; i++){
+      for(j = 1; j <= n; j++){
+        d[i][j] = a.charAt(i-1) === b.charAt(j-1)
+          ? d[i-1][j-1]
+          : 1 + Math.min(d[i-1][j-1], d[i-1][j], d[i][j-1]);
+      }
+    }
+    return d[m][n];
+  }
+  function suggestEmailDomain(email){
+    var at = email.lastIndexOf('@');
+    if(at < 1 || at === email.length - 1) return null;
+    var local = email.slice(0, at);
+    var domain = email.slice(at + 1).toLowerCase();
+    if(COMMON_EMAIL_DOMAINS.indexOf(domain) !== -1) return null;
+    var best = null, bestDist = 3;
+    COMMON_EMAIL_DOMAINS.forEach(function(known){
+      var dist = levenshtein(domain, known);
+      /* on ignore les domaines trop courts pour éviter les faux positifs
+         (une distance de 1-2 sur "aol.com" changerait presque n'importe quoi) */
+      if(dist > 0 && dist < bestDist && known.length >= 5){
+        best = known; bestDist = dist;
+      }
+    });
+    return best ? local + '@' + best : null;
+  }
   function validateCoordonnees(){
     var nom = document.getElementById('nom').value.trim();
     var tel = document.getElementById('tel').value.trim();
@@ -260,16 +324,32 @@
     var v = this.value.trim();
     setFieldError('telField', !!v && !isValidPhone(v, indicatifSelect.value));
   });
+  var courrielSuggestEl = document.getElementById('courrielSuggest');
+  function updateCourrielSuggestion(){
+    if(!courrielSuggestEl) return;
+    var v = courrielInput.value.trim();
+    var suggestion = (v && isValidEmail(v)) ? suggestEmailDomain(v) : null;
+    if(suggestion){
+      courrielSuggestEl.textContent = "Vouliez-vous dire " + suggestion + " ?";
+      courrielSuggestEl.dataset.suggestion = suggestion;
+      courrielSuggestEl.hidden = false;
+    } else {
+      courrielSuggestEl.hidden = true;
+    }
+  }
   if(courrielInput) courrielInput.addEventListener('blur', function(){
     var v = this.value.trim();
     setFieldError('courrielField', !!v && !isValidEmail(v));
+    updateCourrielSuggestion();
   });
-
-  function stepOk(n){
-    if(n === 1){
-      return validateCoordonnees().ok;
-    }
-    return true;
+  if(courrielSuggestEl){
+    courrielSuggestEl.addEventListener('click', function(){
+      if(this.dataset.suggestion){
+        courrielInput.value = this.dataset.suggestion;
+        this.hidden = true;
+        setFieldError('courrielField', false);
+      }
+    });
   }
 
   wizNext.addEventListener('click', function(){
@@ -296,6 +376,19 @@
   var form = document.getElementById('quoteForm');
   var resumePanel = document.getElementById('resumePanel');
   var resumeBody = document.getElementById('resumeBody');
+  var loadingOverlay = document.getElementById('loadingOverlay');
+  var loadingOverlayText = loadingOverlay ? loadingOverlay.querySelector('p') : null;
+  var LOADING_TEXT_PREP = 'Préparation de votre soumission...';
+  var LOADING_TEXT_SEND = 'Envoi de votre soumission...';
+  var LOADING_TEXT_MSG = 'Envoi de votre message...';
+  function showLoadingOverlay(text){
+    if(!loadingOverlay) return;
+    if(loadingOverlayText) loadingOverlayText.textContent = text;
+    loadingOverlay.hidden = false;
+  }
+  function hideLoadingOverlay(){
+    if(loadingOverlay) loadingOverlay.hidden = true;
+  }
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
@@ -339,46 +432,51 @@
 
     var zoneNum = kkZoneForCity(ville) || 1;
     var zoneTxt = ZONE_NOTES[zoneNum];
+    var quoteId = generateQuoteId('S');
+    var timestampTxt = formatQuoteTimestamp();
 
-    var lines = [];
-    lines.push("Kozy & Klean : nouvelle demande de soumission");
-    lines.push("");
-    lines.push("Nom : " + nom);
-    if(tel) lines.push("Téléphone : " + (indicatif ? indicatif + " " : "") + tel);
-    if(courriel) lines.push("Courriel : " + courriel);
-    lines.push("");
-    if(interets.length) lines.push("Services qui l'intéressent : " + interets.join(", "));
-    lines.push("Précisions exprimées : " + (attentes || "Non précisées — à discuter ensemble."));
-    lines.push("");
-    if(adresse) lines.push("Adresse : " + adresse + (appartement ? ", " + appartement : ""));
-    if(ville) lines.push("Ville : " + ville + (codePostal ? " (" + codePostal + ")" : ""));
-    lines.push(zoneTxt);
-    lines.push("Type de résidence : " + typeResidenceTxt + " · " + chambres + " ch. · " + sdb + " sdb.");
-    lines.push("");
-    lines.push("Fréquence souhaitée : " + frequenceTxt);
-    if(dateDebut) lines.push("Date de début souhaitée : " + dateDebut);
-    if(notes) lines.push("Précisions additionnelles : " + notes);
-    lines.push("");
-    lines.push("La cliente autorise Kozy & Klean à la contacter pour finaliser la soumission et le contrat de service.");
+    /* ---- "coeur" du résumé : la seule partie éditable, et la seule que les deux
+       courriels ont en commun. Ni le nom, ni le courriel, ni la ligne de zone/
+       tarification, ni la phrase de consentement n'y figurent — ces éléments sont
+       du ressort de la conciergerie et sont ajoutés séparément (voir plus bas,
+       buildBusinessBody) uniquement autour du texte que la cliente a sous les yeux.
+       Résultat : toute correction faite dans le résumé éditable se répercute
+       automatiquement dans les DEUX courriels, puisqu'ils partagent ce même texte. */
+    var coreLines = [];
+    coreLines.push("N° de soumission : " + quoteId);
+    if(tel){
+      coreLines.push("");
+      coreLines.push("Téléphone : " + (indicatif ? indicatif + " " : "") + tel);
+    }
+    coreLines.push("");
+    if(interets.length) coreLines.push("Services qui vous intéressent : " + interets.join(", "));
+    coreLines.push("Précisions exprimées : " + (attentes || "Non précisées — à discuter ensemble."));
+    coreLines.push("");
+    if(adresse) coreLines.push("Adresse : " + adresse + (appartement ? ", " + appartement : ""));
+    if(ville) coreLines.push("Ville : " + ville + (codePostal ? " (" + codePostal + ")" : ""));
+    coreLines.push("Type de résidence : " + typeResidenceTxt + " · " + chambres + " ch. · " + sdb + " sdb.");
+    coreLines.push("");
+    coreLines.push("Fréquence souhaitée : " + frequenceTxt);
+    if(dateDebut) coreLines.push("Date de début souhaitée : " + dateDebut);
+    if(notes) coreLines.push("Précisions additionnelles : " + notes);
+    var coreBody = coreLines.join("\n");
 
-    var body = lines.join("\n");
-    var mailSubject = "Demande de soumission de " + nom;
+    var mailSubject = "Demande de soumission #" + quoteId + " — " + nom;
 
     /* on mémorise ce qu'il faut pour l'envoi réel, déclenché plus tard par le
        bouton "Envoyer ma soumission" — la cliente peut d'abord
        relire et corriger le résumé affiché. */
-    lastSubmission = { nom: nom, tel: tel, indicatif: indicatif, courriel: courriel, subject: mailSubject };
+    lastSubmission = { nom: nom, tel: tel, indicatif: indicatif, courriel: courriel, subject: mailSubject, quoteId: quoteId, zoneTxt: zoneTxt, timestampTxt: timestampTxt };
 
     wizSubmit.disabled = true;
-    var loadingOverlay = document.getElementById('loadingOverlay');
-    if(loadingOverlay) loadingOverlay.hidden = false;
+    showLoadingOverlay(LOADING_TEXT_PREP);
 
     /* petit temps de "préparation" (étincelles) avant de révéler le résumé éditable */
     window.setTimeout(function(){
-      resumeBody.textContent = body;
+      resumeBody.textContent = coreBody;
       resetSendState();
 
-      if(loadingOverlay) loadingOverlay.hidden = true;
+      hideLoadingOverlay();
 
       /* "Recevoir ma soumission" a fait son travail : on le masque pour ne
          pas laisser un bouton qui ne fait plus rien de nouveau. "Précédent"
@@ -409,8 +507,12 @@
   var successModal = document.getElementById('successModal');
   var successModalClose = document.getElementById('successModalClose');
   var successModalText = document.getElementById('successModalText');
+  var successModalTitle = document.getElementById('successModalTitle');
+  var successModalIcon = document.getElementById('successModalIcon');
 
-  function openSuccessModal(message){
+  function openSuccessModal(message, title, icon){
+    successModalTitle.textContent = title || 'Soumission envoyée !';
+    successModalIcon.textContent = icon || '🚀';
     successModalText.textContent = message;
     successBackdrop.hidden = false;
     successModal.hidden = false;
@@ -446,16 +548,38 @@
   sendQuoteBtn.addEventListener('click', function(){
     if(!lastSubmission || sendQuoteBtn.disabled) return;
 
-    var finalBody = resumeBody.innerText.trim();
+    /* le "coeur" du résumé, tel que la cliente le voit et l'a corrigé au besoin */
+    var core = resumeBody.innerText.trim();
     var courriel = lastSubmission.courriel;
     var tel = lastSubmission.tel;
     var indicatif = lastSubmission.indicatif;
     var subject = lastSubmission.subject;
 
+    /* on habille ce même coeur différemment selon le destinataire : la
+       conciergerie reçoit en plus le nom, le courriel, la zone/tarification
+       et la phrase de consentement ; le client ne reçoit que le coeur.
+       Comme les deux s'appuient sur "core", toute correction faite dans le
+       résumé éditable apparaît dans les deux courriels. */
+    function buildBusinessBody(){
+      var parts = ["Kozy & Klean : nouvelle demande de soumission — " + lastSubmission.timestampTxt, ""];
+      parts.push("Nom : " + lastSubmission.nom);
+      if(courriel) parts.push("Courriel : " + courriel);
+      parts.push("");
+      parts.push(core);
+      parts.push("");
+      parts.push(lastSubmission.zoneTxt);
+      parts.push("");
+      parts.push("La cliente autorise Kozy & Klean à la contacter pour finaliser la soumission et le contrat de service.");
+      return parts.join("\n");
+    }
+    function buildClientBody(){
+      return "Kozy & Klean : votre demande de soumission — " + lastSubmission.timestampTxt + "\n\n" + core;
+    }
+
     function offerMailFallback(){
       mailFallbackLink.hidden = false;
       mailFallbackLink.setAttribute('href',
-        "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(finalBody));
+        "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(buildBusinessBody()));
     }
 
     sendQuoteBtn.disabled = true;
@@ -474,25 +598,33 @@
       return;
     }
 
+    showLoadingOverlay(LOADING_TEXT_SEND);
+
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_NOTIF, {
       subject: subject,
-      message: finalBody
+      quote_id: lastSubmission.quoteId,
+      client_name: lastSubmission.nom,
+      message: buildBusinessBody()
     }).then(function(){
       if(courriel){
         return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_AUTOREPLY, {
           email: courriel,
           to_name: lastSubmission.nom,
-          message: finalBody
+          client_name: lastSubmission.nom,
+          quote_id: lastSubmission.quoteId,
+          message: buildClientBody()
         });
       }
     }).then(function(){
+      hideLoadingOverlay();
       quoteSent = true;
       sendQuoteBtn.textContent = '✓ Soumission envoyée';
-      var okMsg = courriel
-        ? "Une copie vous a été transmise à " + courriel + "."
-        : "Nous vous recontacterons au " + (indicatif ? indicatif + " " : "") + tel + ".";
+      var okMsg = "Votre soumission n° " + lastSubmission.quoteId + " " + (courriel
+        ? "vous a été transmise à " + courriel + "."
+        : "a été reçue. Nous vous recontacterons au " + (indicatif ? indicatif + " " : "") + tel + ".");
       openSuccessModal(okMsg);
     }).catch(function(){
+      hideLoadingOverlay();
       sendQuoteBtn.disabled = false;
       sendQuoteBtn.textContent = "Réessayer l'envoi";
       sendStatus.className = 'send-status is-error';
@@ -510,8 +642,9 @@
       alert("Merci d'indiquer votre nom, un moyen de vous joindre et votre message.");
       return;
     }
-    var body = "Message rapide du site Kozy & Klean\n\nNom : " + nom + "\nCoordonnées : " + contact + "\n\nMessage :\n" + msg;
-    var subject = "Message rapide de " + nom;
+    var msgId = generateQuoteId('M');
+    var body = "Kozy & Klean : nouveau message rapide — " + formatQuoteTimestamp() + "\n\nN° de référence : " + msgId + "\n\nNom : " + nom + "\nCoordonnées : " + contact + "\n\nMessage :\n" + msg;
+    var subject = "Message rapide #" + msgId + " — " + nom;
     var qBtn = document.getElementById('qSend');
 
     if(!emailjsReady){
@@ -520,15 +653,22 @@
     }
 
     qBtn.disabled = true;
-    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_NOTIF, { subject: subject, message: body })
+    showLoadingOverlay(LOADING_TEXT_MSG);
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_NOTIF, { subject: subject, quote_id: msgId, client_name: nom, message: body })
       .then(function(){
+        hideLoadingOverlay();
         qBtn.disabled = false;
-        alert("Message envoyé, merci ! On vous recontacte bientôt.");
+        openSuccessModal(
+          "Votre message n° " + msgId + " a été transmis. On vous recontacte bientôt.",
+          "Message envoyé !",
+          "🚀"
+        );
         document.getElementById('qNom').value = '';
         document.getElementById('qTel').value = '';
         document.getElementById('qMsg').value = '';
       })
       .catch(function(){
+        hideLoadingOverlay();
         qBtn.disabled = false;
         window.location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
       });

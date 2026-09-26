@@ -30,7 +30,7 @@
   "image": "https://williamprevot.github.io/kozyklean/og-image.jpg",
   "url": "https://williamprevot.github.io/kozyklean/",
   "telephone": "+14185731793",
-  "email": "info@kozyklean.ca",
+  "email": "kozyklean.info@gmail.com",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Sainte-Foy",
@@ -275,9 +275,10 @@
                   <select id="indicatif" class="indicatif-input" aria-label="Indicatif pays"></select>
                   <input type="tel" id="tel" autocomplete="tel" placeholder="418 000-0000">
                 </div>
+                <span class="field-hint">Optionnel si courriel fourni</span>
                 <span class="field-error" id="telError">Numéro de téléphone invalide.</span>
               </div>
-              <div class="field" id="courrielField"><label for="courriel">Courriel</label><input type="email" id="courriel" autocomplete="email" placeholder="vous@courriel.com"><span class="field-hint">Optionnel si téléphone fourni</span><span class="field-error" id="courrielError">Adresse courriel invalide (ex. vous@courriel.com).</span></div>
+              <div class="field" id="courrielField"><label for="courriel">Courriel</label><input type="email" id="courriel" autocomplete="email" placeholder="vous@courriel.com"><span class="field-hint field-suggest" id="courrielSuggest" hidden></span><span class="field-error" id="courrielError">Adresse courriel invalide (ex. vous@courriel.com).</span></div>
             </div>
           </div>
 
@@ -402,7 +403,7 @@
             </label>
           </div>
 
-          <div class="wizard-nav">
+          <div class="wizard-nav" id="wizardNav">
             <button type="button" id="wizBack" class="btn btn-ghost" disabled>← Précédent</button>
             <button type="button" id="wizNext" class="btn btn-primary">Suivant →</button>
             <button type="submit" id="wizSubmit" class="btn btn-primary" hidden>Recevoir ma soumission</button>
@@ -451,7 +452,7 @@
           </div>
           <div class="contact-row">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>
-            <div><h4>Courriel</h4><p><a id="emailLink" href="mailto:info@kozyklean.ca">info@kozyklean.ca</a></p></div>
+            <div><h4>Courriel</h4><p><a id="emailLink" href="mailto:kozyklean.info@gmail.com">kozyklean.info@gmail.com</a></p></div>
           </div>
           <div class="contact-row">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
@@ -492,7 +493,7 @@
 <div class="success-modal" id="successModal" hidden role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
   <button type="button" class="modal-close" id="successModalClose" aria-label="Fermer">&times;</button>
   <div class="success-screen">
-    <div class="success-icon">🚀</div>
+    <div class="success-icon" id="successModalIcon">🚀</div>
     <h3 id="successModalTitle">Soumission envoyée !</h3>
     <p id="successModalText"></p>
   </div>
