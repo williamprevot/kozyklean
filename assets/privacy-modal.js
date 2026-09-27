@@ -4,11 +4,13 @@
    • Tout lien vers la page de politique (pied de page, avis sous les
      formulaires, bannière de consentement) ouvre la politique dans une
      fenêtre par-dessus le site, au lieu de quitter la page.
-   • Le contenu est lu directement dans la page de politique de la bonne
-     langue (confidentialite.html, en/privacy.html, es/privacidad.html) :
-     une seule source à tenir à jour.
-   • Si la fenêtre ne peut pas s'ouvrir (ex. site ouvert en fichier local),
-     le lien mène simplement à la page, comme avant.
+   • Le texte vient du bloc <template id="privacy-content"> placé dans
+     chaque page d'accueil (FR / EN / ES) : ça marche en ligne ET en local
+     (fichier ouvert directement dans le navigateur).
+     Ce texte est le même que celui des pages confidentialite.html,
+     en/privacy.html et es/privacidad.html : modifier les deux ensemble.
+   • Sans ce bloc, le texte est lu dans la page de politique (en ligne
+     seulement); si rien ne marche, le lien mène à la page, comme avant.
    • Ctrl/Cmd + clic garde le comportement normal (nouvel onglet).
    ========================================================================= */
 (function(){
@@ -62,6 +64,12 @@
 
   function load(){
     if(loaded) return Promise.resolve();
+    var tpl = document.getElementById('privacy-content');
+    if(tpl && tpl.innerHTML.trim()){
+      content.innerHTML = tpl.innerHTML;
+      loaded = true;
+      return Promise.resolve();
+    }
     if(loading) return loading;
     loading = fetch(POLICY_URL, { credentials: 'same-origin' })
       .then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })

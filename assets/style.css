@@ -949,3 +949,8 @@
     .privacy-modal-body{padding:calc(56px + env(safe-area-inset-top,0px)) 20px calc(32px + env(safe-area-inset-bottom,0px));}
   }
   @media (prefers-reduced-motion: reduce){ .privacy-modal{animation:none;} }
+
+  /* politique : titres de chaque point en or */
+  .legal li > strong,.legal-card strong{color:var(--gold);}
+  .legal a.btn{border-bottom-color:transparent;}
+  .legal a.btn-primary{color:#231a09;}
