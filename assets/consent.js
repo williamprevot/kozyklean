@@ -21,7 +21,7 @@
         (une dizaine de lettres/chiffres, ex. "abc123xyz0").
         Tant que la valeur commence par "COLLEZ_", la bannière s'affiche
         quand même mais aucun outil n'est chargé. */
-  var CLARITY_PROJECT_ID = "COLLEZ_VOTRE_ID_CLARITY";
+  var CLARITY_PROJECT_ID = "yp37qjbn4h";
 
   var STORAGE_KEY = "kk_consent";
   var CONSENT_VERSION = 1;
