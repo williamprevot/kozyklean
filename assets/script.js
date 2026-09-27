@@ -573,7 +573,7 @@
       return parts.join("\n");
     }
     function buildClientBody(){
-      return "Kozy & Klean : votre demande de soumission — " + lastSubmission.timestampTxt + "\n\n" + core;
+      return core;
     }
 
     function offerMailFallback(){
