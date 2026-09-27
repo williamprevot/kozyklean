@@ -109,7 +109,7 @@ Dans le dépôt sur GitHub : **Settings → Pages**, choisir la branche `main` e
 
 *(à compléter une fois le site déployé sur Netlify ou un domaine personnalisé)*
 
-## 👨‍💻 Auteur
+## 📇 Contact
 
-**William Prevot**
-📧 [prevotgw@gmail.com](mailto:prevotgw@gmail.com)
+**Kozy & Klean Conciergerie Nomade**
+📧 [kozyklean.info@gmail.com](mailto:kozyklean.info@gmail.com)
