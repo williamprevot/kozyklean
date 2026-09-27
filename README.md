@@ -39,7 +39,8 @@ kozy-klean-site/
 ├── assets/
 │   ├── style.css        → toute l'apparence (couleurs, mise en page, animations)
 │   ├── script.js         → toute la logique (menu, simulateur, validations, effets dynamiques)
-│   └── consent.js        → bannière de consentement (Loi 25) + Microsoft Clarity
+│   ├── consent.js        → bannière de consentement (Loi 25) + Microsoft Clarity
+│   └── privacy-modal.js  → politique de confidentialité en fenêtre déroulante
 ├── confidentialite.html → politique de confidentialité (FR) — en/privacy.html, es/privacidad.html
 ├── favicon.svg          → l'icône du site (onglet du navigateur)
 ├── og-image.jpg         → l'image affichée quand le site est partagé sur Facebook/LinkedIn/etc.
@@ -117,6 +118,7 @@ Le site mesure les visites avec **Microsoft Clarity** (gratuit, sans limite de t
 
 * `assets/consent.js` → bannière de consentement + chargement de Clarity **seulement après « Accepter »**
 * `confidentialite.html`, `en/privacy.html`, `es/privacidad.html` → politique de confidentialité (obligatoire, Loi 25 art. 8.2)
+* `assets/privacy-modal.js` → ouvre la politique dans une fenêtre déroulante par-dessus le site (le contenu est lu dans la page de politique de la bonne langue : une seule source à tenir à jour)
 * `assets/style.css` → section « Confidentialité (Loi 25) » en fin de fichier
 * `index.html`, `en/index.html`, `es/index.html` → liens du pied de page, avis sous les formulaires, masquage `data-clarity-mask="True"` des zones contenant des renseignements personnels
 
