@@ -267,7 +267,7 @@
         <p>Simplicidad y eficacia: una cotización creada por usted, lista para convertirse en su contrato.</p>
       </div>
 
-      <div class="atelier">
+      <div class="atelier" data-clarity-mask="True">
         <div class="wizard-progress" id="wizProgress" aria-hidden="true">
           <div class="wp-bar"><div class="wp-fill" id="wpFill"></div></div>
           <div class="wp-label" id="wpLabel">Paso 1 de 5: sus datos de contacto</div>
@@ -412,6 +412,7 @@
               <input type="checkbox" id="consent">
               Autorizo a Kozy &amp; Klean Conserjería Nómada a contactarme para finalizar esta cotización y, en su caso, el contrato de servicio.
             </label>
+            <p class="privacy-note">Sus datos se usan únicamente para preparar su cotización y contactarle. Algunos de nuestros proveedores los tratan fuera de Quebec. Detalles y derechos: <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</p>
           </div>
 
           <div class="wizard-nav" id="wizardNav">
@@ -477,7 +478,7 @@
       </div>
 
       <div>
-        <div class="atelier" style="border-color:var(--line);box-shadow:none;">
+        <div class="atelier" data-clarity-mask="True" style="border-color:var(--line);box-shadow:none;">
           <div class="eyebrow">Mensaje rápido</div>
           <h3>¿Una pregunta antes de solicitar la cotización?</h3>
           
@@ -487,6 +488,7 @@
           </div>
           <div class="field" style="margin-top:18px;"><label for="qMsg">Mensaje</label><textarea id="qMsg" placeholder="Su pregunta..."></textarea></div>
           <button type="button" id="qSend" class="btn btn-primary btn-block" style="margin-top:18px;">Enviar mensaje</button>
+          <p class="privacy-note">Sus datos de contacto se usan únicamente para responderle. Consulte nuestra <a href="privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</p>
         </div>
       </div>
     </div>
@@ -500,12 +502,13 @@
     </div>
     <p class="foot-quote">«Porque su tranquilidad diaria merece un servicio a la altura de sus necesidades.»</p>
     <p class="fnote" style="margin-top:20px;">Kozy &amp; Klean Conserjería Nómada, Gran Quebec.</p>
+    <div class="footer-legal"><a href="privacidad.html">Política de privacidad</a><button type="button" data-kk-consent-open>Configuración de cookies</button></div>
   </div>
   <div class="copyright-bar">&copy; Kozy &amp; Klean <span id="copyYear">2026</span></div>
 </footer>
 
 <div class="modal-backdrop" id="successBackdrop" hidden></div>
-<div class="success-modal" id="successModal" hidden role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+<div class="success-modal" id="successModal" data-clarity-mask="True" hidden role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
   <button type="button" class="modal-close" id="successModalClose" aria-label="Cerrar">&times;</button>
   <div class="success-screen">
     <div class="success-icon" id="successModalIcon">🚀</div>
@@ -514,6 +517,7 @@
   </div>
 </div>
 
+<script src="../assets/consent.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="../assets/script.js"></script>
 </body>

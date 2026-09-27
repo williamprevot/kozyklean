@@ -796,3 +796,106 @@
   body{ background:#fff; }
 
 }
+  /* =====================================================================
+     Confidentialité (Loi 25) — bannière de consentement (assets/consent.js),
+     liens légaux du pied de page, avis sous les formulaires, pages de
+     politique de confidentialité.
+     ===================================================================== */
+  .kk-consent{
+    position:fixed;left:16px;right:16px;bottom:16px;z-index:75;
+    display:flex;justify-content:flex-start;pointer-events:none;
+  }
+  .kkc-card{
+    pointer-events:auto;width:100%;max-width:480px;
+    max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow:auto;
+    background:var(--paper);color:var(--ink);
+    border:1px solid var(--line);border-radius:var(--radius-md);
+    box-shadow:0 24px 60px -20px rgba(0,0,0,.65);
+    padding:22px 22px 16px;
+  }
+  @media (min-width:640px){
+    .kk-consent{left:24px;right:auto;bottom:24px;}
+    .kkc-card{width:460px;}
+  }
+  .kkc-title{font-size:20px;line-height:1.25;margin-bottom:10px;}
+  .kkc-title:focus{outline:none;}
+  .kkc-desc{font-size:13.5px;line-height:1.55;color:var(--muted);}
+  .kkc-policy{margin-top:10px;font-size:13.5px;}
+  .kkc-policy a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gold);}
+  .kkc-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
+  /* « Refuser » et « Accepter » : style strictement identique (exigence d'un choix libre) */
+  .kkc-btn{
+    font:inherit;font-size:14px;font-weight:600;letter-spacing:.02em;
+    padding:12px 14px;border-radius:var(--radius);
+    border:1.5px solid var(--gold);background:transparent;color:var(--ink);
+    cursor:pointer;transition:background .15s ease, color .15s ease;
+  }
+  .kkc-btn:hover{background:var(--gold);color:#231a09;}
+  .kkc-btn:focus-visible,.kkc-link:focus-visible,.kk-switch:focus-visible,
+  .footer-legal a:focus-visible,.footer-legal button:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+  .kkc-link{
+    display:block;margin:10px auto 0;padding:6px;background:none;border:0;
+    font:inherit;font-size:13px;color:var(--muted);cursor:pointer;
+    text-decoration:underline;text-underline-offset:3px;
+  }
+  .kkc-link:hover{color:var(--ink);}
+  .kkc-row{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;padding:14px 0;border-top:1px solid var(--line);}
+  .kkc-row h3{font-family:'Work Sans',sans-serif;font-size:14.5px;font-weight:600;line-height:1.35;}
+  .kkc-row label{cursor:pointer;}
+  .kkc-row p{font-size:12.5px;line-height:1.5;color:var(--muted);margin-top:4px;}
+  .kkc-always{flex:none;font-size:12px;font-weight:600;color:var(--pine);white-space:nowrap;margin-top:2px;}
+  .kk-switch{
+    flex:none;appearance:none;-webkit-appearance:none;margin:0;cursor:pointer;
+    width:44px;height:26px;border-radius:999px;background:var(--line);position:relative;
+    transition:background .2s ease;
+  }
+  .kk-switch::after{
+    content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;
+    background:var(--ink);transition:transform .2s ease, background .2s ease;
+  }
+  .kk-switch:checked{background:var(--gold);}
+  .kk-switch:checked::after{transform:translateX(18px);background:#231a09;}
+  @media (prefers-reduced-motion: reduce){ .kk-switch,.kk-switch::after,.kkc-btn{transition:none;} }
+  @media print{ .kk-consent{display:none !important;} }
+
+  /* liens légaux du pied de page */
+  .footer-legal{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:18px;font-size:13px;}
+  .footer-legal a,.footer-legal button{
+    color:#D9E0D6;background:none;border:0;padding:0;font:inherit;cursor:pointer;
+    text-decoration:none;border-bottom:1px solid rgba(217,184,114,.5);
+  }
+  .footer-legal a:hover,.footer-legal button:hover{color:var(--gold);}
+
+  /* avis de confidentialité sous les formulaires */
+  .privacy-note{margin-top:12px;font-size:12.5px;line-height:1.5;color:var(--muted);}
+  .privacy-note a,.consent a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gold);}
+
+  /* pages « Politique de confidentialité » */
+  .legal{max-width:780px;padding-block:56px 80px;}
+  .legal h1{font-size:clamp(30px,5vw,44px);line-height:1.12;margin-top:10px;}
+  .legal .legal-updated{color:var(--muted);font-size:14px;margin-top:12px;}
+  .legal .legal-lede{font-size:17px;margin-top:22px;}
+  .legal h2{font-size:clamp(21px,3vw,25px);line-height:1.25;margin-top:48px;margin-bottom:12px;}
+  .legal h3{font-family:'Work Sans',sans-serif;font-size:16px;font-weight:600;margin-top:22px;margin-bottom:6px;}
+  .legal p,.legal li{font-size:15.5px;}
+  .legal p + p{margin-top:12px;}
+  .legal ul{padding-left:20px;margin:10px 0 0;}
+  .legal li{margin-top:6px;}
+  .legal li::marker{color:var(--gold);}
+  .legal a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gold);}
+  .legal .muted{color:var(--muted);}
+  .legal-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-top:14px;}
+  .legal-card p{font-size:15px;}
+  .legal-toc{margin-top:28px;}
+  .legal-toc ol{margin:8px 0 0;padding-left:22px;columns:2 240px;column-gap:28px;}
+  .legal-toc li{font-size:14.5px;margin-top:4px;break-inside:avoid;}
+  .legal-table-wrap{overflow-x:auto;margin-top:14px;border:1px solid var(--line);border-radius:var(--radius);}
+  .legal table{border-collapse:collapse;width:100%;min-width:600px;font-size:14px;}
+  .legal th,.legal td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .legal th{font-weight:600;color:var(--gold);font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:var(--paper);}
+  .legal tr:last-child td{border-bottom:0;}
+  .legal code{font-size:13px;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:1px 6px;}
+  .legal .btn{margin-top:16px;}
+  .legal-back{display:inline-block;margin-top:40px;}
+  .brand-link{text-decoration:none;}
+  .legal section{padding-block:0;}

@@ -22,6 +22,14 @@
     emailjsReady = true;
   }
 
+  /* ---- mesure d'audience (Microsoft Clarity via assets/consent.js) ----
+     N'envoie RIEN tant que le visiteur n'a pas accepté dans la bannière de
+     consentement. Seuls des noms d'étapes sont transmis, jamais le contenu
+     des formulaires. */
+  function kkTrack(name){
+    if(window.KKConsent && typeof window.KKConsent.track === 'function') window.KKConsent.track(name);
+  }
+
   /* ---- langue de la page ----
      Déterminée une fois pour toutes par l'attribut lang de <html> (fr / en / es),
      chaque version linguistique du site étant une page HTML distincte
@@ -726,7 +734,7 @@
         return;
       }
     }
-    if(currentStep < totalSteps){ currentStep++; showStep(currentStep); }
+    if(currentStep < totalSteps){ currentStep++; showStep(currentStep); kkTrack('soumission_etape_' + currentStep); }
   });
   wizBack.addEventListener('click', function(){
     if(currentStep > 1){ currentStep--; showStep(currentStep); }
@@ -1009,6 +1017,7 @@
         ? T.successOkWithEmail(lastSubmission.quoteId, courriel)
         : T.successOkWithPhone(lastSubmission.quoteId, (indicatif ? indicatif + " " : "") + tel);
       openSuccessModal(okMsg);
+      kkTrack('soumission_envoyee');
     }).catch(function(){
       hideLoadingOverlay();
       sendQuoteBtn.disabled = false;
@@ -1053,6 +1062,7 @@
           T.quickSuccessTitle,
           "🚀"
         );
+        kkTrack('message_rapide_envoye');
         document.getElementById('qNom').value = '';
         document.getElementById('qTel').value = '';
         document.getElementById('qMsg').value = '';

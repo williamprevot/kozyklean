@@ -267,7 +267,7 @@
         <p>Simple and efficient: a quote shaped by you, ready to become your service agreement.</p>
       </div>
 
-      <div class="atelier">
+      <div class="atelier" data-clarity-mask="True">
         <div class="wizard-progress" id="wizProgress" aria-hidden="true">
           <div class="wp-bar"><div class="wp-fill" id="wpFill"></div></div>
           <div class="wp-label" id="wpLabel">Step 1 of 5: your contact info</div>
@@ -412,6 +412,7 @@
               <input type="checkbox" id="consent">
               I authorize Kozy &amp; Klean Nomadic Concierge to contact me to finalize this quote and, if applicable, the service agreement.
             </label>
+            <p class="privacy-note">Your information is used only to prepare your quote and contact you. Some of our providers process it outside Québec. Details and your rights: <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a>.</p>
           </div>
 
           <div class="wizard-nav" id="wizardNav">
@@ -477,7 +478,7 @@
       </div>
 
       <div>
-        <div class="atelier" style="border-color:var(--line);box-shadow:none;">
+        <div class="atelier" data-clarity-mask="True" style="border-color:var(--line);box-shadow:none;">
           <div class="eyebrow">Quick message</div>
           <h3>A question before you request a quote?</h3>
           
@@ -487,6 +488,7 @@
           </div>
           <div class="field" style="margin-top:18px;"><label for="qMsg">Message</label><textarea id="qMsg" placeholder="Your question..."></textarea></div>
           <button type="button" id="qSend" class="btn btn-primary btn-block" style="margin-top:18px;">Send message</button>
+          <p class="privacy-note">Your contact details are used only to reply to you. See our <a href="privacy.html" target="_blank" rel="noopener">privacy policy</a>.</p>
         </div>
       </div>
     </div>
@@ -500,12 +502,13 @@
     </div>
     <p class="foot-quote">"Because your everyday peace of mind deserves expertise equal to your needs."</p>
     <p class="fnote" style="margin-top:20px;">Kozy &amp; Klean Nomadic Concierge, Greater Québec City.</p>
+    <div class="footer-legal"><a href="privacy.html">Privacy policy</a><button type="button" data-kk-consent-open>Cookie settings</button></div>
   </div>
   <div class="copyright-bar">&copy; Kozy &amp; Klean <span id="copyYear">2026</span></div>
 </footer>
 
 <div class="modal-backdrop" id="successBackdrop" hidden></div>
-<div class="success-modal" id="successModal" hidden role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+<div class="success-modal" id="successModal" data-clarity-mask="True" hidden role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
   <button type="button" class="modal-close" id="successModalClose" aria-label="Close">&times;</button>
   <div class="success-screen">
     <div class="success-icon" id="successModalIcon">🚀</div>
@@ -514,6 +517,7 @@
   </div>
 </div>
 
+<script src="../assets/consent.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="../assets/script.js"></script>
 </body>

@@ -266,7 +266,7 @@
         <p>Simplicité et efficacité : une soumission façonnée par vous, prête à devenir votre contrat.</p>
       </div>
 
-      <div class="atelier">
+      <div class="atelier" data-clarity-mask="True">
         <div class="wizard-progress" id="wizProgress" aria-hidden="true">
           <div class="wp-bar"><div class="wp-fill" id="wpFill"></div></div>
           <div class="wp-label" id="wpLabel">Étape 1 sur 5 : vos coordonnées</div>
@@ -411,6 +411,7 @@
               <input type="checkbox" id="consent">
               J'autorise Kozy &amp; Klean Conciergerie Nomade à me contacter afin de finaliser cette soumission et le cas échéant, le contrat de service.
             </label>
+            <p class="privacy-note">Vos renseignements servent uniquement à préparer votre soumission et à vous recontacter. Certains de nos fournisseurs les traitent hors du Québec. Détails et droits : <a href="confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.</p>
           </div>
 
           <div class="wizard-nav" id="wizardNav">
@@ -476,7 +477,7 @@
       </div>
 
       <div>
-        <div class="atelier" style="border-color:var(--line);box-shadow:none;">
+        <div class="atelier" data-clarity-mask="True" style="border-color:var(--line);box-shadow:none;">
           <div class="eyebrow">Message rapide</div>
           <h3>Une question, avant la soumission ?</h3>
           
@@ -486,6 +487,7 @@
           </div>
           <div class="field" style="margin-top:18px;"><label for="qMsg">Message</label><textarea id="qMsg" placeholder="Votre question..."></textarea></div>
           <button type="button" id="qSend" class="btn btn-primary btn-block" style="margin-top:18px;">Envoyer le message</button>
+          <p class="privacy-note">Vos coordonnées servent uniquement à vous répondre. Voir notre <a href="confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.</p>
         </div>
       </div>
     </div>
@@ -499,12 +501,13 @@
     </div>
     <p class="foot-quote">« Parce que votre tranquillité au quotidien mérite un savoir-faire à la hauteur de vos besoins. »</p>
     <p class="fnote" style="margin-top:20px;">Kozy &amp; Klean Conciergerie Nomade, Grand Québec.</p>
+    <div class="footer-legal"><a href="confidentialite.html">Politique de confidentialité</a><button type="button" data-kk-consent-open>Gérer mes témoins</button></div>
   </div>
   <div class="copyright-bar">&copy; Kozy &amp; Klean <span id="copyYear">2026</span></div>
 </footer>
 
 <div class="modal-backdrop" id="successBackdrop" hidden></div>
-<div class="success-modal" id="successModal" hidden role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+<div class="success-modal" id="successModal" data-clarity-mask="True" hidden role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
   <button type="button" class="modal-close" id="successModalClose" aria-label="Fermer">&times;</button>
   <div class="success-screen">
     <div class="success-icon" id="successModalIcon">🚀</div>
@@ -513,6 +516,7 @@
   </div>
 </div>
 
+<script src="assets/consent.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="assets/script.js"></script>
 </body>
