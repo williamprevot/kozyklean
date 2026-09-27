@@ -244,12 +244,6 @@
   @media (max-width:600px){
     .lang-switch a{padding:5px 7px;font-size:10.5px;}
   }
-  .lang-switch-mobile{
-    margin-top:10px;
-    justify-content:flex-start;
-    width:fit-content;
-  }
-  .lang-switch-mobile a{padding:7px 12px;font-size:13px;}
 
   section{padding-block:88px;}
   @media (max-width:640px){ section{padding-block:56px;} }
