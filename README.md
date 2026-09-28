@@ -38,7 +38,10 @@ kozy-klean-site/
 ├── index.html          → la page (structure HTML uniquement)
 ├── assets/
 │   ├── style.css        → toute l'apparence (couleurs, mise en page, animations)
-│   └── script.js         → toute la logique (menu, simulateur, validations, effets dynamiques)
+│   ├── script.js         → toute la logique (menu, simulateur, validations, effets dynamiques)
+│   ├── consent.js        → bannière de consentement (Loi 25) + Microsoft Clarity
+│   └── privacy-modal.js  → politique de confidentialité en fenêtre déroulante
+├── confidentialite.html → politique de confidentialité (FR) — en/privacy.html, es/privacidad.html
 ├── favicon.svg          → l'icône du site (onglet du navigateur)
 ├── og-image.jpg         → l'image affichée quand le site est partagé sur Facebook/LinkedIn/etc.
 ├── robots.txt           → autorise les moteurs de recherche à indexer le site
@@ -104,6 +107,45 @@ Dans le dépôt sur GitHub : **Settings → Pages**, choisir la branche `main` e
 
 1. **Coordonnées de contact** — dans `assets/script.js`, chercher `CONTACT_EMAIL =` près du début du fichier, et confirmer que `CONTACT_EMAIL`, `CONTACT_PHONE_DISPLAY`, `CONTACT_PHONE_TEL`, `CONTACT_PHONE_DISPLAY_2` et `CONTACT_PHONE_TEL_2` correspondent bien aux coordonnées actives de l'entreprise.
 2. **Vérification finale** — tester le simulateur de soumission de bout en bout pour confirmer que le résumé affiché et le courriel généré sont corrects.
+
+## 📊 Statistiques de visite (Microsoft Clarity) et conformité Loi 25
+
+Le site mesure les visites avec **Microsoft Clarity** (gratuit, sans limite de trafic) : nombre de visites, pages vues, temps d'engagement, profondeur de défilement, **cartes de chaleur** (où les gens cliquent, jusqu'où ils descendent) et **relectures de visites** (le parcours de la souris et le défilement, comme une vidéo).
+
+**Rien n'est chargé sans le consentement du visiteur** (Loi 25, art. 8.1) : une bannière FR/EN/ES propose « Refuser » et « Accepter » avec le même poids visuel, plus « Personnaliser ». Le visiteur peut changer d'avis en tout temps (« Gérer mes témoins » dans le pied de page).
+
+### Fichiers concernés
+
+* `assets/consent.js` → bannière de consentement + chargement de Clarity **seulement après « Accepter »**
+* `confidentialite.html`, `en/privacy.html`, `es/privacidad.html` → politique de confidentialité (obligatoire, Loi 25 art. 8.2)
+* `assets/privacy-modal.js` → ouvre la politique dans une fenêtre déroulante par-dessus le site (le contenu est lu dans la page de politique de la bonne langue : une seule source à tenir à jour)
+* `assets/style.css` → section « Confidentialité (Loi 25) » en fin de fichier
+* `index.html`, `en/index.html`, `es/index.html` → liens du pied de page, avis sous les formulaires, masquage `data-clarity-mask="True"` des zones contenant des renseignements personnels
+
+### Activer Clarity (5 minutes)
+
+1. Aller sur [clarity.microsoft.com](https://clarity.microsoft.com/) → se connecter (compte Microsoft, Google ou Facebook de l'entreprise) → **Add new project** → nom `Kozy & Klean`, URL `https://kozyklean.netlify.app`.
+2. Choisir l'installation **manuelle** (« Install manually ») mais **ne PAS coller le code proposé dans le site** : il chargerait Clarity sans consentement. Copier seulement le **Project ID** (Settings → Overview, une dizaine de caractères).
+3. Dans `assets/consent.js`, remplacer `COLLEZ_VOTRE_ID_CLARITY` par ce Project ID, puis publier.
+4. Dans Clarity → **Settings → Masking** : garder le mode **Balanced** (ou **Strict** pour masquer tout le texte). Les formulaires sont de toute façon masqués par le code.
+5. Dans Clarity → **Settings → Setup** : mettre le réglage **Cookies** à **OFF** (mode consentement). Double sécurité : Clarity ne pose alors aucun témoin tant que la bannière ne lui a pas transmis l'accord du visiteur, ce que `consent.js` fait automatiquement après « Accepter ». Ne jamais utiliser `clarity('identify', …)` avec un nom, un courriel ou un téléphone.
+6. Tester : ouvrir le site en navigation privée → « Accepter » → le tableau de bord Clarity reçoit la visite en quelques minutes à quelques heures.
+
+### Où lire les résultats dans Clarity
+
+* **Dashboard** : visites, pages par visite, temps d'engagement, profondeur de défilement, clics de rage, clics morts, retours rapides.
+* **Heatmaps** : choisir une page (FR, EN, ES) → onglets *Click* et *Scroll* pour voir ce qui retient l'attention et où les visiteurs arrêtent de lire.
+* **Recordings** : relecture de visites (souris, défilement, clics). Les formulaires apparaissent masqués.
+* **Filtres → Custom events** : `soumission_etape_2` à `soumission_etape_5`, `soumission_envoyee`, `message_rapide_envoye`, `clic_telephone`, `clic_courriel`, `clic_facebook`. Parfait pour voir à quelle étape du simulateur les gens abandonnent. Filtre personnalisé `langue` = fr / en / es.
+
+> Seuls les visiteurs qui acceptent sont comptés : c'est le prix de la conformité. Les chiffres réels de fréquentation sont donc un peu plus élevés que ce qu'affiche Clarity.
+
+### Obligations Loi 25 qui ne se règlent pas dans le code (à faire par l'entreprise)
+
+* **Responsable de la protection des renseignements personnels** : par défaut, la personne ayant la plus haute autorité dans l'entreprise. Son titre et ses coordonnées sont publiés dans la politique (section 1).
+* **Évaluation des facteurs relatifs à la vie privée (EFVP)** avant de communiquer des renseignements hors Québec (Netlify, EmailJS, Gmail, Clarity sont aux États-Unis) : une courte évaluation écrite, conservée à l'interne (**ne pas la mettre dans ce dépôt public**).
+* **Respecter ce que la politique promet** : supprimer les demandes sans suite après 12 mois, activer l'authentification à deux facteurs sur Gmail, EmailJS, Netlify, GitHub et Clarity, tenir un registre des incidents de confidentialité (même vide).
+* **Changer d'outil = mettre à jour** : si vous ajoutez un nouvel outil (ex. pixel Facebook, Google Analytics), l'ajouter dans la politique, dans la bannière, et augmenter `CONSENT_VERSION` dans `assets/consent.js` pour redemander le consentement à tout le monde.
 
 ## 🔗 Lien vers le site en ligne
 

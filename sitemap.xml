@@ -28,4 +28,31 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.netlify.app/es/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.netlify.app/"/>
   </url>
+  <url>
+    <loc>https://kozyklean.netlify.app/confidentialite.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.netlify.app/confidentialite.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.netlify.app/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.netlify.app/es/privacidad.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.netlify.app/confidentialite.html"/>
+  </url>
+  <url>
+    <loc>https://kozyklean.netlify.app/en/privacy.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.netlify.app/confidentialite.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.netlify.app/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.netlify.app/es/privacidad.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.netlify.app/confidentialite.html"/>
+  </url>
+  <url>
+    <loc>https://kozyklean.netlify.app/es/privacidad.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.netlify.app/confidentialite.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.netlify.app/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.netlify.app/es/privacidad.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.netlify.app/confidentialite.html"/>
+  </url>
 </urlset>
