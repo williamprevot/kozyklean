@@ -21,7 +21,10 @@
   var me = document.currentScript;
   var ROOT = (me && me.src) ? new URL('../', me.src).href : '/';
   var POLICY_URL = ROOT + ({ fr: 'confidentialite.html', en: 'en/privacy.html', es: 'es/privacidad.html' })[LANG];
-  var POLICY_PATH = new URL(POLICY_URL).pathname;
+  /* Netlify (« Pretty URLs ») réécrit les liens « confidentialite.html » en
+     « /confidentialite » : on compare donc les chemins sans « .html » ni « / » final. */
+  function normPath(p){ return p.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/+$/, ''); }
+  var POLICY_PATH = normPath(new URL(POLICY_URL).pathname);
   var CLOSE_LABEL = ({ fr: 'Fermer', en: 'Close', es: 'Cerrar' })[LANG];
 
   var backdrop, modal, content, loaded = false, loading = null, lastFocus = null;
@@ -117,7 +120,7 @@
   }
 
   function isPolicyLink(a){
-    try{ return new URL(a.href, location.href).pathname === POLICY_PATH; }catch(e){ return false; }
+    try{ return normPath(new URL(a.href, location.href).pathname) === POLICY_PATH; }catch(e){ return false; }
   }
 
   document.addEventListener('click', function(e){
