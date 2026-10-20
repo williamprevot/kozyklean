@@ -98,7 +98,7 @@ Dans le dépôt sur GitHub : **Settings → Pages**, choisir la branche `main` e
 * `robots.txt` et `sitemap.xml` pour l'indexation
 * Image de partage social dédiée (`og-image.jpg`)
 
-**Important : remplacer le domaine partout avant la mise en ligne.** Le fichier utilise actuellement `https://www.kozyklean.ca/` comme adresse provisoire. Une fois le site en ligne (adresse Netlify du type `kozyklean.netlify.app`, ou un domaine personnalisé), remplacer cette adresse partout où elle apparaît :
+**Domaine du site : `https://kozyklean.ca/`** (domaine principal configuré dans Netlify, DNS géré par Netlify, domaine enregistré chez WHC). Si le domaine principal change un jour (par exemple vers `www.kozyklean.ca`), remplacer l'adresse partout où elle apparaît :
 * `index.html` : balise `<link rel="canonical">`, toutes les balises `og:url`, `og:image`, `twitter:image`, et le bloc de données structurées à la fin du `<head>`
 * `robots.txt` : la ligne `Sitemap:`
 * `sitemap.xml` : la balise `<loc>`
@@ -124,7 +124,7 @@ Le site mesure les visites avec **Microsoft Clarity** (gratuit, sans limite de t
 
 ### Activer Clarity (5 minutes)
 
-1. Aller sur [clarity.microsoft.com](https://clarity.microsoft.com/) → se connecter (compte Microsoft, Google ou Facebook de l'entreprise) → **Add new project** → nom `Kozy & Klean`, URL `https://kozyklean.netlify.app`.
+1. Aller sur [clarity.microsoft.com](https://clarity.microsoft.com/) → se connecter (compte Microsoft, Google ou Facebook de l'entreprise) → **Add new project** → nom `Kozy & Klean`, URL `https://kozyklean.ca`.
 2. Choisir l'installation **manuelle** (« Install manually ») mais **ne PAS coller le code proposé dans le site** : il chargerait Clarity sans consentement. Copier seulement le **Project ID** (Settings → Overview, une dizaine de caractères).
 3. Dans `assets/consent.js`, remplacer `COLLEZ_VOTRE_ID_CLARITY` par ce Project ID, puis publier.
 4. Dans Clarity → **Settings → Masking** : garder le mode **Balanced** (ou **Strict** pour masquer tout le texte). Les formulaires sont de toute façon masqués par le code.

@@ -2,57 +2,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://kozyklean.netlify.app/</loc>
+    <loc>https://kozyklean.ca/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.netlify.app/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.netlify.app/en/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.netlify.app/es/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.netlify.app/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.ca/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.ca/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.ca/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.ca/"/>
   </url>
   <url>
-    <loc>https://kozyklean.netlify.app/en/</loc>
+    <loc>https://kozyklean.ca/en/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.netlify.app/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.netlify.app/en/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.netlify.app/es/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.netlify.app/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.ca/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.ca/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.ca/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.ca/"/>
   </url>
   <url>
-    <loc>https://kozyklean.netlify.app/es/</loc>
+    <loc>https://kozyklean.ca/es/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.netlify.app/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.netlify.app/en/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.netlify.app/es/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.netlify.app/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.ca/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.ca/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.ca/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.ca/"/>
   </url>
   <url>
-    <loc>https://kozyklean.netlify.app/confidentialite.html</loc>
+    <loc>https://kozyklean.ca/confidentialite.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.netlify.app/confidentialite.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.netlify.app/en/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.netlify.app/es/privacidad.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.netlify.app/confidentialite.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.ca/confidentialite.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.ca/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.ca/es/privacidad.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.ca/confidentialite.html"/>
   </url>
   <url>
-    <loc>https://kozyklean.netlify.app/en/privacy.html</loc>
+    <loc>https://kozyklean.ca/en/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.netlify.app/confidentialite.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.netlify.app/en/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.netlify.app/es/privacidad.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.netlify.app/confidentialite.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.ca/confidentialite.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.ca/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.ca/es/privacidad.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.ca/confidentialite.html"/>
   </url>
   <url>
-    <loc>https://kozyklean.netlify.app/es/privacidad.html</loc>
+    <loc>https://kozyklean.ca/es/privacidad.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.netlify.app/confidentialite.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.netlify.app/en/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.netlify.app/es/privacidad.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.netlify.app/confidentialite.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kozyklean.ca/confidentialite.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kozyklean.ca/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://kozyklean.ca/es/privacidad.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kozyklean.ca/confidentialite.html"/>
   </url>
 </urlset>
