@@ -97,6 +97,66 @@
     font-weight:600;
   }
 
+  /* ---------- bandeau : offre de lancement ---------- */
+  .promo-bar{
+    position:relative;overflow:hidden;
+    background:linear-gradient(100deg,#c9a55c 0%,#e6cd8f 45%,#d9b872 60%,#c9a55c 100%);
+    color:#13231a;
+    font-size:14px;line-height:1.3;
+  }
+  .promo-bar::after{            /* reflet qui traverse le bandeau */
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);
+    transform:translateX(-100%);
+    animation:promoSheen 7s ease-in-out 1.2s infinite;
+  }
+  @keyframes promoSheen{0%{transform:translateX(-100%);}28%,100%{transform:translateX(100%);}}
+  .promo-inner{
+    position:relative;z-index:1;
+    display:flex;align-items:center;justify-content:center;gap:14px;
+    min-height:44px;padding-block:6px;padding-right:44px;
+  }
+  .promo-tag{
+    display:inline-flex;align-items:center;gap:6px;
+    background:#13231a;color:var(--gold);
+    font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+    border-radius:999px;padding:5px 11px 5px 9px;white-space:nowrap;
+  }
+  .promo-spark{width:12px;height:12px;fill:currentColor;animation:promoTwinkle 2.4s ease-in-out infinite;}
+  @keyframes promoTwinkle{0%,100%{transform:scale(.75) rotate(0);opacity:.7;}50%{transform:scale(1.1) rotate(45deg);opacity:1;}}
+  .promo-text{margin:0;letter-spacing:.005em;}
+  .promo-text strong{font-weight:700;}
+  .promo-text sup{font-size:.7em;}
+  .promo-cta{
+    display:inline-flex;align-items:center;gap:6px;
+    background:#13231a;color:#F2E9D8;text-decoration:none;
+    font-weight:600;font-size:13px;white-space:nowrap;
+    border-radius:999px;padding:7px 14px;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .promo-cta svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s ease;}
+  .promo-cta:hover{background:#0A130F;}
+  .promo-cta:hover svg{transform:translateX(3px);}
+  .promo-cta:focus-visible,.promo-close:focus-visible{outline:2px solid #13231a;outline-offset:2px;}
+  .promo-close{
+    position:absolute;z-index:1;right:10px;top:50%;transform:translateY(-50%);
+    width:30px;height:30px;border:0;border-radius:50%;
+    background:transparent;color:#13231a;cursor:pointer;display:grid;place-items:center;
+  }
+  .promo-close:hover{background:rgba(19,35,26,.12);}
+  .promo-close svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;}
+  .promo-mob{display:none;}
+  @media (max-width:760px){
+    .promo-desk,.promo-tag-label{display:none;}
+    .promo-mob{display:inline;}
+    .promo-inner{justify-content:flex-start;gap:10px;padding-right:40px;}
+    .promo-tag{padding:6px;}
+    .promo-bar{font-size:14px;}
+    .promo-cta{padding:6px 12px;font-size:12.5px;margin-left:auto;}
+    .promo-close{right:4px;}
+  }
+  @media (prefers-reduced-motion: reduce){ .promo-bar::after,.promo-spark{animation:none;} }
+
   /* ---------- nav ---------- */
   header.nav{
     position:sticky;

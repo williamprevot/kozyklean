@@ -8,6 +8,24 @@
   var CONTACT_PHONE_DISPLAY_2 = "581 990-7378";
   var CONTACT_PHONE_TEL_2 = "+15819907378";
 
+  /* ---- Offre de lancement ----
+     Bandeau en haut des pages d'accueil (FR/EN/ES) + ligne ajoutée au résumé
+     de soumission, pour que la cliente ET Kozy & Klean la voient.
+     Pour arrêter l'offre : PROMO_ACTIVE = false.
+     Pour une date de fin automatique : PROMO_END = "AAAA-MM-JJ" (dernier jour inclus). */
+  var PROMO_ACTIVE = true;
+  var PROMO_END = "";
+  var promoOn = PROMO_ACTIVE && !(PROMO_END && new Date() > new Date(PROMO_END + "T23:59:59"));
+  (function(){
+    var bar = document.getElementById('promoBar');
+    if(!bar) return;
+    if(!promoOn){ bar.parentNode.removeChild(bar); return; }
+    var link = document.getElementById('promoLink');
+    if(link) link.addEventListener('click', function(){ kkTrack('clic_offre_lancement'); });
+    var close = document.getElementById('promoClose');
+    if(close) close.addEventListener('click', function(){ bar.parentNode.removeChild(bar); });
+  })();
+
   /* ---- EmailJS : envoi automatique des formulaires (voir EMAILJS_README.md) ----
      Tant que ces 4 valeurs commencent par "COLLEZ_", le site retombe sur
      l'ancien comportement (lien mailto:) pour ne jamais bloquer un visiteur. */
@@ -80,6 +98,7 @@
       labelFrequency: "Fréquence souhaitée :",
       labelStartDate: "Date de début souhaitée :",
       labelAdditionalNotes: "Précisions additionnelles :",
+      labelPromo: "Offre de lancement : 20 % de rabais sur la première heure du contrat (soumission faite sur le site).",
       otherPrefix: "Autre (",
       customFreqPrefix: "Sur mesure (",
       zoneCheckerFound: function(cityLabel, zoneTitle, zonePrice){ return cityLabel + ' se trouve en <b>' + zoneTitle + '</b> — ' + zonePrice + '.'; },
@@ -123,6 +142,7 @@
       labelFrequency: "Preferred frequency:",
       labelStartDate: "Preferred start date:",
       labelAdditionalNotes: "Additional notes:",
+      labelPromo: "Launch offer: 20% off the first hour of the contract (quote requested on the website).",
       otherPrefix: "Other (",
       customFreqPrefix: "Custom (",
       zoneCheckerFound: function(cityLabel, zoneTitle, zonePrice){ return cityLabel + ' is in <b>' + zoneTitle + '</b> — ' + zonePrice + '.'; },
@@ -166,6 +186,7 @@
       labelFrequency: "Frecuencia deseada:",
       labelStartDate: "Fecha de inicio deseada:",
       labelAdditionalNotes: "Precisiones adicionales:",
+      labelPromo: "Oferta de lanzamiento: 20 % de descuento en la primera hora del contrato (cotización solicitada en el sitio).",
       otherPrefix: "Otro (",
       customFreqPrefix: "Personalizado (",
       zoneCheckerFound: function(cityLabel, zoneTitle, zonePrice){ return cityLabel + ' se encuentra en <b>' + zoneTitle + '</b> — ' + zonePrice + '.'; },
@@ -810,6 +831,7 @@
     lines.push(STRl.labelFrequency + " " + frequenceTxt);
     if(dateDebut) lines.push(STRl.labelStartDate + " " + dateDebut);
     if(notes) lines.push(STRl.labelAdditionalNotes + " " + notes);
+    if(promoOn){ lines.push(""); lines.push(STRl.labelPromo); }
     return lines.join("\n");
   }
 
