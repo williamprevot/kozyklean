@@ -148,7 +148,8 @@
   .promo-mob{display:none;}
   @media (max-width:760px){
     .promo-desk,.promo-tag-label{display:none;}
-    .promo-mob{display:inline;}
+    .promo-mob{display:inline-flex;flex-direction:column;line-height:1.15;}
+    .promo-mob small{font-size:11px;font-weight:500;opacity:.78;margin-top:1px;}
     .promo-inner{justify-content:flex-start;gap:10px;padding-right:40px;}
     .promo-tag{padding:6px;}
     .promo-bar{font-size:14px;}
@@ -331,6 +332,7 @@
     line-height:1.04;
     margin-top:14px;
   }
+  .hero h1 .amp{color:var(--gold);}
   .hero .lede{
     margin-top:22px;
     font-size:18px;
@@ -534,6 +536,16 @@
     pointer-events:none;
   }
   .car-slide.is-on{position:relative;opacity:1;transform:translateX(0);pointer-events:auto;}
+  /* sens des transitions + glisser au doigt / à la souris */
+  .car-track{touch-action:pan-y;cursor:grab;-webkit-user-select:none;user-select:none;}
+  .car-track.is-dragging{cursor:grabbing;}
+  .car-track.is-dragging .car-slide{transition:none;}
+  .car-track.dir-prev .car-slide{transform:translateX(-14px);}
+  .car-slide.out-next{transform:translateX(-14px);}
+  .car-track.dir-prev .car-slide.out-prev{transform:translateX(14px);}
+  .car-track .car-slide.is-on{transform:translateX(0);}
+  .offer-tabs.is-scrollable{cursor:grab;}
+  .offer-tabs.is-grabbing{cursor:grabbing;-webkit-user-select:none;user-select:none;}
   @media (max-width:640px){ .car-slide{padding:22px 40px;} }
   .car-head{display:flex;align-items:center;gap:14px;width:100%;max-width:640px;text-align:left;}
   .car-icon{
@@ -939,6 +951,14 @@
   .footer-legal a:hover,.footer-legal button:hover{color:var(--gold);}
 
   /* avis de confidentialité sous les formulaires */
+  .policy-note{
+    display:flex;gap:10px;align-items:flex-start;margin:18px 0 4px;
+    padding:11px 14px;border-radius:var(--radius-sm);
+    background:rgba(217,184,114,.06);border:1px solid rgba(217,184,114,.25);
+    font-size:13px;line-height:1.5;color:var(--muted);
+  }
+  .policy-note svg{flex:none;color:var(--gold);margin-top:1px;}
+  .policy-note strong{color:var(--ink);font-weight:600;}
   .privacy-note{margin-top:12px;font-size:12.5px;line-height:1.5;color:var(--muted);}
   .privacy-note a,.consent a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gold);}
 

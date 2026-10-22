@@ -14,7 +14,7 @@
      Pour arrêter l'offre : PROMO_ACTIVE = false.
      Pour une date de fin automatique : PROMO_END = "AAAA-MM-JJ" (dernier jour inclus). */
   var PROMO_ACTIVE = true;
-  var PROMO_END = "";
+  var PROMO_END = "2026-12-31";
   var promoOn = PROMO_ACTIVE && !(PROMO_END && new Date() > new Date(PROMO_END + "T23:59:59"));
   (function(){
     var bar = document.getElementById('promoBar');
@@ -98,7 +98,8 @@
       labelFrequency: "Fréquence souhaitée :",
       labelStartDate: "Date de début souhaitée :",
       labelAdditionalNotes: "Précisions additionnelles :",
-      labelPromo: "Offre de lancement : 20 % de rabais sur la première heure du contrat (soumission faite sur le site).",
+      labelPromo: "Offre de lancement (valide jusqu'au 31 décembre 2026) : 20 % de rabais sur la première heure du contrat (soumission faite sur le site).",
+      labelCancel: "Politique d'annulation : sans frais jusqu'à 48 h avant la visite ; passé ce délai, 50 % des frais de la prestation sont retenus.",
       otherPrefix: "Autre (",
       customFreqPrefix: "Sur mesure (",
       zoneCheckerFound: function(cityLabel, zoneTitle, zonePrice){ return cityLabel + ' se trouve en <b>' + zoneTitle + '</b> — ' + zonePrice + '.'; },
@@ -142,7 +143,8 @@
       labelFrequency: "Preferred frequency:",
       labelStartDate: "Preferred start date:",
       labelAdditionalNotes: "Additional notes:",
-      labelPromo: "Launch offer: 20% off the first hour of the contract (quote requested on the website).",
+      labelPromo: "Launch offer (valid until December 31, 2026): 20% off the first hour of the contract (quote requested on the website).",
+      labelCancel: "Cancellation policy: free up to 48 hours before the visit; after that, 50% of the service fee is charged.",
       otherPrefix: "Other (",
       customFreqPrefix: "Custom (",
       zoneCheckerFound: function(cityLabel, zoneTitle, zonePrice){ return cityLabel + ' is in <b>' + zoneTitle + '</b> — ' + zonePrice + '.'; },
@@ -186,7 +188,8 @@
       labelFrequency: "Frecuencia deseada:",
       labelStartDate: "Fecha de inicio deseada:",
       labelAdditionalNotes: "Precisiones adicionales:",
-      labelPromo: "Oferta de lanzamiento: 20 % de descuento en la primera hora del contrato (cotización solicitada en el sitio).",
+      labelPromo: "Oferta de lanzamiento (válida hasta el 31 de diciembre de 2026): 20 % de descuento en la primera hora del contrato (cotización solicitada en el sitio).",
+      labelCancel: "Política de cancelación: sin costo hasta 48 horas antes de la visita; después de ese plazo, se cobra el 50 % del servicio.",
       otherPrefix: "Otro (",
       customFreqPrefix: "Personalizado (",
       zoneCheckerFound: function(cityLabel, zoneTitle, zonePrice){ return cityLabel + ' se encuentra en <b>' + zoneTitle + '</b> — ' + zonePrice + '.'; },
@@ -832,6 +835,7 @@
     if(dateDebut) lines.push(STRl.labelStartDate + " " + dateDebut);
     if(notes) lines.push(STRl.labelAdditionalNotes + " " + notes);
     if(promoOn){ lines.push(""); lines.push(STRl.labelPromo); }
+    lines.push(""); lines.push(STRl.labelCancel);
     return lines.join("\n");
   }
 
@@ -1237,10 +1241,19 @@
       dotsEl.appendChild(dot);
     });
 
-    function goTo(i){
+    function goTo(i, dir){
+      var prev = current;
       current = (i + CATS[LANG].length) % CATS[LANG].length;
+      if(current === prev) return;
+      /* sens de l'animation : suivant = vers la gauche, précédent = vers la droite */
+      if(!dir) dir = (i > prev) ? 1 : -1;
+      track.classList.toggle('dir-prev', dir < 0);
       Array.prototype.forEach.call(tabsStrip.children, function(el, idx){ el.classList.toggle('is-on', idx===current); });
-      Array.prototype.forEach.call(track.children, function(el, idx){ el.classList.toggle('is-on', idx===current); });
+      Array.prototype.forEach.call(track.children, function(el, idx){
+        el.classList.remove('out-next','out-prev');
+        if(idx === prev) el.classList.add(dir < 0 ? 'out-prev' : 'out-next');
+        el.classList.toggle('is-on', idx===current);
+      });
       Array.prototype.forEach.call(dotsEl.children, function(el, idx){ el.classList.toggle('is-on', idx===current); });
       var activeTab = tabsStrip.children[current];
       if(activeTab){
@@ -1254,13 +1267,87 @@
     }
     var prevBtn = document.getElementById('offerPrev');
     var nextBtn = document.getElementById('offerNext');
-    if(prevBtn) prevBtn.addEventListener('click', function(){ goTo(current-1); });
-    if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(current+1); });
+    if(prevBtn) prevBtn.addEventListener('click', function(){ goTo(current-1, -1); });
+    if(nextBtn) nextBtn.addEventListener('click', function(){ goTo(current+1, 1); });
+
+    /* ---- glisser au doigt ou à la souris (maintenir + glisser) ----
+       Un geste horizontal fait suivre la carte, puis change de catégorie si on
+       dépasse le seuil ; un geste vertical laisse défiler la page normalement. */
+    (function(){
+      var startX = 0, startY = 0, dx = 0, pid = null, active = false, horizontal = null;
+      track.addEventListener('pointerdown', function(e){
+        if(e.pointerType === 'mouse' && e.button !== 0) return;
+        active = true; horizontal = null; dx = 0; pid = e.pointerId;
+        startX = e.clientX; startY = e.clientY;
+        offerStop();
+      });
+      track.addEventListener('pointermove', function(e){
+        if(!active || e.pointerId !== pid) return;
+        var mx = e.clientX - startX, my = e.clientY - startY;
+        if(horizontal === null){
+          if(Math.abs(mx) < 6 && Math.abs(my) < 6) return;
+          horizontal = Math.abs(mx) > Math.abs(my);
+          if(!horizontal){ active = false; return; }
+          track.classList.add('is-dragging');
+          try{ track.setPointerCapture(pid); }catch(err){}
+        }
+        e.preventDefault();
+        dx = mx;
+        var el = track.children[current];
+        if(el){
+          el.style.transform = 'translateX(' + dx + 'px)';
+          el.style.opacity = String(Math.max(0.35, 1 - Math.abs(dx) / (track.clientWidth * 0.9)));
+        }
+      });
+      function end(e){
+        if(!active || (e && e.pointerId !== pid)) return;
+        active = false;
+        var el = track.children[current];
+        track.classList.remove('is-dragging');
+        if(el){ el.style.transform = ''; el.style.opacity = ''; }
+        if(horizontal){
+          var threshold = Math.min(70, track.clientWidth * 0.15);
+          if(dx <= -threshold){ goTo(current + 1, 1); kkTrack('services_glisser'); }
+          else if(dx >= threshold){ goTo(current - 1, -1); kkTrack('services_glisser'); }
+        }
+        horizontal = null; dx = 0;
+        if(e && e.pointerType !== 'mouse') offerStart();
+      }
+      track.addEventListener('pointerup', end);
+      track.addEventListener('pointercancel', end);
+      /* au doigt, le navigateur capture d'abord l'élément touché : ne réagir
+         qu'à la perte de capture du carrousel lui-même */
+      track.addEventListener('lostpointercapture', function(e){ if(e.target === track) end(e); });
+    })();
+
+    /* ---- bandeau d'onglets : glisser à la souris quand il déborde ----
+       (au doigt, le défilement horizontal est déjà natif) */
+    (function(){
+      var down = false, moved = false, sx = 0, sl = 0;
+      tabsStrip.addEventListener('pointerdown', function(e){
+        if(e.pointerType !== 'mouse' || e.button !== 0) return;
+        down = true; moved = false; sx = e.clientX; sl = tabsStrip.scrollLeft;
+      });
+      window.addEventListener('pointermove', function(e){
+        if(!down) return;
+        var d = e.clientX - sx;
+        if(!moved && Math.abs(d) > 5){ moved = true; tabsStrip.classList.add('is-grabbing'); }
+        if(moved) tabsStrip.scrollLeft = sl - d;
+      });
+      window.addEventListener('pointerup', function(){
+        if(!down) return;
+        down = false; tabsStrip.classList.remove('is-grabbing');
+      });
+      /* un glisser ne doit pas « cliquer » l'onglet sous la souris */
+      tabsStrip.addEventListener('click', function(e){
+        if(moved){ e.stopPropagation(); e.preventDefault(); moved = false; }
+      }, true);
+    })();
 
     /* balayement automatique, à l'image de la récurrence */
     var offerReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var offerTimer = null;
-    function offerStart(){ if(!offerReduce && !offerTimer) offerTimer = setInterval(function(){ goTo(current+1); }, 5500); }
+    function offerStart(){ if(!offerReduce && !offerTimer) offerTimer = setInterval(function(){ goTo(current+1, 1); }, 5500); }
     function offerStop(){ clearInterval(offerTimer); offerTimer = null; }
     if(!offerReduce) offerStart();
     var offerCarouselEl = document.querySelector('#services .offer-carousel');
